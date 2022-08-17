@@ -7,17 +7,23 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": "./tsconfig.eslint.json"
+    "project": "./tsconfig.json"
   },
   "env": {
     "browser": true,
     "node": true
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["react", "@typescript-eslint"],
   "extends": [
     "airbnb",
     "airbnb-typescript",
     "airbnb/hooks"
   ],
-  "ignorePatterns": ["node_modules/", "build/", "dist/", "e2e/"]
+  "ignorePatterns": ["node_modules/", "build/", "dist/", "e2e/", "reportWebVitals.ts"],
+  "rules": {
+    "@typescript-eslint/semi": "off",
+    "max-len": "off",
+    // temp off
+    "no-console": "off"
+  }
 }
