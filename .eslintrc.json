@@ -13,16 +13,34 @@
     "browser": true,
     "node": true
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
   "extends": [
     "airbnb",
     "airbnb-typescript",
     "airbnb/hooks"
   ],
-  "ignorePatterns": ["node_modules/", "build/", "dist/", "e2e/", "reportWebVitals.ts"],
+  "ignorePatterns": [
+    "node_modules/",
+    "build/",
+    "dist/",
+    "e2e/",
+    "reportWebVitals.ts"
+  ],
   "rules": {
+    "@typescript-eslint/comma-dangle": "off",
     "@typescript-eslint/semi": "off",
     "max-len": "off",
+    "arrow-body-style": "off",
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": ["arrow-function", "function-declaration"],
+        "unnamedComponents": "arrow-function"
+      }
+    ],
     // temp off
     "no-console": "off"
   }
