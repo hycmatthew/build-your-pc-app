@@ -26,8 +26,8 @@ const SelectElement = ({
   return (
     <CustomSelect label={label} onChange={onchange}>
       <MenuItem value="">{placeholder}</MenuItem>
-      {options.map((item: any) => (
-        <MenuItem value={item.value}>{item.label}</MenuItem>
+      {options.map((item: any, index: number) => (
+        <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
       ))}
     </CustomSelect>
   )

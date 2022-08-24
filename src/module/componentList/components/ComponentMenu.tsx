@@ -8,16 +8,18 @@ type ComponentMenuProps = {
 const ComponentMenu = ({ dataList }: ComponentMenuProps) => {
   const generateCPUSelectElement = () => {
     return dataList.map((item: any) => {
-      return (
-        <SelectElement
-          label={item.name}
-          options={[{ label: item.name, value: item.name }]}
-        />
-      )
+      return { label: item.name, value: item.name }
     })
   }
 
-  return <>{generateCPUSelectElement()}</>
+  return (
+    <SelectElement
+      label="CPU"
+      placeholder="select"
+      options={generateCPUSelectElement()}
+      onchange={() => {}}
+    />
+  )
 }
 
 export default ComponentMenu
