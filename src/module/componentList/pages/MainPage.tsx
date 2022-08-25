@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../store/store'
 
 import AppLayout from '../../common/AppLayout'
 import ComponentMenu from '../components/ComponentMenu'
+import Calculator from '../components/Calculator'
 
 function MainPage() {
   const dispatch = useAppDispatch()
@@ -26,6 +27,7 @@ function MainPage() {
       <>
         <p>123123</p>
         <ComponentMenu dataList={dataStatus.cpuList} />
+        <Calculator selectedItems={dataStatus.selectedItems} />
       </>
     </AppLayout>
   )

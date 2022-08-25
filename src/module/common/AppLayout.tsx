@@ -41,6 +41,15 @@ const CustomTypography = styled(Typography)({
   color: '#222222',
 })
 
+const ChildGrid = styled(Grid)({
+  paddingTop: '80px !important',
+  height: 'calc(100vh - 44px)',
+})
+
+const FooterGrid = styled(Grid)({
+  height: '44px',
+})
+
 function AppLayout({ children }: Props) {
   const pages = ['Products', 'Pricing', 'Blog']
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
@@ -56,9 +65,7 @@ function AppLayout({ children }: Props) {
   return (
     <ThemeProvider theme={theme}>
       <Box
-        height="100vh"
         display="flex"
-        flexDirection="column"
         className="main_container"
       >
         <Container maxWidth="xl">
@@ -153,12 +160,12 @@ function AppLayout({ children }: Props) {
                 </Container>
               </CustomAppLayout>
             </Grid>
-            <Grid item xs={12}>
+            <ChildGrid item xs={12}>
               {children}
-            </Grid>
-            <Grid item xs={12}>
+            </ChildGrid>
+            <FooterGrid item xs={12}>
               <p>222</p>
-            </Grid>
+            </FooterGrid>
           </Grid>
         </Container>
       </Box>

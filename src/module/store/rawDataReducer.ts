@@ -1,12 +1,27 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import CPUType from '../../constant/objectTypes/CPUType'
 import { RawDataAPI } from '../../utils/HttpHelper'
 
+export interface SelectedItemType {
+  cpu: CPUType | null
+  cpu1: CPUType | null
+  cpu2: CPUType | null
+  cpu3: CPUType | null
+}
+
 export interface DataState {
-  cpuList: any[]
+  selectedItems: SelectedItemType
+  cpuList: CPUType[]
   isLoading: boolean
 }
 
 const initialState: DataState = {
+  selectedItems: {
+    cpu: null,
+    cpu1: null,
+    cpu2: null,
+    cpu3: null
+  },
   cpuList: [],
   isLoading: false,
 }
@@ -20,7 +35,17 @@ export const getCPUDataList = createAsyncThunk('cpuList/fetchData', async () => 
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,
-  reducers: {},
+  reducers: {
+    updateSelectedCPU: (state, action) => {
+      state.selectedItems.cpu = action.payload
+    },
+    updateSelectedMotherBoard: (state, action) => {
+      state.selectedItems.cpu1 = action.payload
+    },
+    updateSelectedRAM: (state, action) => {
+      state.selectedItems.cpu2 = action.payload
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getCPUDataList.fulfilled, (state: DataState, { payload }) => {
       state.isLoading = false
