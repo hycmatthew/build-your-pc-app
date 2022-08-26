@@ -16,17 +16,19 @@ function MainPage() {
   })
 
   useEffect(() => {
-    console.log('dispatch')
     if (dataStatus.cpuList.length === 0) {
       dispatch(getCPUDataList())
     }
-  }, [dispatch]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <AppLayout>
       <>
         <p>123123</p>
-        <ComponentMenu dataList={dataStatus.cpuList} />
+        <ComponentMenu
+          dataList={dataStatus.cpuList}
+          isLoading={dataStatus.isLoading}
+        />
         <Calculator selectedItems={dataStatus.selectedItems} />
       </>
     </AppLayout>

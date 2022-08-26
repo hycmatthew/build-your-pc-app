@@ -20,17 +20,24 @@ const initialState: DataState = {
     cpu: null,
     cpu1: null,
     cpu2: null,
-    cpu3: null
+    cpu3: null,
   },
   cpuList: [],
   isLoading: false,
 }
+/*
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+*/
 
-export const getCPUDataList = createAsyncThunk('cpuList/fetchData', async () => {
-  const response = await RawDataAPI.get('/CPUList')
-  console.log(response)
-  return response
-})
+export const getCPUDataList = createAsyncThunk(
+  'cpuList/fetchData',
+  async () => {
+    const response = await RawDataAPI.get('/CPUList')
+    return response
+  }
+)
 
 export const counterSlice = createSlice({
   name: 'counter',
@@ -47,18 +54,24 @@ export const counterSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getCPUDataList.fulfilled, (state: DataState, { payload }) => {
-      state.isLoading = false
-      state.cpuList = payload
-    })
+    builder.addCase(
+      getCPUDataList.fulfilled,
+      (state: DataState, { payload }) => {
+        state.isLoading = false
+        state.cpuList = payload
+      }
+    )
     builder.addCase(getCPUDataList.pending, (state: DataState, { payload }) => {
       console.log('isLoading')
       state.isLoading = true
     })
-    builder.addCase(getCPUDataList.rejected, (state: DataState, { payload }) => {
-      console.log('rejected')
-      state.isLoading = false
-    })
+    builder.addCase(
+      getCPUDataList.rejected,
+      (state: DataState, { payload }) => {
+        console.log('rejected')
+        state.isLoading = false
+      }
+    )
   },
 })
 

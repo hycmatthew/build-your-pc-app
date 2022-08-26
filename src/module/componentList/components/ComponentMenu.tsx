@@ -1,5 +1,7 @@
-import Grid from '@mui/material/Grid'
 import React from 'react'
+import Grid from '@mui/material/Grid'
+import isEmpty from 'lodash/isEmpty'
+
 import CPUType from '../../../constant/objectTypes/CPUType'
 import SelectElement from '../../common/components/Select'
 import { sliceActions } from '../../store/rawDataReducer'
@@ -7,30 +9,42 @@ import { useAppDispatch } from '../../store/store'
 
 type ComponentMenuProps = {
   dataList: CPUType[]
+  isLoading: boolean
 }
 
-const ComponentMenu = ({ dataList }: ComponentMenuProps) => {
+const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
   const dispatch = useAppDispatch()
 
   const generateCPUSelectElement = () => {
-    return dataList.map((item: CPUType) => {
+    const tempMap = dataList.map((item: CPUType) => {
       return { label: item.name, value: item.name }
+    })
+    return tempMap
+  }
+
+  const searchCPUItem = (test: string) => {
+    return dataList.find((item: CPUType) => {
+      return item.name === test
     })
   }
 
   const changeSelectItem = (value: string, type: string) => {
-    switch (type) {
-      case 'CPU':
-        dispatch(sliceActions.updateSelectedCPU(value))
-        break
-      case 'MotherBoard':
-        dispatch(sliceActions.updateSelectedMotherBoard(value))
-        break
-      case 'RAM':
-        dispatch(sliceActions.updateSelectedRAM(value))
-        break
-      default:
-        break
+    if (!isEmpty(value)) {
+      switch (type) {
+        case 'CPU': {
+          const selectedItem = searchCPUItem(value)
+          dispatch(sliceActions.updateSelectedCPU(selectedItem))
+          break
+        }
+        case 'MotherBoard':
+          dispatch(sliceActions.updateSelectedMotherBoard(value))
+          break
+        case 'RAM':
+          dispatch(sliceActions.updateSelectedRAM(value))
+          break
+        default:
+          break
+      }
     }
   }
 
@@ -42,6 +56,7 @@ const ComponentMenu = ({ dataList }: ComponentMenuProps) => {
           placeholder="select"
           options={generateCPUSelectElement()}
           selectChange={changeSelectItem}
+          isLoading={isLoading}
         />
       </Grid>
       <Grid item xs={12}>
@@ -50,6 +65,7 @@ const ComponentMenu = ({ dataList }: ComponentMenuProps) => {
           placeholder="select"
           options={generateCPUSelectElement()}
           selectChange={changeSelectItem}
+          isLoading={isLoading}
         />
       </Grid>
       <Grid item xs={12}>
@@ -58,10 +74,10 @@ const ComponentMenu = ({ dataList }: ComponentMenuProps) => {
           placeholder="select"
           options={generateCPUSelectElement()}
           selectChange={() => {}}
+          isLoading={isLoading}
         />
       </Grid>
     </Grid>
   )
 }
-
 export default ComponentMenu
