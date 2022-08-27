@@ -33,6 +33,7 @@ const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
       switch (type) {
         case 'CPU': {
           const selectedItem = searchCPUItem(value)
+          console.log(selectedItem)
           dispatch(sliceActions.updateSelectedCPU(selectedItem))
           break
         }

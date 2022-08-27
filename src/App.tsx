@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -7,11 +7,13 @@ import store from './module/store/store'
 
 function App() {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <ComponentListRoutes />
-      </BrowserRouter>
-    </Provider>
+    <Suspense fallback="loading">
+      <Provider store={store}>
+        <BrowserRouter>
+          <ComponentListRoutes />
+        </BrowserRouter>
+      </Provider>
+    </Suspense>
   )
 }
 
