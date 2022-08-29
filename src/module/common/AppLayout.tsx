@@ -1,18 +1,18 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
+import { createTheme, styled, ThemeProvider } from '@mui/material/styles'
+
 import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import AppBar from '@mui/material/AppBar'
 import IconButton from '@mui/material/IconButton'
-import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-
+import Collapse from '@mui/material/Collapse'
 import MenuIcon from '@mui/icons-material/Menu'
-
-import { createTheme, styled, ThemeProvider } from '@mui/material/styles'
+import LanguageIcon from '@mui/icons-material/Language'
+import Stack from '@mui/material/Stack'
+import LanguageButton from './components/LanguageButton'
 
 import './AppLayout.scss'
 
@@ -23,10 +23,10 @@ type Props = {
 const theme = createTheme({
   breakpoints: {
     values: {
-      xs: 540,
-      sm: 720,
-      md: 900,
-      lg: 1080,
+      xs: 0,
+      sm: 500,
+      md: 720,
+      lg: 900,
       xl: 1200,
     },
   },
@@ -41,6 +41,10 @@ const CustomTypography = styled(Typography)({
   color: '#222222',
 })
 
+const TopGrid = styled(Grid)({
+  height: '70px',
+})
+
 const ChildGrid = styled(Grid)({
   paddingTop: '80px !important',
   height: 'calc(100vh - 44px)',
@@ -52,114 +56,131 @@ const FooterGrid = styled(Grid)({
 
 function AppLayout({ children }: Props) {
   const pages = ['Products', 'Pricing', 'Blog']
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
+  const [subMenuOpen, setSubMenuOpen] = useState(false)
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget)
+  const handleMenuClick = () => {
+    setSubMenuOpen(!subMenuOpen)
   }
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
+  const handleLangClick = () => {
+    setSubMenuOpen(!subMenuOpen)
   }
+
+  const DesktopMenu = useMemo(
+    () => (
+      <Container
+        maxWidth="xl"
+        sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}
+      >
+        <Grid
+          container
+          sx={{ height: '70px' }}
+          justifyContent="space-between"
+          alignItems="center"
+          margin="auto"
+        >
+          <Grid item xs={2}>
+            <CustomTypography
+              variant="h6"
+              noWrap
+              sx={{
+                mr: 2,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                textDecoration: 'none',
+              }}
+            >
+              LOGO
+            </CustomTypography>
+          </Grid>
+          <Grid item xs={9}>
+            <Stack direction="row" spacing={2}>
+              {pages.map((page) => (
+                <Button key={page} sx={{ color: 'black', display: 'block' }}>
+                  {page}
+                </Button>
+              ))}
+            </Stack>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton
+              aria-label="more"
+              id="long-button"
+              aria-controls={subMenuOpen ? 'long-menu' : undefined}
+              aria-expanded={subMenuOpen ? 'true' : undefined}
+              aria-haspopup="true"
+              onClick={handleLangClick}
+            >
+              <LanguageIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+        <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
+          <LanguageButton />
+        </Collapse>
+      </Container>
+    ),
+    [subMenuOpen] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  const MobileMenu = useMemo(
+    () => (
+      <Container sx={{ display: { xs: 'block', sm: 'block', md: 'none' } }}>
+        <Grid
+          container
+          sx={{ height: '70px' }}
+          justifyContent="space-between"
+          alignItems="center"
+          margin="auto"
+        >
+          <Grid item xs={2}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenuClick}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+        <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
+          <Grid container spacing={1}>
+            {pages.map((page) => (
+              <Grid item xs={12}>
+                <Button
+                  key={page}
+                  onClick={handleMenuClick}
+                  sx={{ color: 'black', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              </Grid>
+            ))}
+            <Grid item xs={12}>
+              <LanguageButton />
+            </Grid>
+          </Grid>
+        </Collapse>
+      </Container>
+    ),
+    [subMenuOpen] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   return (
     <ThemeProvider theme={theme}>
-      <Box
-        display="flex"
-        className="main_container"
-      >
+      <Box display="flex" className="main_container">
         <Container maxWidth="xl">
           <Grid container spacing={1}>
-            <Grid item xs={12}>
+            <TopGrid item xs={12}>
               <CustomAppLayout>
-                <Container maxWidth="xl">
-                  <Toolbar disableGutters>
-                    <CustomTypography
-                      variant="h6"
-                      noWrap
-                      sx={{
-                        mr: 2,
-                        display: { xs: 'none', md: 'flex' },
-                        fontFamily: 'monospace',
-                        fontWeight: 700,
-                        letterSpacing: '.3rem',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      LOGO
-                    </CustomTypography>
-
-                    <Box
-                      sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-                    >
-                      <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleOpenNavMenu}
-                      >
-                        <MenuIcon />
-                      </IconButton>
-                      <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorElNav}
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'left',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'left',
-                        }}
-                        open={Boolean(anchorElNav)}
-                        onClose={handleCloseNavMenu}
-                        sx={{
-                          display: { xs: 'block', md: 'none' },
-                        }}
-                      >
-                        {pages.map((page) => (
-                          <MenuItem key={page} onClick={handleCloseNavMenu}>
-                            <Typography textAlign="center">{page}</Typography>
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    </Box>
-                    <Typography
-                      variant="h5"
-                      noWrap
-                      component="a"
-                      href=""
-                      sx={{
-                        mr: 2,
-                        display: { xs: 'flex', md: 'none' },
-                        flexGrow: 1,
-                        fontFamily: 'monospace',
-                        fontWeight: 700,
-                        letterSpacing: '.3rem',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      LOGO
-                    </Typography>
-                    <Box
-                      sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}
-                    >
-                      {pages.map((page) => (
-                        <Button
-                          key={page}
-                          onClick={handleCloseNavMenu}
-                          sx={{ my: 2, color: 'black', display: 'block' }}
-                        >
-                          {page}
-                        </Button>
-                      ))}
-                    </Box>
-                  </Toolbar>
-                </Container>
+                {DesktopMenu}
+                {MobileMenu}
               </CustomAppLayout>
-            </Grid>
+            </TopGrid>
+
             <ChildGrid item xs={12}>
               {children}
             </ChildGrid>
