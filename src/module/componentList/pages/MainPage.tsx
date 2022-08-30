@@ -11,7 +11,7 @@ import Calculator from '../components/Calculator'
 
 function MainPage() {
   const dispatch = useAppDispatch()
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation()
 
   const dataStatus = useSelector((state: any) => {
     return state
@@ -27,7 +27,6 @@ function MainPage() {
     <AppLayout>
       <Grid sx={{ flexGrow: 1 }} container spacing={1}>
         <Grid item xs={6}>
-          <p>{t('hello')}</p>
           <ComponentMenu
             dataList={dataStatus.cpuList}
             isLoading={dataStatus.isLoading}

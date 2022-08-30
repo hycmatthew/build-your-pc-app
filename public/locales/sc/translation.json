@@ -1,7 +1,7 @@
 {
   "cpu": "CPU",
-  "gpu": "Display Card",
-  "motherboard": "Motherboard",
+  "gpu": "显示卡",
+  "motherboard": "主板",
   "ram": "RAM",
   "powersupply": "Power supply",
   "ssd": "SSD"

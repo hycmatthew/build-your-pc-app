@@ -39,6 +39,14 @@ export const getCPUDataList = createAsyncThunk(
   }
 )
 
+export const getGPUDataList = createAsyncThunk(
+  'gpuList/fetchData',
+  async () => {
+    const response = await RawDataAPI.get('/GPUList')
+    return response
+  }
+)
+
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,

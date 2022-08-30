@@ -1,4 +1,8 @@
 {
-  "hello": "你好!",
-  "link": "一起來 <1>這裡</1> 學習 React 吧"
+  "cpu": "CPU",
+  "gpu": "顯示卡",
+  "motherboard": "主機板",
+  "ram": "RAM",
+  "powersupply": "Power supply",
+  "ssd": "SSD"
 }

@@ -53,7 +53,7 @@ const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <SelectElement
-          label="CPU"
+          label="cpu"
           placeholder="select"
           options={generateCPUSelectElement()}
           selectChange={changeSelectItem}
@@ -62,7 +62,7 @@ const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="MotherBoard"
+          label="gpu"
           placeholder="select"
           options={generateCPUSelectElement()}
           selectChange={changeSelectItem}
@@ -71,7 +71,7 @@ const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="RAM"
+          label="motherboard"
           placeholder="select"
           options={generateCPUSelectElement()}
           selectChange={() => {}}

@@ -1,14 +1,23 @@
 import React, { useState } from 'react'
-import { CircularProgress, FormControl, SelectProps } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import {
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  SelectProps,
+} from '@mui/material'
 import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
 
-const CustomSelect = styled(Select)({
-  width: 300,
-  borderRadius: 4,
-  backgroundColor: 'aliceblue',
+const CustomFormControl = styled(FormControl)({
+  position: 'relative',
+  minWidth: 420,
+  background: '#fff',
+  borderRadius: 3,
 })
+
+const CustomSelect = styled(Select)({})
 
 type SelectElementProps = SelectProps & {
   label: string
@@ -26,6 +35,7 @@ const SelectElement = ({
   selectChange,
 }: SelectElementProps) => {
   const [selectValue, setSelectValue] = useState('')
+  const { t } = useTranslation()
 
   const handleChange = (event: SelectChangeEvent<unknown>) => {
     if (selectChange) {
@@ -38,10 +48,7 @@ const SelectElement = ({
 
   if (isLoading) {
     return (
-      <FormControl
-        sx={{ minWidth: 300, position: 'relative', margin: 0 }}
-        disabled
-      >
+      <CustomFormControl disabled>
         <CustomSelect id="outlined-disabled" />
         <CircularProgress
           size={24}
@@ -56,21 +63,28 @@ const SelectElement = ({
             zIndex: 1,
           }}
         />
-      </FormControl>
+      </CustomFormControl>
     )
   }
 
   return (
-    <CustomSelect label={label} value={selectValue} onChange={handleChange}>
-      <MenuItem key="select" value="">
-        {placeholder}
-      </MenuItem>
-      {options.map((item: any) => (
-        <MenuItem key={item.value} value={item.label}>
-          {item.label}
+    <CustomFormControl variant="filled">
+      <InputLabel id="demo-simple-select-standard-label">{t(label)}</InputLabel>
+      <CustomSelect
+        label={t(label)}
+        value={selectValue}
+        onChange={handleChange}
+      >
+        <MenuItem key="select" value="" disabled>
+          <em>{placeholder}</em>
         </MenuItem>
-      ))}
-    </CustomSelect>
+        {options.map((item: any) => (
+          <MenuItem key={item.value} value={item.label}>
+            {item.label}
+          </MenuItem>
+        ))}
+      </CustomSelect>
+    </CustomFormControl>
   )
 }
 
