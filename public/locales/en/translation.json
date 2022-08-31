@@ -1,4 +1,7 @@
 {
+  "en": "Eng",
+  "zh-CN": "簡",
+  "zh-TW": "繁",
   "cpu": "CPU",
   "gpu": "Display Card",
   "motherboard": "Motherboard",

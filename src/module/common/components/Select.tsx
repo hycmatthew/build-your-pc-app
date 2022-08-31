@@ -5,6 +5,7 @@ import {
   FormControl,
   InputLabel,
   SelectProps,
+  Typography,
 } from '@mui/material'
 import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
@@ -17,7 +18,16 @@ const CustomFormControl = styled(FormControl)({
   borderRadius: 3,
 })
 
-const CustomSelect = styled(Select)({})
+const CustomSelect = styled(Select)({
+  height: '74px'
+})
+
+const ValueTypography = styled(Typography)({
+  fontSize: '12px',
+  fontWeight: 'bold',
+  fontStyle: 'italic',
+  color: '#555'
+})
 
 type SelectElementProps = SelectProps & {
   label: string
@@ -79,8 +89,9 @@ const SelectElement = ({
           <em>{placeholder}</em>
         </MenuItem>
         {options.map((item: any) => (
-          <MenuItem key={item.value} value={item.label}>
-            {item.label}
+          <MenuItem key={item.label} value={item.label}>
+            <Typography width={340}>{item.label}</Typography>
+            <ValueTypography>{item.value}</ValueTypography>
           </MenuItem>
         ))}
       </CustomSelect>

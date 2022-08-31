@@ -5,11 +5,10 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
 const LanguageButton = () => {
-  const langOptions = ['en', 'sc', 'tc']
+  const langOptions = ['en', 'zh-CN', 'zh-TW']
   const { t, i18n } = useTranslation()
 
   const changeLanguageHandler = (lang: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(lang)
     i18n.changeLanguage(lang)
   }
 
@@ -21,7 +20,7 @@ const LanguageButton = () => {
           onClick={changeLanguageHandler(option)}
           sx={{ my: 2, color: 'black', display: 'block' }}
         >
-          {option}
+          {t(option)}
         </Button>
       ))}
     </Stack>

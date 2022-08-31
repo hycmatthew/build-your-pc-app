@@ -6,6 +6,7 @@ import CPUType from '../../../constant/objectTypes/CPUType'
 import SelectElement from '../../common/components/Select'
 import { sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
+import GetCurrentPrice from '../../../utils/PriceHelper'
 
 type ComponentMenuProps = {
   dataList: CPUType[]
@@ -17,7 +18,8 @@ const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
 
   const generateCPUSelectElement = () => {
     const tempMap = dataList.map((item: CPUType) => {
-      return { label: item.name, value: item.name }
+      const price = GetCurrentPrice(item.priceUS, item.priceHK, item.priceCN)
+      return { label: item.name, value: price }
     })
     return tempMap
   }
