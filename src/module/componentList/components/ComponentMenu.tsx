@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
 import isEmpty from 'lodash/isEmpty'
 
@@ -15,18 +16,19 @@ type ComponentMenuProps = {
 
 const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
   const dispatch = useAppDispatch()
+  const { i18n } = useTranslation()
 
   const generateCPUSelectElement = () => {
     const tempMap = dataList.map((item: CPUType) => {
-      const price = GetCurrentPrice(item.priceUS, item.priceHK, item.priceCN)
+      const price = GetCurrentPrice(item.priceUS, item.priceHK, item.priceCN, i18n.language)
       return { label: item.name, value: price }
     })
     return tempMap
   }
 
-  const searchCPUItem = (test: string) => {
+  const searchCPUItem = (name: string) => {
     return dataList.find((item: CPUType) => {
-      return item.name === test
+      return item.name === name
     })
   }
 
@@ -35,7 +37,6 @@ const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
       switch (type) {
         case 'CPU': {
           const selectedItem = searchCPUItem(value)
-          console.log(selectedItem)
           dispatch(sliceActions.updateSelectedCPU(selectedItem))
           break
         }

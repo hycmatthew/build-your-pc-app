@@ -149,9 +149,8 @@ function AppLayout({ children }: Props) {
         <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
           <Grid container spacing={1}>
             {pages.map((page) => (
-              <Grid item xs={12}>
+              <Grid item xs={12} key={page}>
                 <Button
-                  key={page}
                   onClick={handleMenuClick}
                   sx={{ color: 'black', display: 'block' }}
                 >

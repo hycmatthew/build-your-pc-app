@@ -50,12 +50,11 @@ const SelectElement = ({
   const handleChange = (event: SelectChangeEvent<unknown>) => {
     if (selectChange) {
       const tempValue = event.target.value as string
-      console.log(tempValue)
       selectChange(tempValue, label)
       setSelectValue(tempValue)
     }
   }
-
+  /*
   if (isLoading) {
     return (
       <CustomFormControl disabled>
@@ -76,7 +75,7 @@ const SelectElement = ({
       </CustomFormControl>
     )
   }
-
+*/
   return (
     <CustomFormControl variant="filled">
       <InputLabel id="demo-simple-select-standard-label">{t(label)}</InputLabel>

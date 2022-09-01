@@ -16,16 +16,15 @@ const CustomContainer = styled(Container)({
   backgroundColor: '#ffffff',
   padding: '8px',
   borderRadius: '6px',
-  marginTop: '16px'
 })
 
 const Calculator = ({ selectedItems }: CalculatorProps) => {
-  const getTotalPrice = () => {
+  const getTotalPower = () => {
     return (
-      convertStringToNumber(selectedItems.cpu?.priceUS)
-      + convertStringToNumber(selectedItems.cpu1?.priceUS)
-      + convertStringToNumber(selectedItems.cpu2?.priceUS)
-      + convertStringToNumber(selectedItems.cpu3?.priceUS)
+      convertStringToNumber(selectedItems.cpu?.power)
+      + convertStringToNumber(selectedItems.cpu1?.power)
+      + convertStringToNumber(selectedItems.cpu2?.power)
+      + convertStringToNumber(selectedItems.cpu3?.power)
     )
   }
 
@@ -33,8 +32,8 @@ const Calculator = ({ selectedItems }: CalculatorProps) => {
     <CustomContainer>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Typography>Price</Typography>
-          <Typography>{getTotalPrice()}</Typography>
+          <Typography>TDP</Typography>
+          <Typography>{getTotalPower()}</Typography>
         </Grid>
       </Grid>
     </CustomContainer>

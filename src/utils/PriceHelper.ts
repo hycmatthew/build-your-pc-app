@@ -1,13 +1,12 @@
 import { toNumber } from 'lodash'
-import { useTranslation } from 'react-i18next'
 
 const GetCurrentPrice = (
   priceUS: string,
   priceHK: string,
-  priceCN: string
+  priceCN: string,
+  lang: string
 ) => {
-  const { i18n } = useTranslation()
-  switch (i18n.language) {
+  switch (lang) {
     case 'zh-TW':
       return `$${toNumber(priceHK).toFixed(2)}`
     case 'zh-CN':
