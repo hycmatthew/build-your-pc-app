@@ -6,6 +6,11 @@
   "gpu": "Display Card",
   "motherboard": "Motherboard",
   "ram": "RAM",
+  "maximum-wattage-requirement": "Maximum Wattage Requirement",
   "powersupply": "Power supply",
-  "ssd": "SSD"
+  "power-calculator": "Power Supply Calculator",
+  "price": "Price",
+  "recommended-psu-wattage": "Recommended PSU wattage",
+  "ssd": "SSD",
+  "watt": " W"
 }

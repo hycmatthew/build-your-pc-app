@@ -6,6 +6,11 @@
   "gpu": "显示卡",
   "motherboard": "主板",
   "ram": "RAM",
+  "maximum-wattage-requirement": "最大功率要求",
   "powersupply": "Power supply",
-  "ssd": "SSD"
+  "power-calculator": "电源计算",
+  "price": "价格",
+  "recommended-psu-wattage": "推荐电源功率",
+  "ssd": "SSD",
+  "watt": " W"
 }

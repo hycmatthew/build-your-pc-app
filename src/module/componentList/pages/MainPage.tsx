@@ -19,14 +19,13 @@ function MainPage() {
 
   useEffect(() => {
     if (dataStatus.cpuList.length === 0) {
-      console.log('test')
       dispatch(getCPUDataList())
     }
   }, [dispatch]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <AppLayout>
-      <Grid sx={{ flexGrow: 1 }} container spacing={1}>
+      <Grid sx={{ flexGrow: 1 }} container spacing={6} columns={{ sm: 6, md: 12 }}>
         <Grid item xs={6}>
           <ComponentMenu
             dataList={dataStatus.cpuList}

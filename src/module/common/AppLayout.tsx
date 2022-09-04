@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { createTheme, styled, ThemeProvider } from '@mui/material/styles'
+import { Link } from 'react-router-dom'
 
 import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
@@ -55,8 +56,12 @@ const FooterGrid = styled(Grid)({
 })
 
 function AppLayout({ children }: Props) {
-  const pages = ['Products', 'Pricing', 'Blog']
   const [subMenuOpen, setSubMenuOpen] = useState(false)
+  const pages = [
+    { label: 'pc-builder', link: '/' },
+    { label: 'benchmarks', link: '/benchmarks' },
+    { label: 'ai-list', link: '/benchmarks' }
+  ]
 
   const handleMenuClick = () => {
     setSubMenuOpen(!subMenuOpen)
@@ -94,12 +99,14 @@ function AppLayout({ children }: Props) {
               LOGO
             </CustomTypography>
           </Grid>
-          <Grid item xs={9}>
+          <Grid className="header-link-grid" item xs={9}>
             <Stack direction="row" spacing={2}>
               {pages.map((page) => (
-                <Button key={page} sx={{ color: 'black', display: 'block' }}>
-                  {page}
-                </Button>
+                <Link key={page.label} to={page.link}>
+                  <Button sx={{ color: 'black', display: 'block' }}>
+                    {page.label}
+                  </Button>
+                </Link>
               ))}
             </Stack>
           </Grid>
@@ -147,15 +154,14 @@ function AppLayout({ children }: Props) {
           </Grid>
         </Grid>
         <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
-          <Grid container spacing={1}>
+          <Grid className="header-link-grid" container spacing={1}>
             {pages.map((page) => (
-              <Grid item xs={12} key={page}>
-                <Button
-                  onClick={handleMenuClick}
-                  sx={{ color: 'black', display: 'block' }}
-                >
-                  {page}
-                </Button>
+              <Grid item xs={12} key={page.label}>
+                <Link to={page.link}>
+                  <Button sx={{ color: 'black', display: 'block' }}>
+                    {page.label}
+                  </Button>
+                </Link>
               </Grid>
             ))}
             <Grid item xs={12}>

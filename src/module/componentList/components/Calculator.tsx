@@ -1,12 +1,12 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import styled from '@emotion/styled'
 
 import { SelectedItemType } from '../../store/rawDataReducer'
-import { convertStringToNumber } from '../../../utils/NumberHelper'
-import BrowserLangDetect from '../../../utils/BrowserLangDetect'
+import { getTotalPrice } from '../../../utils/NumberHelper'
 
 type CalculatorProps = {
   selectedItems: SelectedItemType
@@ -20,21 +20,25 @@ const CustomContainer = styled(Container)({
 })
 
 const Calculator = ({ selectedItems }: CalculatorProps) => {
-  const getTotalPrice = () => {
-    return (
-      convertStringToNumber(selectedItems.cpu?.priceUS)
-      + convertStringToNumber(selectedItems.cpu1?.priceUS)
-      + convertStringToNumber(selectedItems.cpu2?.priceUS)
-      + convertStringToNumber(selectedItems.cpu3?.priceUS)
-    )
+  const { t, i18n } = useTranslation()
+
+  const totalPrice = () => {
+    switch (i18n.language) {
+      case 'zh-CN':
+        return (getTotalPrice([selectedItems.cpu?.priceCN, selectedItems.cpu1?.priceCN], i18n.language))
+      case 'zh-TW':
+        return (getTotalPrice([selectedItems.cpu?.priceHK, selectedItems.cpu1?.priceHK], i18n.language))
+      default:
+        return (getTotalPrice([selectedItems.cpu?.priceUS, selectedItems.cpu1?.priceUS], i18n.language))
+    }
   }
 
   return (
     <CustomContainer>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Typography>Price</Typography>
-          <Typography>{getTotalPrice()}</Typography>
+          <Typography>{t('price')}</Typography>
+          <Typography>{totalPrice()}</Typography>
         </Grid>
       </Grid>
     </CustomContainer>

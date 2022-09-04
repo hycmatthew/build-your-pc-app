@@ -13,7 +13,7 @@ import { styled } from '@mui/material/styles'
 
 const CustomFormControl = styled(FormControl)({
   position: 'relative',
-  minWidth: 420,
+  width: '100%',
   background: '#fff',
   borderRadius: 3,
 })
@@ -26,7 +26,8 @@ const ValueTypography = styled(Typography)({
   fontSize: '12px',
   fontWeight: 'bold',
   fontStyle: 'italic',
-  color: '#555'
+  color: '#555',
+  marginLeft: 'auto'
 })
 
 type SelectElementProps = SelectProps & {
@@ -54,7 +55,7 @@ const SelectElement = ({
       setSelectValue(tempValue)
     }
   }
-  /*
+
   if (isLoading) {
     return (
       <CustomFormControl disabled>
@@ -75,7 +76,7 @@ const SelectElement = ({
       </CustomFormControl>
     )
   }
-*/
+
   return (
     <CustomFormControl variant="filled">
       <InputLabel id="demo-simple-select-standard-label">{t(label)}</InputLabel>
@@ -89,7 +90,7 @@ const SelectElement = ({
         </MenuItem>
         {options.map((item: any) => (
           <MenuItem key={item.label} value={item.label}>
-            <Typography width={340}>{item.label}</Typography>
+            <Typography>{item.label}</Typography>
             <ValueTypography>{item.value}</ValueTypography>
           </MenuItem>
         ))}

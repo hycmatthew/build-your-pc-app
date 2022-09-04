@@ -4,7 +4,8 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
 const DETECTION_OPTIONS = {
-  order: ['navigator']
+  caches: ['localStorage'],
+  order: ['querystring', 'localStorage', 'navigator']
 };
 
 i18n

@@ -7,7 +7,7 @@ import CPUType from '../../../constant/objectTypes/CPUType'
 import SelectElement from '../../common/components/Select'
 import { sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
-import GetCurrentPrice from '../../../utils/PriceHelper'
+import { getCurrentPrice } from '../../../utils/NumberHelper'
 
 type ComponentMenuProps = {
   dataList: CPUType[]
@@ -20,7 +20,7 @@ const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
 
   const generateCPUSelectElement = () => {
     const tempMap = dataList.map((item: CPUType) => {
-      const price = GetCurrentPrice(item.priceUS, item.priceHK, item.priceCN, i18n.language)
+      const price = getCurrentPrice(item.priceUS, item.priceHK, item.priceCN, i18n.language)
       return { label: item.name, value: price }
     })
     return tempMap
@@ -33,17 +33,18 @@ const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
   }
 
   const changeSelectItem = (value: string, type: string) => {
+    console.log(type)
     if (!isEmpty(value)) {
       switch (type) {
-        case 'CPU': {
+        case 'cpu': {
           const selectedItem = searchCPUItem(value)
           dispatch(sliceActions.updateSelectedCPU(selectedItem))
           break
         }
-        case 'MotherBoard':
+        case 'mothernoard':
           dispatch(sliceActions.updateSelectedMotherBoard(value))
           break
-        case 'RAM':
+        case 'ram':
           dispatch(sliceActions.updateSelectedRAM(value))
           break
         default:

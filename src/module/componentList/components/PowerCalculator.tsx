@@ -1,12 +1,13 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import styled from '@emotion/styled'
 
 import { SelectedItemType } from '../../store/rawDataReducer'
-import { convertStringToNumber } from '../../../utils/NumberHelper'
-import BrowserLangDetect from '../../../utils/BrowserLangDetect'
+import { getTotalPower } from '../../../utils/NumberHelper'
+import recommendPowerLogic from '../../../logic/recommendPower'
 
 type CalculatorProps = {
   selectedItems: SelectedItemType
@@ -19,21 +20,32 @@ const CustomContainer = styled(Container)({
 })
 
 const Calculator = ({ selectedItems }: CalculatorProps) => {
-  const getTotalPower = () => {
-    return (
-      convertStringToNumber(selectedItems.cpu?.power)
-      + convertStringToNumber(selectedItems.cpu1?.power)
-      + convertStringToNumber(selectedItems.cpu2?.power)
-      + convertStringToNumber(selectedItems.cpu3?.power)
-    )
+  const { t } = useTranslation()
+  const totalPower = getTotalPower([
+    selectedItems.cpu?.power,
+    selectedItems.cpu1?.power,
+  ])
+
+  const recommendPower = () => {
+    return totalPower === 0 ? 0 : recommendPowerLogic(totalPower)
   }
 
   return (
     <CustomContainer>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Typography>TDP</Typography>
-          <Typography>{getTotalPower()}</Typography>
+          <Typography>{t('power-calculator')}</Typography>
+          <Typography>
+            {totalPower}
+            <span>{t('watt')}</span>
+          </Typography>
+        </Grid>
+        <Grid item xs={8}>
+          <Typography>{t('recommended-psu-wattage')}</Typography>
+          <Typography>
+            {recommendPower()}
+            <span>{t('watt')}</span>
+          </Typography>
         </Grid>
       </Grid>
     </CustomContainer>
