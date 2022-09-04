@@ -19,6 +19,14 @@ const addCurrencySign = (str: string, lang: string) => {
   }
 }
 
+export const stringToNumber = (str: string) => {
+  return toNumber(str)
+}
+
+export const stringToNumberWithDP = (str: string) => {
+  return toNumber(str).toFixed(2)
+}
+
 export const getCurrentPrice = (
   priceUS: string,
   priceHK: string,
@@ -27,11 +35,11 @@ export const getCurrentPrice = (
 ) => {
   switch (lang) {
     case 'zh-TW':
-      return `$${toNumber(priceHK).toFixed(2)}`
+      return `$${stringToNumberWithDP(priceHK)}`
     case 'zh-CN':
-      return `¥${toNumber(priceCN).toFixed(2)}`
+      return `¥${stringToNumberWithDP(priceCN)}`
     default:
-      return `$${toNumber(priceUS).toFixed(2)}`
+      return `$${stringToNumberWithDP(priceUS)}`
   }
 }
 
