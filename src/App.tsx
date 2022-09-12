@@ -3,9 +3,11 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
 import ComponentListRoutes from './module/componentList/pages/Route'
+import { getCPUDataList } from './module/store/rawDataReducer'
 import store from './module/store/store'
 
 function App() {
+  store.dispatch(getCPUDataList())
   return (
     <Suspense fallback="loading">
       <Provider store={store}>
