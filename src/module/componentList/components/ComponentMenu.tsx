@@ -4,22 +4,32 @@ import Grid from '@mui/material/Grid'
 import isEmpty from 'lodash/isEmpty'
 
 import CPUType from '../../../constant/objectTypes/CPUType'
+import GPUType from '../../../constant/objectTypes/GPUType'
 import SelectElement from '../../common/components/Select'
 import { sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
 import { getCurrentPrice } from '../../../utils/NumberHelper'
 
 type ComponentMenuProps = {
-  dataList: CPUType[]
+  cpuList: CPUType[]
+  gpuList: GPUType[]
   isLoading: boolean
 }
 
-const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
+const ComponentMenu = ({ cpuList, gpuList, isLoading }: ComponentMenuProps) => {
   const dispatch = useAppDispatch()
   const { i18n } = useTranslation()
 
   const generateCPUSelectElement = () => {
-    const tempMap = dataList.map((item: CPUType) => {
+    const tempMap = cpuList.map((item: CPUType) => {
+      const price = getCurrentPrice(item.priceUS, item.priceHK, item.priceCN, i18n.language)
+      return { label: item.name, value: price }
+    })
+    return tempMap
+  }
+
+  const generateGPUSelectElement = () => {
+    const tempMap = gpuList.map((item: GPUType) => {
       const price = getCurrentPrice(item.priceUS, item.priceHK, item.priceCN, i18n.language)
       return { label: item.name, value: price }
     })
@@ -27,7 +37,7 @@ const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
   }
 
   const searchCPUItem = (name: string) => {
-    return dataList.find((item: CPUType) => {
+    return cpuList.find((item: CPUType) => {
       return item.name === name
     })
   }
@@ -45,7 +55,7 @@ const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
           dispatch(sliceActions.updateSelectedMotherBoard(value))
           break
         case 'ram':
-          dispatch(sliceActions.updateSelectedRAM(value))
+          dispatch(sliceActions.updateSelectedGPU(value))
           break
         default:
           break
@@ -68,7 +78,7 @@ const ComponentMenu = ({ dataList, isLoading }: ComponentMenuProps) => {
         <SelectElement
           label="gpu"
           placeholder="select"
-          options={generateCPUSelectElement()}
+          options={generateGPUSelectElement()}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />

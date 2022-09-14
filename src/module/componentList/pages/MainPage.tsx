@@ -23,7 +23,8 @@ function MainPage() {
       >
         <Grid item xs={6}>
           <ComponentMenu
-            dataList={dataStatus.cpuList}
+            cpuList={dataStatus.cpuList}
+            gpuList={dataStatus.gpuList}
             isLoading={dataStatus.isLoading}
           />
         </Grid>

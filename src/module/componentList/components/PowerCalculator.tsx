@@ -23,7 +23,7 @@ const Calculator = ({ selectedItems }: CalculatorProps) => {
   const { t } = useTranslation()
   const totalPower = getTotalPower([
     selectedItems.cpu?.power,
-    selectedItems.cpu1?.power,
+    selectedItems.gpu?.power,
   ])
 
   const recommendPower = () => {

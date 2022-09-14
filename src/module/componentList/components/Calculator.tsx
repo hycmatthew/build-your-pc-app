@@ -25,11 +25,11 @@ const Calculator = ({ selectedItems }: CalculatorProps) => {
   const totalPrice = () => {
     switch (i18n.language) {
       case 'zh-CN':
-        return (getTotalPrice([selectedItems.cpu?.priceCN, selectedItems.cpu1?.priceCN], i18n.language))
+        return (getTotalPrice([selectedItems.cpu?.priceCN, selectedItems.gpu?.priceCN], i18n.language))
       case 'zh-TW':
-        return (getTotalPrice([selectedItems.cpu?.priceHK, selectedItems.cpu1?.priceHK], i18n.language))
+        return (getTotalPrice([selectedItems.cpu?.priceHK, selectedItems.gpu?.priceHK], i18n.language))
       default:
-        return (getTotalPrice([selectedItems.cpu?.priceUS, selectedItems.cpu1?.priceUS], i18n.language))
+        return (getTotalPrice([selectedItems.cpu?.priceUS, selectedItems.gpu?.priceUS], i18n.language))
     }
   }
 
