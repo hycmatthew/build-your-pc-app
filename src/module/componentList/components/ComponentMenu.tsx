@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty'
 
 import CPUType from '../../../constant/objectTypes/CPUType'
 import GPUType from '../../../constant/objectTypes/GPUType'
+import MotherboardType from '../../../constant/objectTypes/MotherboardType'
 import SelectElement from '../../common/components/Select'
 import { sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
@@ -13,16 +14,27 @@ import { getCurrentPrice } from '../../../utils/NumberHelper'
 type ComponentMenuProps = {
   cpuList: CPUType[]
   gpuList: GPUType[]
+  motherboardList: MotherboardType[]
   isLoading: boolean
 }
 
-const ComponentMenu = ({ cpuList, gpuList, isLoading }: ComponentMenuProps) => {
+const ComponentMenu = ({
+  cpuList,
+  gpuList,
+  motherboardList,
+  isLoading,
+}: ComponentMenuProps) => {
   const dispatch = useAppDispatch()
   const { i18n } = useTranslation()
 
   const generateCPUSelectElement = () => {
     const tempMap = cpuList.map((item: CPUType) => {
-      const price = getCurrentPrice(item.priceUS, item.priceHK, item.priceCN, i18n.language)
+      const price = getCurrentPrice(
+        item.priceUS,
+        item.priceHK,
+        item.priceCN,
+        i18n.language
+      )
       return { label: item.name, value: price }
     })
     return tempMap
@@ -30,7 +42,25 @@ const ComponentMenu = ({ cpuList, gpuList, isLoading }: ComponentMenuProps) => {
 
   const generateGPUSelectElement = () => {
     const tempMap = gpuList.map((item: GPUType) => {
-      const price = getCurrentPrice(item.priceUS, item.priceHK, item.priceCN, i18n.language)
+      const price = getCurrentPrice(
+        item.priceUS,
+        item.priceHK,
+        item.priceCN,
+        i18n.language
+      )
+      return { label: item.name, value: price }
+    })
+    return tempMap
+  }
+
+  const generateMotherboardSelectElement = () => {
+    const tempMap = motherboardList.map((item: MotherboardType) => {
+      const price = getCurrentPrice(
+        item.priceUS,
+        item.priceHK,
+        item.priceCN,
+        i18n.language
+      )
       return { label: item.name, value: price }
     })
     return tempMap
@@ -38,6 +68,18 @@ const ComponentMenu = ({ cpuList, gpuList, isLoading }: ComponentMenuProps) => {
 
   const searchCPUItem = (name: string) => {
     return cpuList.find((item: CPUType) => {
+      return item.name === name
+    })
+  }
+
+  const searchGPUItem = (name: string) => {
+    return gpuList.find((item: GPUType) => {
+      return item.name === name
+    })
+  }
+
+  const searchMotherboardItem = (name: string) => {
+    return motherboardList.find((item: MotherboardType) => {
       return item.name === name
     })
   }
@@ -51,12 +93,16 @@ const ComponentMenu = ({ cpuList, gpuList, isLoading }: ComponentMenuProps) => {
           dispatch(sliceActions.updateSelectedCPU(selectedItem))
           break
         }
-        case 'mothernoard':
-          dispatch(sliceActions.updateSelectedMotherBoard(value))
+        case 'motherboard': {
+          const selectedItem = searchMotherboardItem(value)
+          dispatch(sliceActions.updateSelectedMotherBoard(selectedItem))
           break
-        case 'ram':
-          dispatch(sliceActions.updateSelectedGPU(value))
+        }
+        case 'gpu': {
+          const selectedItem = searchGPUItem(value)
+          dispatch(sliceActions.updateSelectedGPU(selectedItem))
           break
+        }
         default:
           break
       }
@@ -87,8 +133,35 @@ const ComponentMenu = ({ cpuList, gpuList, isLoading }: ComponentMenuProps) => {
         <SelectElement
           label="motherboard"
           placeholder="select"
-          options={generateCPUSelectElement()}
-          selectChange={() => {}}
+          options={generateMotherboardSelectElement()}
+          selectChange={changeSelectItem}
+          isLoading={isLoading}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <SelectElement
+          label="ram"
+          placeholder="select"
+          options={generateMotherboardSelectElement()}
+          selectChange={changeSelectItem}
+          isLoading={isLoading}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <SelectElement
+          label="power-supply"
+          placeholder="select"
+          options={generateMotherboardSelectElement()}
+          selectChange={changeSelectItem}
+          isLoading={isLoading}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <SelectElement
+          label="cpu-cooler"
+          placeholder="select"
+          options={generateMotherboardSelectElement()}
+          selectChange={changeSelectItem}
           isLoading={isLoading}
         />
       </Grid>

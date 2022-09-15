@@ -14,6 +14,7 @@ export interface DataState {
   selectedItems: SelectedItemType
   cpuList: CPUType[]
   gpuList: GPUType[]
+  motherboardList: MotherboardType[]
   isLoading: boolean
 }
 
@@ -25,6 +26,7 @@ const initialState: DataState = {
   },
   cpuList: [],
   gpuList: [],
+  motherboardList: [],
   isLoading: false,
 }
 /*
@@ -49,6 +51,14 @@ export const getGPUDataList = createAsyncThunk(
   }
 )
 
+export const getMotherboardDataList = createAsyncThunk(
+  'motherboardList/fetchData',
+  async () => {
+    const response = await RawDataAPI.get('/MotherboardList')
+    return response
+  }
+)
+
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,
@@ -57,7 +67,7 @@ export const counterSlice = createSlice({
       state.selectedItems.cpu = action.payload
     },
     updateSelectedMotherBoard: (state, action) => {
-      state.selectedItems.cpu = action.payload
+      state.selectedItems.motherboard = action.payload
     },
     updateSelectedGPU: (state, action) => {
       state.selectedItems.gpu = action.payload
@@ -97,6 +107,28 @@ export const counterSlice = createSlice({
     })
     builder.addCase(
       getGPUDataList.rejected,
+      (state: DataState, { payload }) => {
+        console.log('rejected')
+        state.isLoading = false
+      }
+    )
+    // GET Motherboard
+    builder.addCase(
+      getMotherboardDataList.fulfilled,
+      (state: DataState, { payload }) => {
+        state.isLoading = false
+        state.motherboardList = payload
+      }
+    )
+    builder.addCase(
+      getMotherboardDataList.pending,
+      (state: DataState, { payload }) => {
+        console.log('isLoading')
+        state.isLoading = true
+      }
+    )
+    builder.addCase(
+      getMotherboardDataList.rejected,
       (state: DataState, { payload }) => {
         console.log('rejected')
         state.isLoading = false

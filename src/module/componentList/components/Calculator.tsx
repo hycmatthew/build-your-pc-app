@@ -16,7 +16,7 @@ const CustomContainer = styled(Container)({
   backgroundColor: '#ffffff',
   padding: '8px',
   borderRadius: '6px',
-  marginTop: '16px'
+  marginTop: '16px',
 })
 
 const Calculator = ({ selectedItems }: CalculatorProps) => {
@@ -25,11 +25,32 @@ const Calculator = ({ selectedItems }: CalculatorProps) => {
   const totalPrice = () => {
     switch (i18n.language) {
       case 'zh-CN':
-        return (getTotalPrice([selectedItems.cpu?.priceCN, selectedItems.gpu?.priceCN], i18n.language))
+        return getTotalPrice(
+          [
+            selectedItems.cpu?.priceCN,
+            selectedItems.gpu?.priceCN,
+            selectedItems.motherboard?.priceCN,
+          ],
+          i18n.language
+        )
       case 'zh-TW':
-        return (getTotalPrice([selectedItems.cpu?.priceHK, selectedItems.gpu?.priceHK], i18n.language))
+        return getTotalPrice(
+          [
+            selectedItems.cpu?.priceHK,
+            selectedItems.gpu?.priceHK,
+            selectedItems.motherboard?.priceHK,
+          ],
+          i18n.language
+        )
       default:
-        return (getTotalPrice([selectedItems.cpu?.priceUS, selectedItems.gpu?.priceUS], i18n.language))
+        return getTotalPrice(
+          [
+            selectedItems.cpu?.priceUS,
+            selectedItems.gpu?.priceUS,
+            selectedItems.motherboard?.priceUS,
+          ],
+          i18n.language
+        )
     }
   }
 

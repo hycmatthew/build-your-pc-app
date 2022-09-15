@@ -25,6 +25,7 @@ function MainPage() {
           <ComponentMenu
             cpuList={dataStatus.cpuList}
             gpuList={dataStatus.gpuList}
+            motherboardList={dataStatus.motherboardList}
             isLoading={dataStatus.isLoading}
           />
         </Grid>
