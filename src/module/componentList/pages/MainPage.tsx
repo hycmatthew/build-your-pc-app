@@ -9,7 +9,7 @@ import Calculator from '../components/Calculator'
 import PowerCalculator from '../components/PowerCalculator'
 
 function MainPage() {
-  const dataStatus = useSelector((state: any) => {
+  const dataState = useSelector((state: any) => {
     return state
   })
 
@@ -22,16 +22,11 @@ function MainPage() {
         columns={{ sm: 6, md: 12 }}
       >
         <Grid item xs={6}>
-          <ComponentMenu
-            cpuList={dataStatus.cpuList}
-            gpuList={dataStatus.gpuList}
-            motherboardList={dataStatus.motherboardList}
-            isLoading={dataStatus.isLoading}
-          />
+          <ComponentMenu dataState={dataState} />
         </Grid>
         <Grid item xs={6}>
-          <PowerCalculator selectedItems={dataStatus.selectedItems} />
-          <Calculator selectedItems={dataStatus.selectedItems} />
+          <PowerCalculator selectedItems={dataState.selectedItems} />
+          <Calculator selectedItems={dataState.selectedItems} />
         </Grid>
       </Grid>
     </AppLayout>

@@ -7,25 +7,26 @@ import CPUType from '../../../constant/objectTypes/CPUType'
 import GPUType from '../../../constant/objectTypes/GPUType'
 import MotherboardType from '../../../constant/objectTypes/MotherboardType'
 import SelectElement from '../../common/components/Select'
-import { sliceActions } from '../../store/rawDataReducer'
+import { DataState, sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
 import { getCurrentPrice } from '../../../utils/NumberHelper'
+import RAMType from '../../../constant/objectTypes/RAMType'
 
 type ComponentMenuProps = {
-  cpuList: CPUType[]
-  gpuList: GPUType[]
-  motherboardList: MotherboardType[]
-  isLoading: boolean
+  dataState: DataState
 }
 
-const ComponentMenu = ({
-  cpuList,
-  gpuList,
-  motherboardList,
-  isLoading,
-}: ComponentMenuProps) => {
+const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
   const dispatch = useAppDispatch()
   const { i18n } = useTranslation()
+  const {
+    selectedItems,
+    cpuList,
+    gpuList,
+    motherboardList,
+    ramList,
+    isLoading,
+  } = dataState
 
   const generateCPUSelectElement = () => {
     const tempMap = cpuList.map((item: CPUType) => {
@@ -35,7 +36,7 @@ const ComponentMenu = ({
         item.priceCN,
         i18n.language
       )
-      return { label: item.name, value: price }
+      return { label: item.name, value: price, disabled: false }
     })
     return tempMap
   }
@@ -48,7 +49,7 @@ const ComponentMenu = ({
         item.priceCN,
         i18n.language
       )
-      return { label: item.name, value: price }
+      return { label: item.name, value: price, disabled: false }
     })
     return tempMap
   }
@@ -61,7 +62,26 @@ const ComponentMenu = ({
         item.priceCN,
         i18n.language
       )
-      return { label: item.name, value: price }
+      const active = (selectedItems.cpu !== null && selectedItems.cpu.socket === item.socket)
+      return { label: item.name, value: price, disabled: !active }
+    })
+    return tempMap
+  }
+
+  const generateRAMSelectElement = () => {
+    const tempMap = ramList.map((item: RAMType) => {
+      const price = getCurrentPrice(
+        item.priceUS,
+        item.priceHK,
+        item.priceCN,
+        i18n.language
+      )
+      const itemLabel = item.brand
+        .concat(' ')
+        .concat(item.series)
+        .concat(' ')
+        .concat(item.name)
+      return { label: itemLabel, value: price, disabled: false }
     })
     return tempMap
   }
@@ -84,6 +104,12 @@ const ComponentMenu = ({
     })
   }
 
+  const searchRAMItem = (name: string) => {
+    return ramList.find((item: RAMType) => {
+      return item.name === name
+    })
+  }
+
   const changeSelectItem = (value: string, type: string) => {
     console.log(type)
     if (!isEmpty(value)) {
@@ -101,6 +127,11 @@ const ComponentMenu = ({
         case 'gpu': {
           const selectedItem = searchGPUItem(value)
           dispatch(sliceActions.updateSelectedGPU(selectedItem))
+          break
+        }
+        case 'ram': {
+          const selectedItem = searchRAMItem(value)
+          dispatch(sliceActions.updateSelectedRAM(selectedItem))
           break
         }
         default:
@@ -142,7 +173,7 @@ const ComponentMenu = ({
         <SelectElement
           label="ram"
           placeholder="select"
-          options={generateMotherboardSelectElement()}
+          options={generateRAMSelectElement()}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />

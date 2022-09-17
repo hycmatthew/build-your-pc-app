@@ -2,12 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import CPUType from '../../constant/objectTypes/CPUType'
 import GPUType from '../../constant/objectTypes/GPUType'
 import MotherboardType from '../../constant/objectTypes/MotherboardType'
+import RAMType from '../../constant/objectTypes/RAMType'
 import { RawDataAPI } from '../../utils/HttpHelper'
 
 export interface SelectedItemType {
   cpu: CPUType | null
   motherboard: MotherboardType | null
   gpu: GPUType | null
+  ram: RAMType | null
 }
 
 export interface DataState {
@@ -15,6 +17,7 @@ export interface DataState {
   cpuList: CPUType[]
   gpuList: GPUType[]
   motherboardList: MotherboardType[]
+  ramList: RAMType[]
   isLoading: boolean
 }
 
@@ -23,10 +26,12 @@ const initialState: DataState = {
     cpu: null,
     motherboard: null,
     gpu: null,
+    ram: null,
   },
   cpuList: [],
   gpuList: [],
   motherboardList: [],
+  ramList: [],
   isLoading: false,
 }
 /*
@@ -59,6 +64,14 @@ export const getMotherboardDataList = createAsyncThunk(
   }
 )
 
+export const getRAMDataList = createAsyncThunk(
+  'ramList/fetchData',
+  async () => {
+    const response = await RawDataAPI.get('/RAMList')
+    return response
+  }
+)
+
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,
@@ -70,6 +83,9 @@ export const counterSlice = createSlice({
       state.selectedItems.motherboard = action.payload
     },
     updateSelectedGPU: (state, action) => {
+      state.selectedItems.gpu = action.payload
+    },
+    updateSelectedRAM: (state, action) => {
       state.selectedItems.gpu = action.payload
     },
   },
@@ -129,6 +145,28 @@ export const counterSlice = createSlice({
     )
     builder.addCase(
       getMotherboardDataList.rejected,
+      (state: DataState, { payload }) => {
+        console.log('rejected')
+        state.isLoading = false
+      }
+    )
+    // GET RAM
+    builder.addCase(
+      getRAMDataList.fulfilled,
+      (state: DataState, { payload }) => {
+        state.isLoading = false
+        state.ramList = payload
+      }
+    )
+    builder.addCase(
+      getRAMDataList.pending,
+      (state: DataState, { payload }) => {
+        console.log('isLoading')
+        state.isLoading = true
+      }
+    )
+    builder.addCase(
+      getRAMDataList.rejected,
       (state: DataState, { payload }) => {
         console.log('rejected')
         state.isLoading = false

@@ -3,13 +3,20 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
 import ComponentListRoutes from './module/componentList/pages/Route'
-import { getCPUDataList, getGPUDataList, getMotherboardDataList } from './module/store/rawDataReducer'
+import {
+  getCPUDataList,
+  getGPUDataList,
+  getMotherboardDataList,
+  getRAMDataList,
+} from './module/store/rawDataReducer'
 import store from './module/store/store'
 
 function App() {
   store.dispatch(getCPUDataList())
   store.dispatch(getGPUDataList())
   store.dispatch(getMotherboardDataList())
+  store.dispatch(getRAMDataList())
+
   return (
     <Suspense fallback="loading">
       <Provider store={store}>

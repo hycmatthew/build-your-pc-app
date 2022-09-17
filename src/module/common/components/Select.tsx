@@ -33,7 +33,7 @@ const ValueTypography = styled(Typography)({
 type SelectElementProps = SelectProps & {
   label: string
   placeholder?: string
-  options: { label: any; value: any }[]
+  options: { label: any; value: any, disabled: boolean }[]
   selectChange?: (value: string, type: string) => void
   isLoading?: boolean
 }
@@ -89,7 +89,7 @@ const SelectElement = ({
           <em>{placeholder}</em>
         </MenuItem>
         {options.map((item: any) => (
-          <MenuItem key={item.label} value={item.label}>
+          <MenuItem key={item.label} value={item.label} disabled={item.disabled}>
             <Typography>{item.label}</Typography>
             <ValueTypography>{item.value}</ValueTypography>
           </MenuItem>

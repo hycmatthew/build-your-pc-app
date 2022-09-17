@@ -1,7 +1,7 @@
 interface CPUType {
   name: string
   brand: string
-  socketType: string
+  socket: string
   chipset: string
   sizeType: string
   ramType: string
