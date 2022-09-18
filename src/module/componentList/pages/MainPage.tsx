@@ -7,6 +7,7 @@ import AppLayout from '../../common/AppLayout'
 import ComponentMenu from '../components/ComponentMenu'
 import Calculator from '../components/Calculator'
 import PowerCalculator from '../components/PowerCalculator'
+import CompatibleSection from '../components/CompatibleSection'
 
 function MainPage() {
   const dataState = useSelector((state: any) => {
@@ -27,6 +28,7 @@ function MainPage() {
         <Grid item xs={6}>
           <PowerCalculator selectedItems={dataState.selectedItems} />
           <Calculator selectedItems={dataState.selectedItems} />
+          <CompatibleSection selectedItems={dataState.selectedItems} />
         </Grid>
       </Grid>
     </AppLayout>

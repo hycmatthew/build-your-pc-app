@@ -11,6 +11,7 @@ import { DataState, sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
 import { getCurrentPrice } from '../../../utils/NumberHelper'
 import RAMType from '../../../constant/objectTypes/RAMType'
+import { motherboardIncompatible, ramIncompatible } from '../../../logic/incompatibleLogic'
 
 type ComponentMenuProps = {
   dataState: DataState
@@ -62,8 +63,8 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         item.priceCN,
         i18n.language
       )
-      const active = (selectedItems.cpu !== null && selectedItems.cpu.socket === item.socket)
-      return { label: item.name, value: price, disabled: !active }
+      const disable = motherboardIncompatible(selectedItems.cpu?.socket, item.socket)
+      return { label: item.name, value: price, disabled: disable }
     })
     return tempMap
   }
@@ -81,7 +82,9 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         .concat(item.series)
         .concat(' ')
         .concat(item.name)
-      return { label: itemLabel, value: price, disabled: false }
+
+      const disable = ramIncompatible(selectedItems.cpu?.brand, selectedItems.motherboard?.supportedRam, item)
+      return { label: itemLabel, value: price, disabled: disable }
     })
     return tempMap
   }
