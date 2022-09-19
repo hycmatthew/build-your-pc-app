@@ -7,6 +7,7 @@ import {
   getCPUDataList,
   getGPUDataList,
   getMotherboardDataList,
+  getPSUDataList,
   getRAMDataList,
 } from './module/store/rawDataReducer'
 import store from './module/store/store'
@@ -16,6 +17,7 @@ function App() {
   store.dispatch(getGPUDataList())
   store.dispatch(getMotherboardDataList())
   store.dispatch(getRAMDataList())
+  store.dispatch(getPSUDataList())
 
   return (
     <Suspense fallback="loading">

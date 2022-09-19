@@ -12,5 +12,7 @@
   "price": "價格",
   "recommended-psu-wattage": "推薦電源功率",
   "ssd": "SSD",
-  "watt": " W"
+  "watt": " W",
+  "motherboard-incompatible-warning": "motherboard-incompatible-socket",
+  "ram-incompatible-warning": "motherboard-incompatible-socket"
 }

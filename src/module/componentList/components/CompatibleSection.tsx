@@ -24,7 +24,7 @@ const CustomContainer = styled(Container)({
 })
 
 const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   const createSuggestion = () => {
     const motherboardMatch = motherboardIncompatible(
@@ -41,10 +41,10 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
 
     const suggestion:String[] = []
     if (motherboardMatch) {
-      suggestion.push('motherboard issue')
+      suggestion.push('"motherboard-incompatible-warning')
     }
     if (ramCompatible) {
-      suggestion.push('ram issue')
+      suggestion.push('"ram-incompatible-warning')
     }
     return suggestion
   }
@@ -56,7 +56,7 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
           <Typography>{t('compatible-issue')}</Typography>
           {
             createSuggestion().map((item: any) => (
-              <Typography>{item}</Typography>
+              <Typography>{t(item)}</Typography>
             ))
           }
         </Grid>

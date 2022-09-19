@@ -12,6 +12,7 @@ import { useAppDispatch } from '../../store/store'
 import { getCurrentPrice } from '../../../utils/NumberHelper'
 import RAMType from '../../../constant/objectTypes/RAMType'
 import { motherboardIncompatible, ramIncompatible } from '../../../logic/incompatibleLogic'
+import PSUType from '../../../constant/objectTypes/PSUType'
 
 type ComponentMenuProps = {
   dataState: DataState
@@ -26,6 +27,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     gpuList,
     motherboardList,
     ramList,
+    psuList,
     isLoading,
   } = dataState
 
@@ -89,6 +91,19 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     return tempMap
   }
 
+  const generatePSUSelectElement = () => {
+    const tempMap = psuList.map((item: PSUType) => {
+      const price = getCurrentPrice(
+        item.priceUS,
+        item.priceHK,
+        item.priceCN,
+        i18n.language
+      )
+      return { label: item.name, value: price, disabled: false }
+    })
+    return tempMap
+  }
+
   const searchCPUItem = (name: string) => {
     return cpuList.find((item: CPUType) => {
       return item.name === name
@@ -109,6 +124,12 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
 
   const searchRAMItem = (name: string) => {
     return ramList.find((item: RAMType) => {
+      return item.name === name
+    })
+  }
+
+  const searchPSUItem = (name: string) => {
+    return psuList.find((item: PSUType) => {
       return item.name === name
     })
   }
@@ -135,6 +156,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         case 'ram': {
           const selectedItem = searchRAMItem(value)
           dispatch(sliceActions.updateSelectedRAM(selectedItem))
+          break
+        }
+        case 'psu': {
+          const selectedItem = searchPSUItem(value)
+          dispatch(sliceActions.updateSelectedPSU(selectedItem))
           break
         }
         default:
@@ -183,9 +209,9 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="power-supply"
+          label="psu"
           placeholder="select"
-          options={generateMotherboardSelectElement()}
+          options={generatePSUSelectElement()}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />

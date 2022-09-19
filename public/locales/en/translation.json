@@ -12,5 +12,7 @@
   "price": "Price",
   "recommended-psu-wattage": "Recommended PSU wattage",
   "ssd": "SSD",
-  "watt": " W"
+  "watt": " W",
+  "motherboard-incompatible-warning": "motherboard-incompatible-socket",
+  "ram-incompatible-warning": "motherboard-incompatible-socket"
 }
