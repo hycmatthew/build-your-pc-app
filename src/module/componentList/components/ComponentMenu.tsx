@@ -9,9 +9,9 @@ import MotherboardType from '../../../constant/objectTypes/MotherboardType'
 import SelectElement from '../../common/components/Select'
 import { DataState, sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
-import { getCurrentPrice } from '../../../utils/NumberHelper'
+import { getCurrentPrice, getTotalPower, stringToNumber } from '../../../utils/NumberHelper'
 import RAMType from '../../../constant/objectTypes/RAMType'
-import { motherboardIncompatible, ramIncompatible } from '../../../logic/incompatibleLogic'
+import { motherboardIncompatible, psuIncompatible, ramIncompatible } from '../../../logic/incompatibleLogic'
 import PSUType from '../../../constant/objectTypes/PSUType'
 
 type ComponentMenuProps = {
@@ -99,7 +99,8 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         item.priceCN,
         i18n.language
       )
-      return { label: item.name, value: price, disabled: false }
+      const disable = psuIncompatible(getTotalPower(selectedItems), stringToNumber(item.watt))
+      return { label: item.name, value: price, disabled: disable }
     })
     return tempMap
   }

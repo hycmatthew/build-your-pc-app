@@ -21,10 +21,7 @@ const CustomContainer = styled(Container)({
 
 const Calculator = ({ selectedItems }: CalculatorProps) => {
   const { t } = useTranslation()
-  const totalPower = getTotalPower([
-    selectedItems.cpu?.power,
-    selectedItems.gpu?.power,
-  ])
+  const totalPower = getTotalPower(selectedItems)
 
   const recommendPower = () => {
     return totalPower === 0 ? 0 : recommendPowerLogic(totalPower)

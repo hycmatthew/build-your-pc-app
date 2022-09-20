@@ -1,4 +1,5 @@
 import { compact, toNumber } from 'lodash'
+import { SelectedItemType } from '../module/store/rawDataReducer'
 
 const calculateTotalNumber = (numberList: string[]) => {
   let totalNumber = 0
@@ -19,7 +20,7 @@ const addCurrencySign = (str: string, lang: string) => {
   }
 }
 
-export const stringToNumber = (str: string) => {
+export const stringToNumber = (str: string | undefined) => {
   return toNumber(str)
 }
 
@@ -53,6 +54,7 @@ export const getTotalPrice = (
   return addCurrencySign(totolPrice, lang)
 }
 
-export const getTotalPower = (numberList: (string | undefined)[]) => {
+export const getTotalPower = (selectedItems: SelectedItemType) => {
+  const numberList = [selectedItems.cpu?.power, selectedItems.gpu?.power]
   return calculateTotalNumber(compact(numberList))
 }

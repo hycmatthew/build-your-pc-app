@@ -6,9 +6,10 @@ import Container from '@mui/material/Container'
 import styled from '@emotion/styled'
 
 import { SelectedItemType } from '../../store/rawDataReducer'
-import { getTotalPrice } from '../../../utils/NumberHelper'
+import { getTotalPower, getTotalPrice, stringToNumber } from '../../../utils/NumberHelper'
 import {
   motherboardIncompatible,
+  psuIncompatible,
   ramIncompatible,
 } from '../../../logic/incompatibleLogic'
 
@@ -36,15 +37,19 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
         selectedItems.cpu?.brand,
         selectedItems.motherboard?.supportedRam,
         selectedItems.ram
-      )
-      : false
+      ) : false
+
+    const psuCompatible = psuIncompatible(getTotalPower(selectedItems), stringToNumber(selectedItems.psu?.watt))
 
     const suggestion:String[] = []
     if (motherboardMatch) {
-      suggestion.push('"motherboard-incompatible-warning')
+      suggestion.push('motherboard-incompatible-warning')
     }
     if (ramCompatible) {
-      suggestion.push('"ram-incompatible-warning')
+      suggestion.push('ram-incompatible-warning')
+    }
+    if (psuCompatible) {
+      suggestion.push('motherboard-incompatible-warning')
     }
     return suggestion
   }

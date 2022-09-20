@@ -10,3 +10,7 @@ export const ramIncompatible = (cpuBrand: string | undefined, motherboardSupport
   const isMotherboardSupport = (!isEmpty(motherboardSupportRam) && !(motherboardSupportRam ?? '').includes(ram.speed))
   return sameChipset || isMotherboardSupport
 }
+
+export const psuIncompatible = (totalPower: number, psuPower: number) => {
+  return totalPower > psuPower
+}
