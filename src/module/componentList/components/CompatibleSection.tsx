@@ -58,7 +58,7 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
     <CustomContainer>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Typography>{t('compatible-issue')}</Typography>
+          <Typography className="normal-header-typography">{t('compatible-issue')}</Typography>
           {
             createSuggestion().map((item: any) => (
               <Typography>{t(item)}</Typography>

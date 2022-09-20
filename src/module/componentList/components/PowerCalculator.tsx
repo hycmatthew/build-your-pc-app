@@ -31,14 +31,14 @@ const Calculator = ({ selectedItems }: CalculatorProps) => {
     <CustomContainer>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Typography>{t('power-calculator')}</Typography>
+          <Typography className="normal-header-typography">{t('power-calculator')}</Typography>
           <Typography>
             {totalPower}
             <span>{t('watt')}</span>
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <Typography>{t('recommended-psu-wattage')}</Typography>
+          <Typography className="normal-header-typography">{t('recommended-psu-wattage')}</Typography>
           <Typography>
             {recommendPower()}
             <span>{t('watt')}</span>

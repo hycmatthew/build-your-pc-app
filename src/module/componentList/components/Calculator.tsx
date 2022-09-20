@@ -58,7 +58,7 @@ const Calculator = ({ selectedItems }: CalculatorProps) => {
     <CustomContainer>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Typography>{t('price')}</Typography>
+          <Typography className="normal-header-typography">{t('price')}</Typography>
           <Typography>{totalPrice()}</Typography>
         </Grid>
       </Grid>
