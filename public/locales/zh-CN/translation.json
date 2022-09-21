@@ -14,5 +14,6 @@
   "ssd": "SSD",
   "watt": " W",
   "motherboard-incompatible-warning": "motherboard-incompatible-socket",
-  "ram-incompatible-warning": "motherboard-incompatible-socket"
+  "ram-incompatible-warning": "motherboard-incompatible-socket",
+  "suggestion": "建议"
 }

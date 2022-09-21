@@ -125,7 +125,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
 
   const searchRAMItem = (name: string) => {
     return ramList.find((item: RAMType) => {
-      return item.name === name
+      return name.includes(item.name)
     })
   }
 

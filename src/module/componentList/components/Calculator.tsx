@@ -22,44 +22,14 @@ const CustomContainer = styled(Container)({
 const Calculator = ({ selectedItems }: CalculatorProps) => {
   const { t, i18n } = useTranslation()
 
-  const totalPrice = () => {
-    switch (i18n.language) {
-      case 'zh-CN':
-        return getTotalPrice(
-          [
-            selectedItems.cpu?.priceCN,
-            selectedItems.gpu?.priceCN,
-            selectedItems.motherboard?.priceCN,
-          ],
-          i18n.language
-        )
-      case 'zh-TW':
-        return getTotalPrice(
-          [
-            selectedItems.cpu?.priceHK,
-            selectedItems.gpu?.priceHK,
-            selectedItems.motherboard?.priceHK,
-          ],
-          i18n.language
-        )
-      default:
-        return getTotalPrice(
-          [
-            selectedItems.cpu?.priceUS,
-            selectedItems.gpu?.priceUS,
-            selectedItems.motherboard?.priceUS,
-          ],
-          i18n.language
-        )
-    }
-  }
-
   return (
     <CustomContainer>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Typography className="normal-header-typography">{t('price')}</Typography>
-          <Typography>{totalPrice()}</Typography>
+          <Typography className="normal-header-typography">
+            {t('price')}
+          </Typography>
+          <Typography>{getTotalPrice(selectedItems, i18n.language)}</Typography>
         </Grid>
       </Grid>
     </CustomContainer>

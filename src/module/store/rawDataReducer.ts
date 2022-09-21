@@ -99,7 +99,7 @@ export const counterSlice = createSlice({
       state.selectedItems.gpu = action.payload
     },
     updateSelectedRAM: (state, action) => {
-      state.selectedItems.gpu = action.payload
+      state.selectedItems.ram = action.payload
     },
     updateSelectedPSU: (state, action) => {
       state.selectedItems.psu = action.payload

@@ -6,7 +6,10 @@ import Container from '@mui/material/Container'
 import styled from '@emotion/styled'
 
 import { SelectedItemType } from '../../store/rawDataReducer'
-import { getTotalPower, getTotalPrice, stringToNumber } from '../../../utils/NumberHelper'
+import {
+  getTotalPower,
+  stringToNumber,
+} from '../../../utils/NumberHelper'
 import {
   motherboardIncompatible,
   psuIncompatible,
@@ -24,6 +27,11 @@ const CustomContainer = styled(Container)({
   marginTop: '16px',
 })
 
+type SuggestionType = {
+  name: string
+  type: string
+}
+
 const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
   const { t } = useTranslation()
 
@@ -37,19 +45,29 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
         selectedItems.cpu?.brand,
         selectedItems.motherboard?.supportedRam,
         selectedItems.ram
-      ) : false
+      )
+      : false
 
-    const psuCompatible = psuIncompatible(getTotalPower(selectedItems), stringToNumber(selectedItems.psu?.watt))
+    const psuCompatible = psuIncompatible(
+      getTotalPower(selectedItems),
+      stringToNumber(selectedItems.psu?.watt)
+    )
 
-    const suggestion:String[] = []
+    const suggestion: SuggestionType[] = []
     if (motherboardMatch) {
-      suggestion.push('motherboard-incompatible-warning')
+      suggestion.push({
+        name: 'motherboard-incompatible-warning',
+        type: 'warning',
+      })
     }
     if (ramCompatible) {
-      suggestion.push('ram-incompatible-warning')
+      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
     }
     if (psuCompatible) {
-      suggestion.push('motherboard-incompatible-warning')
+      suggestion.push({
+        name: 'motherboard-incompatible-warning',
+        type: 'warning',
+      })
     }
     return suggestion
   }
@@ -58,12 +76,12 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
     <CustomContainer>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Typography className="normal-header-typography">{t('compatible-issue')}</Typography>
-          {
-            createSuggestion().map((item: any) => (
-              <Typography>{t(item)}</Typography>
-            ))
-          }
+          <Typography className="normal-header-typography">
+            {t('suggestion')}
+          </Typography>
+          {createSuggestion().map((item: SuggestionType) => (
+            <Typography>{t(item.name)}</Typography>
+          ))}
         </Grid>
       </Grid>
     </CustomContainer>

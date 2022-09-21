@@ -45,10 +45,36 @@ export const getCurrentPrice = (
 }
 
 export const getTotalPrice = (
-  numberList: (string | undefined)[],
+  selectedItems: SelectedItemType,
   lang: string
 ) => {
-  const totolPrice = calculateTotalNumber(compact(numberList))
+  const numberList = () => {
+    switch (lang) {
+      case 'zh-CN':
+        return [
+          selectedItems.cpu?.priceCN,
+          selectedItems.gpu?.priceCN,
+          selectedItems.motherboard?.priceCN,
+          selectedItems.ram?.priceCN
+        ]
+      case 'zh-TW':
+        return [
+          selectedItems.cpu?.priceHK,
+          selectedItems.gpu?.priceHK,
+          selectedItems.motherboard?.priceHK,
+          selectedItems.ram?.priceHK
+        ]
+      default:
+        return [
+          selectedItems.cpu?.priceUS,
+          selectedItems.gpu?.priceUS,
+          selectedItems.motherboard?.priceUS,
+          selectedItems.ram?.priceUS
+        ]
+    }
+  }
+
+  const totolPrice = calculateTotalNumber(compact(numberList()))
     .toFixed(2)
     .toString()
   return addCurrencySign(totolPrice, lang)
