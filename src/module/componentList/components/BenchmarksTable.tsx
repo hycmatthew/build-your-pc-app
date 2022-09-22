@@ -82,12 +82,14 @@ function BenchmarksTable({ selectedType }: BenchmarksProps) {
       sortable: false,
       width: 250,
       editable: false,
+      disableColumnMenu: true
     },
     {
       field: 'singleScore',
       headerName: 'Single Score',
       width: selectedField === 'singleScore' ? 550 : 150,
       editable: false,
+      disableColumnMenu: true,
       renderCell: (params) => {
         return (
           <Stack direction="row" alignItems="center" spacing={2}>
@@ -104,6 +106,7 @@ function BenchmarksTable({ selectedType }: BenchmarksProps) {
       headerName: 'Multi Score',
       width: selectedField === 'multiScore' ? 550 : 150,
       editable: false,
+      disableColumnMenu: true,
       renderCell: (params) => {
         return (
           <Stack direction="row" alignItems="center" spacing={2}>
@@ -120,6 +123,7 @@ function BenchmarksTable({ selectedType }: BenchmarksProps) {
       headerName: 'Price',
       width: 160,
       editable: false,
+      disableColumnMenu: true,
     },
   ]
 
