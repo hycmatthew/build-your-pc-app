@@ -9,9 +9,11 @@ import 'aos/dist/aos.css'
 
 import CPUType from '../../../constant/objectTypes/CPUType'
 import {
+  getCurrentPrice,
   stringToNumber,
   stringToNumberWithDP,
 } from '../../../utils/NumberHelper'
+import i18n from '../../../config/i18n'
 
 type BenchmarksProps = {
   selectedType: string
@@ -136,7 +138,7 @@ function BenchmarksTable({ selectedType }: BenchmarksProps) {
           index,
           singleScore: stringToNumber(item.singleCoreScore),
           multiScore: stringToNumber(item.multiCoreScore),
-          price: stringToNumberWithDP(item.priceCN),
+          price: getCurrentPrice(item.priceUS, item.priceHK, item.priceCN, i18n.language),
         }
       })
     }

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import CaseType from '../../constant/objectTypes/CaseType'
 import CPUType from '../../constant/objectTypes/CPUType'
 import GPUType from '../../constant/objectTypes/GPUType'
 import MotherboardType from '../../constant/objectTypes/MotherboardType'
@@ -12,6 +13,7 @@ export interface SelectedItemType {
   gpu: GPUType | null
   ram: RAMType | null
   psu: PSUType | null
+  case: CaseType | null
 }
 
 export interface DataState {
@@ -21,6 +23,7 @@ export interface DataState {
   motherboardList: MotherboardType[]
   ramList: RAMType[]
   psuList: PSUType[]
+  caseList: CaseType[]
   isLoading: boolean
 }
 
@@ -31,12 +34,14 @@ const initialState: DataState = {
     gpu: null,
     ram: null,
     psu: null,
+    case: null,
   },
   cpuList: [],
   gpuList: [],
   motherboardList: [],
   ramList: [],
   psuList: [],
+  caseList: [],
   isLoading: false,
 }
 /*
@@ -85,6 +90,14 @@ export const getPSUDataList = createAsyncThunk(
   }
 )
 
+export const getCaseDataList = createAsyncThunk(
+  'caseList/fetchData',
+  async () => {
+    const response = await RawDataAPI.get('/CaseList')
+    return response
+  }
+)
+
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,
@@ -103,6 +116,9 @@ export const counterSlice = createSlice({
     },
     updateSelectedPSU: (state, action) => {
       state.selectedItems.psu = action.payload
+    },
+    updateSelectedCase: (state, action) => {
+      state.selectedItems.case = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -199,6 +215,25 @@ export const counterSlice = createSlice({
     })
     builder.addCase(
       getPSUDataList.rejected,
+      (state: DataState, { payload }) => {
+        console.log('rejected')
+        state.isLoading = false
+      }
+    )
+    // GET PC CASE
+    builder.addCase(
+      getCaseDataList.fulfilled,
+      (state: DataState, { payload }) => {
+        state.isLoading = false
+        state.caseList = payload
+      }
+    )
+    builder.addCase(getCaseDataList.pending, (state: DataState, { payload }) => {
+      console.log('isLoading')
+      state.isLoading = true
+    })
+    builder.addCase(
+      getCaseDataList.rejected,
       (state: DataState, { payload }) => {
         console.log('rejected')
         state.isLoading = false

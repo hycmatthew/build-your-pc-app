@@ -13,6 +13,7 @@ import { getCurrentPrice, getTotalPower, stringToNumber } from '../../../utils/N
 import RAMType from '../../../constant/objectTypes/RAMType'
 import { motherboardIncompatible, psuIncompatible, ramIncompatible } from '../../../logic/incompatibleLogic'
 import PSUType from '../../../constant/objectTypes/PSUType'
+import CaseType from '../../../constant/objectTypes/CaseType'
 
 type ComponentMenuProps = {
   dataState: DataState
@@ -28,6 +29,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     motherboardList,
     ramList,
     psuList,
+    caseList,
     isLoading,
   } = dataState
 
@@ -105,6 +107,19 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     return tempMap
   }
 
+  const generateCaseSelectElement = () => {
+    const tempMap = caseList.map((item: CaseType) => {
+      const price = getCurrentPrice(
+        item.priceUS,
+        item.priceHK,
+        item.priceCN,
+        i18n.language
+      )
+      return { label: item.name, value: price, disabled: false }
+    })
+    return tempMap
+  }
+
   const searchCPUItem = (name: string) => {
     return cpuList.find((item: CPUType) => {
       return item.name === name
@@ -131,6 +146,12 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
 
   const searchPSUItem = (name: string) => {
     return psuList.find((item: PSUType) => {
+      return item.name === name
+    })
+  }
+
+  const searchCaseItem = (name: string) => {
+    return caseList.find((item: CaseType) => {
       return item.name === name
     })
   }
@@ -162,6 +183,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         case 'psu': {
           const selectedItem = searchPSUItem(value)
           dispatch(sliceActions.updateSelectedPSU(selectedItem))
+          break
+        }
+        case 'case': {
+          const selectedItem = searchCaseItem(value)
+          dispatch(sliceActions.updateSelectedCase(selectedItem))
           break
         }
         default:
@@ -213,6 +239,15 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
           label="psu"
           placeholder="select"
           options={generatePSUSelectElement()}
+          selectChange={changeSelectItem}
+          isLoading={isLoading}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <SelectElement
+          label="computer-case"
+          placeholder="select"
+          options={generateCaseSelectElement()}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
