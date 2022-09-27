@@ -9,9 +9,19 @@ import MotherboardType from '../../../constant/objectTypes/MotherboardType'
 import SelectElement from '../../common/components/Select'
 import { DataState, sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
-import { getCurrentPrice, getTotalPower, stringToNumber } from '../../../utils/NumberHelper'
+import {
+  getCurrentPrice,
+  getTotalPower,
+  stringToNumber,
+} from '../../../utils/NumberHelper'
 import RAMType from '../../../constant/objectTypes/RAMType'
-import { motherboardIncompatible, psuIncompatible, ramIncompatible } from '../../../logic/incompatibleLogic'
+import {
+  caseIncompatibleWithGPU,
+  caseIncompatibleWithMotherboard,
+  motherboardIncompatible,
+  psuIncompatible,
+  ramIncompatible,
+} from '../../../logic/incompatibleLogic'
 import PSUType from '../../../constant/objectTypes/PSUType'
 import CaseType from '../../../constant/objectTypes/CaseType'
 
@@ -67,7 +77,10 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         item.priceCN,
         i18n.language
       )
-      const disable = motherboardIncompatible(selectedItems.cpu?.socket, item.socket)
+      const disable = motherboardIncompatible(
+        selectedItems.cpu?.socket,
+        item.socket
+      )
       return { label: item.name, value: price, disabled: disable }
     })
     return tempMap
@@ -87,7 +100,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         .concat(' ')
         .concat(item.name)
 
-      const disable = ramIncompatible(selectedItems.cpu?.brand, selectedItems.motherboard?.supportedRam, item)
+      const disable = ramIncompatible(
+        selectedItems.cpu?.brand,
+        selectedItems.motherboard?.supportedRam,
+        item
+      )
       return { label: itemLabel, value: price, disabled: disable }
     })
     return tempMap
@@ -101,7 +118,10 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         item.priceCN,
         i18n.language
       )
-      const disable = psuIncompatible(getTotalPower(selectedItems), stringToNumber(item.watt))
+      const disable = psuIncompatible(
+        getTotalPower(selectedItems),
+        stringToNumber(item.watt)
+      )
       return { label: item.name, value: price, disabled: disable }
     })
     return tempMap
@@ -115,7 +135,17 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         item.priceCN,
         i18n.language
       )
-      return { label: item.name, value: price, disabled: false }
+      const disableGPULength = caseIncompatibleWithGPU(
+        selectedItems.gpu?.length,
+        item.maxGPULength
+      )
+      const disableMotherboardSize = caseIncompatibleWithMotherboard(
+        selectedItems.motherboard?.sizeType,
+        item.motherboardCompatibility
+      )
+      const disable = disableGPULength || disableMotherboardSize
+      // const disablePSULength = caseIncompatibleWithGPU(selectedItems.gpu?.length, item.maxGPULength)
+      return { label: item.name, value: price, disabled: disable }
     })
     return tempMap
   }
@@ -185,7 +215,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
           dispatch(sliceActions.updateSelectedPSU(selectedItem))
           break
         }
-        case 'case': {
+        case 'computer-case': {
           const selectedItem = searchCaseItem(value)
           dispatch(sliceActions.updateSelectedCase(selectedItem))
           break

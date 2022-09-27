@@ -1,7 +1,7 @@
 interface PSUType {
   name: string
   size: string
-  length: string
+  length: number
   efficiency: string
   brand: string
   fans: string

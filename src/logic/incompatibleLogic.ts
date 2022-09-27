@@ -14,3 +14,11 @@ export const ramIncompatible = (cpuBrand: string | undefined, motherboardSupport
 export const psuIncompatible = (totalPower: number, psuPower: number) => {
   return totalPower > psuPower
 }
+
+export const caseIncompatibleWithGPU = (gpuLength: number | undefined, maxGPULength: number) => {
+  return gpuLength ? gpuLength > maxGPULength : false
+}
+
+export const caseIncompatibleWithMotherboard = (size: string | undefined, allowMotherboardSize: string[]) => {
+  return size ? !allowMotherboardSize.includes(size) : false
+}

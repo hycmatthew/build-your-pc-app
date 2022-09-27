@@ -10,7 +10,7 @@ interface GPUType {
   openGLScore: string
   vulkanScore: string
   physicsScore: string
-  length: string
+  length: number
   power: string
   priceUS: string
   priceHK: string

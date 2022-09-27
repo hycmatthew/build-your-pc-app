@@ -3,15 +3,15 @@ interface CaseType {
   brand: string
   series: string
   type: string
-  motherboardCompatibility: string
+  motherboardCompatibility: string[]
   window: string
-  maxGPULength: string
-  maxPSULength: string
-  maxCPUCoolerLength: string
+  maxGPULength: number
+  maxPSULength: number
+  maxCPUCoolerLength: number
   radiatorOptions: string
   powerSupplyPos: string
   weight: string
-  size: string
+  size: string[]
   color: string
   priceUS: string
   priceHK: string
