@@ -16,6 +16,7 @@ import {
 } from '../../../utils/NumberHelper'
 import RAMType from '../../../constant/objectTypes/RAMType'
 import {
+  caseIncompatibleWithAIO,
   caseIncompatibleWithGPU,
   caseIncompatibleWithMotherboard,
   motherboardIncompatible,
@@ -24,6 +25,7 @@ import {
 } from '../../../logic/incompatibleLogic'
 import PSUType from '../../../constant/objectTypes/PSUType'
 import CaseType from '../../../constant/objectTypes/CaseType'
+import AIOType from '../../../constant/objectTypes/AIOType'
 
 type ComponentMenuProps = {
   dataState: DataState
@@ -40,6 +42,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     ramList,
     psuList,
     caseList,
+    aioList,
     isLoading,
   } = dataState
 
@@ -150,6 +153,20 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     return tempMap
   }
 
+  const generateAIOSelectElement = () => {
+    const tempMap = aioList.map((item: AIOType) => {
+      const price = getCurrentPrice(
+        item.priceUS,
+        item.priceHK,
+        item.priceCN,
+        i18n.language
+      )
+      const disable = caseIncompatibleWithAIO(item.fanSize, selectedItems.case?.radiatorOptions)
+      return { label: item.name, value: price, disabled: disable }
+    })
+    return tempMap
+  }
+
   const searchCPUItem = (name: string) => {
     return cpuList.find((item: CPUType) => {
       return item.name === name
@@ -186,6 +203,12 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     })
   }
 
+  const searchAIOItem = (name: string) => {
+    return aioList.find((item: AIOType) => {
+      return item.name === name
+    })
+  }
+
   const changeSelectItem = (value: string, type: string) => {
     console.log(type)
     if (!isEmpty(value)) {
@@ -218,6 +241,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         case 'computer-case': {
           const selectedItem = searchCaseItem(value)
           dispatch(sliceActions.updateSelectedCase(selectedItem))
+          break
+        }
+        case 'liquid-cpu-cooler': {
+          const selectedItem = searchAIOItem(value)
+          dispatch(sliceActions.updateSelectedAIO(selectedItem))
           break
         }
         default:
@@ -284,9 +312,9 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="cpu-cooler"
+          label="liquid-cpu-cooler"
           placeholder="select"
-          options={generateMotherboardSelectElement()}
+          options={generateAIOSelectElement()}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />

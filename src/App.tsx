@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import ComponentListRoutes from './module/componentList/pages/Route'
 import {
+  getAIODataList,
   getCaseDataList,
   getCPUDataList,
   getGPUDataList,
@@ -20,6 +21,7 @@ function App() {
   store.dispatch(getRAMDataList())
   store.dispatch(getPSUDataList())
   store.dispatch(getCaseDataList())
+  store.dispatch(getAIODataList())
 
   return (
     <Suspense fallback="loading">

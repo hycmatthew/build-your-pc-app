@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import AIOType from '../../constant/objectTypes/AIOType'
 import CaseType from '../../constant/objectTypes/CaseType'
 import CPUType from '../../constant/objectTypes/CPUType'
 import GPUType from '../../constant/objectTypes/GPUType'
@@ -14,6 +15,7 @@ export interface SelectedItemType {
   ram: RAMType | null
   psu: PSUType | null
   case: CaseType | null
+  aio: AIOType | null
 }
 
 export interface DataState {
@@ -24,6 +26,7 @@ export interface DataState {
   ramList: RAMType[]
   psuList: PSUType[]
   caseList: CaseType[]
+  aioList: AIOType[]
   isLoading: boolean
 }
 
@@ -35,6 +38,7 @@ const initialState: DataState = {
     ram: null,
     psu: null,
     case: null,
+    aio: null
   },
   cpuList: [],
   gpuList: [],
@@ -42,6 +46,7 @@ const initialState: DataState = {
   ramList: [],
   psuList: [],
   caseList: [],
+  aioList: [],
   isLoading: false,
 }
 /*
@@ -98,6 +103,14 @@ export const getCaseDataList = createAsyncThunk(
   }
 )
 
+export const getAIODataList = createAsyncThunk(
+  'aioList/fetchData',
+  async () => {
+    const response = await RawDataAPI.get('/AIOList')
+    return response
+  }
+)
+
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,
@@ -119,6 +132,9 @@ export const counterSlice = createSlice({
     },
     updateSelectedCase: (state, action) => {
       state.selectedItems.case = action.payload
+    },
+    updateSelectedAIO: (state, action) => {
+      state.selectedItems.aio = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -234,6 +250,25 @@ export const counterSlice = createSlice({
     })
     builder.addCase(
       getCaseDataList.rejected,
+      (state: DataState, { payload }) => {
+        console.log('rejected')
+        state.isLoading = false
+      }
+    )
+    // GET AIO
+    builder.addCase(
+      getAIODataList.fulfilled,
+      (state: DataState, { payload }) => {
+        state.isLoading = false
+        state.aioList = payload
+      }
+    )
+    builder.addCase(getAIODataList.pending, (state: DataState, { payload }) => {
+      console.log('isLoading')
+      state.isLoading = true
+    })
+    builder.addCase(
+      getAIODataList.rejected,
       (state: DataState, { payload }) => {
         console.log('rejected')
         state.isLoading = false

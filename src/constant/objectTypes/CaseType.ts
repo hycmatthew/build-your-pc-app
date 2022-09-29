@@ -8,7 +8,7 @@ interface CaseType {
   maxGPULength: number
   maxPSULength: number
   maxCPUCoolerLength: number
-  radiatorOptions: string
+  radiatorOptions: number[][]
   powerSupplyPos: string
   weight: string
   size: string[]
