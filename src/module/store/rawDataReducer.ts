@@ -14,7 +14,7 @@ export interface SelectedItemType {
   gpu: GPUType | null
   ram: RAMType | null
   psu: PSUType | null
-  case: CaseType | null
+  pcCase: CaseType | null
   aio: AIOType | null
 }
 
@@ -37,7 +37,7 @@ const initialState: DataState = {
     gpu: null,
     ram: null,
     psu: null,
-    case: null,
+    pcCase: null,
     aio: null
   },
   cpuList: [],
@@ -131,7 +131,7 @@ export const counterSlice = createSlice({
       state.selectedItems.psu = action.payload
     },
     updateSelectedCase: (state, action) => {
-      state.selectedItems.case = action.payload
+      state.selectedItems.pcCase = action.payload
     },
     updateSelectedAIO: (state, action) => {
       state.selectedItems.aio = action.payload

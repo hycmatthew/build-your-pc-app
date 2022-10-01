@@ -11,9 +11,13 @@ import styled from '@emotion/styled'
 import { SelectedItemType } from '../../store/rawDataReducer'
 import { getTotalPower, stringToNumber } from '../../../utils/NumberHelper'
 import {
-  motherboardIncompatible,
-  psuIncompatible,
-  ramIncompatible,
+  motherboardIncompatibleWithCPU,
+  ramIncompatibleWithCPU,
+  ramIncompatibleWithMotherboard,
+  psuPowerNotEnough,
+  caseIncompatibleWithGPU,
+  caseIncompatibleWithMotherboard,
+  caseIncompatibleWithAIO,
 } from '../../../logic/incompatibleLogic'
 
 type CompatibleSectionProps = {
@@ -45,39 +49,36 @@ type SuggestionType = {
 const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
   const { t } = useTranslation()
 
+  const {
+    cpu, gpu, motherboard, ram, psu, pcCase, aio
+  } = selectedItems
+
   const createSuggestion = () => {
-    const motherboardMatch = motherboardIncompatible(
-      selectedItems.cpu?.socket,
-      selectedItems.motherboard?.socket
-    )
-    const ramCompatible = selectedItems.ram
-      ? ramIncompatible(
-        selectedItems.cpu?.brand,
-        selectedItems.motherboard?.supportedRam,
-        selectedItems.ram
-      )
-      : false
-
-    const psuCompatible = psuIncompatible(
-      getTotalPower(selectedItems),
-      stringToNumber(selectedItems.psu?.watt)
-    )
-
     const suggestion: SuggestionType[] = []
-    if (motherboardMatch) {
+    if (motherboard && motherboardIncompatibleWithCPU(motherboard, cpu)) {
       suggestion.push({
         name: 'motherboard-incompatible-warning',
         type: 'warning',
       })
     }
-    if (ramCompatible) {
+    if (ram && ramIncompatibleWithCPU(ram, cpu)) {
       suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
     }
-    if (psuCompatible) {
-      suggestion.push({
-        name: 'motherboard-incompatible-warning',
-        type: 'warning',
-      })
+    if (ram && ramIncompatibleWithMotherboard(ram, motherboard)) {
+      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
+    }
+
+    if (psu && psuPowerNotEnough(psu.watt, getTotalPower(selectedItems))) {
+      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
+    }
+    if (pcCase && caseIncompatibleWithGPU(pcCase, gpu)) {
+      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
+    }
+    if (pcCase && caseIncompatibleWithMotherboard(pcCase, motherboard)) {
+      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
+    }
+    if (pcCase && caseIncompatibleWithAIO(pcCase, aio)) {
+      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
     }
     return suggestion
   }

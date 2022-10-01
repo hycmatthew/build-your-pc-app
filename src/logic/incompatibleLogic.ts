@@ -1,29 +1,54 @@
 import { flatten, isEmpty } from 'lodash'
-import RAMType from '../constant/objectTypes/RAMType'
+import {
+  CPUType,
+  GPUType,
+  MotherboardType,
+  RAMType,
+  CaseType,
+  AIOType,
+} from '../constant/objectTypes'
 
-export const motherboardIncompatible = (cpuSocket: string | undefined, motherboardSocket: string | undefined) => {
-  return (!isEmpty(cpuSocket) && !isEmpty(motherboardSocket) && cpuSocket !== motherboardSocket)
+export const motherboardIncompatibleWithCPU = (
+  motherboard: MotherboardType,
+  cpu: CPUType | null
+) => {
+  return cpu ? motherboard.socket !== cpu.socket : false
 }
 
-export const ramIncompatible = (cpuBrand: string | undefined, motherboardSupportRam: string | undefined, ram: RAMType) => {
-  const sameChipset = (!isEmpty(cpuBrand) && !ram.chipset.includes(cpuBrand ?? ''))
-  const isMotherboardSupport = (!isEmpty(motherboardSupportRam) && !(motherboardSupportRam ?? '').includes(ram.speed))
-  return sameChipset || isMotherboardSupport
+export const ramIncompatibleWithCPU = (ram: RAMType, cpu: CPUType | null) => {
+  return cpu ? !ram.chipset.includes(cpu.brand) : false
 }
 
-export const psuIncompatible = (totalPower: number, psuPower: number) => {
+export const ramIncompatibleWithMotherboard = (
+  ram: RAMType,
+  motherboard: MotherboardType | null
+) => {
+  return motherboard ? !motherboard.supportedRam.includes(ram.speed) : false
+}
+
+export const psuPowerNotEnough = (psuPower: number, totalPower: number) => {
   return totalPower > psuPower
 }
 
-export const caseIncompatibleWithGPU = (gpuLength: number | undefined, maxGPULength: number) => {
-  return gpuLength ? gpuLength > maxGPULength : false
+export const caseIncompatibleWithGPU = (
+  pcCase: CaseType,
+  gpu: GPUType | null
+) => {
+  return gpu ? gpu.length > pcCase.maxGPULength : false
 }
 
-export const caseIncompatibleWithMotherboard = (size: string | undefined, allowMotherboardSize: string[]) => {
-  return size ? !allowMotherboardSize.includes(size) : false
+export const caseIncompatibleWithMotherboard = (
+  pcCase: CaseType,
+  motherboard: MotherboardType | null
+) => {
+  return motherboard
+    ? !pcCase.motherboardCompatibility.includes(motherboard.sizeType)
+    : false
 }
 
-export const caseIncompatibleWithAIO = (aioSize: number, caseCompatibleSize: number[][] | undefined) => {
-  const compatibleList = caseCompatibleSize ? flatten(caseCompatibleSize) : []
-  return caseCompatibleSize ? !compatibleList.includes(aioSize) : false
+export const caseIncompatibleWithAIO = (
+  pcCase: CaseType,
+  aio: AIOType | null
+) => {
+  return aio ? !flatten(pcCase.radiatorOptions).includes(aio.fanSize) : false
 }

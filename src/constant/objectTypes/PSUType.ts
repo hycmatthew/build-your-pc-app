@@ -7,7 +7,7 @@ interface PSUType {
   fans: string
   color: string
   module: string
-  watt: string
+  watt: number
   priceUS: string
   priceHK: string
   priceCN: string

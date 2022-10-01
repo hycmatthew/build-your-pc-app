@@ -57,7 +57,7 @@ export const getTotalPrice = (
           selectedItems.motherboard?.priceCN,
           selectedItems.ram?.priceCN,
           selectedItems.psu?.priceCN,
-          selectedItems.case?.priceCN,
+          selectedItems.pcCase?.priceCN,
         ]
       case 'zh-TW':
         return [
@@ -66,7 +66,7 @@ export const getTotalPrice = (
           selectedItems.motherboard?.priceHK,
           selectedItems.ram?.priceHK,
           selectedItems.psu?.priceHK,
-          selectedItems.case?.priceHK,
+          selectedItems.pcCase?.priceHK,
         ]
       default:
         return [
@@ -75,7 +75,7 @@ export const getTotalPrice = (
           selectedItems.motherboard?.priceUS,
           selectedItems.ram?.priceUS,
           selectedItems.psu?.priceUS,
-          selectedItems.case?.priceUS,
+          selectedItems.pcCase?.priceUS,
         ]
     }
   }

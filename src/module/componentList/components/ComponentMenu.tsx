@@ -2,30 +2,39 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
 import isEmpty from 'lodash/isEmpty'
+import flatten from 'lodash/flatten'
 
-import CPUType from '../../../constant/objectTypes/CPUType'
-import GPUType from '../../../constant/objectTypes/GPUType'
-import MotherboardType from '../../../constant/objectTypes/MotherboardType'
 import SelectElement from '../../common/components/Select'
 import { DataState, sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
 import {
-  getCurrentPrice,
-  getTotalPower,
-  stringToNumber,
-} from '../../../utils/NumberHelper'
-import RAMType from '../../../constant/objectTypes/RAMType'
+  CPUType,
+  GPUType,
+  MotherboardType,
+  RAMType,
+  PSUType,
+  CaseType,
+  AIOType,
+} from '../../../constant/objectTypes'
 import {
-  caseIncompatibleWithAIO,
+  generateAIOSelectElement,
+  generateCaseSelectElement,
+  generateCPUSelectElement,
+  generateGPUSelectElement,
+  generateMotherboardSelectElement,
+  generatePSUSelectElement,
+  generateRAMSelectElement,
+} from '../../common/utils/generateSelectElements'
+import { getTotalPower } from '../../../utils/NumberHelper'
+import {
   caseIncompatibleWithGPU,
+  motherboardIncompatibleWithCPU,
+  psuPowerNotEnough,
+  ramIncompatibleWithCPU,
+  ramIncompatibleWithMotherboard,
   caseIncompatibleWithMotherboard,
-  motherboardIncompatible,
-  psuIncompatible,
-  ramIncompatible,
+  caseIncompatibleWithAIO,
 } from '../../../logic/incompatibleLogic'
-import PSUType from '../../../constant/objectTypes/PSUType'
-import CaseType from '../../../constant/objectTypes/CaseType'
-import AIOType from '../../../constant/objectTypes/AIOType'
 
 type ComponentMenuProps = {
   dataState: DataState
@@ -45,127 +54,6 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     aioList,
     isLoading,
   } = dataState
-
-  const generateCPUSelectElement = () => {
-    const tempMap = cpuList.map((item: CPUType) => {
-      const price = getCurrentPrice(
-        item.priceUS,
-        item.priceHK,
-        item.priceCN,
-        i18n.language
-      )
-      return { label: item.name, value: price, disabled: false }
-    })
-    return tempMap
-  }
-
-  const generateGPUSelectElement = () => {
-    const tempMap = gpuList.map((item: GPUType) => {
-      const price = getCurrentPrice(
-        item.priceUS,
-        item.priceHK,
-        item.priceCN,
-        i18n.language
-      )
-      return { label: item.name, value: price, disabled: false }
-    })
-    return tempMap
-  }
-
-  const generateMotherboardSelectElement = () => {
-    const tempMap = motherboardList.map((item: MotherboardType) => {
-      const price = getCurrentPrice(
-        item.priceUS,
-        item.priceHK,
-        item.priceCN,
-        i18n.language
-      )
-      const disable = motherboardIncompatible(
-        selectedItems.cpu?.socket,
-        item.socket
-      )
-      return { label: item.name, value: price, disabled: disable }
-    })
-    return tempMap
-  }
-
-  const generateRAMSelectElement = () => {
-    const tempMap = ramList.map((item: RAMType) => {
-      const price = getCurrentPrice(
-        item.priceUS,
-        item.priceHK,
-        item.priceCN,
-        i18n.language
-      )
-      const itemLabel = item.brand
-        .concat(' ')
-        .concat(item.series)
-        .concat(' ')
-        .concat(item.name)
-
-      const disable = ramIncompatible(
-        selectedItems.cpu?.brand,
-        selectedItems.motherboard?.supportedRam,
-        item
-      )
-      return { label: itemLabel, value: price, disabled: disable }
-    })
-    return tempMap
-  }
-
-  const generatePSUSelectElement = () => {
-    const tempMap = psuList.map((item: PSUType) => {
-      const price = getCurrentPrice(
-        item.priceUS,
-        item.priceHK,
-        item.priceCN,
-        i18n.language
-      )
-      const disable = psuIncompatible(
-        getTotalPower(selectedItems),
-        stringToNumber(item.watt)
-      )
-      return { label: item.name, value: price, disabled: disable }
-    })
-    return tempMap
-  }
-
-  const generateCaseSelectElement = () => {
-    const tempMap = caseList.map((item: CaseType) => {
-      const price = getCurrentPrice(
-        item.priceUS,
-        item.priceHK,
-        item.priceCN,
-        i18n.language
-      )
-      const disableGPULength = caseIncompatibleWithGPU(
-        selectedItems.gpu?.length,
-        item.maxGPULength
-      )
-      const disableMotherboardSize = caseIncompatibleWithMotherboard(
-        selectedItems.motherboard?.sizeType,
-        item.motherboardCompatibility
-      )
-      const disable = disableGPULength || disableMotherboardSize
-      // const disablePSULength = caseIncompatibleWithGPU(selectedItems.gpu?.length, item.maxGPULength)
-      return { label: item.name, value: price, disabled: disable }
-    })
-    return tempMap
-  }
-
-  const generateAIOSelectElement = () => {
-    const tempMap = aioList.map((item: AIOType) => {
-      const price = getCurrentPrice(
-        item.priceUS,
-        item.priceHK,
-        item.priceCN,
-        i18n.language
-      )
-      const disable = caseIncompatibleWithAIO(item.fanSize, selectedItems.case?.radiatorOptions)
-      return { label: item.name, value: price, disabled: disable }
-    })
-    return tempMap
-  }
 
   const searchCPUItem = (name: string) => {
     return cpuList.find((item: CPUType) => {
@@ -207,6 +95,33 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     return aioList.find((item: AIOType) => {
       return item.name === name
     })
+  }
+
+  const motherboardIncompatible = (item: MotherboardType) => {
+    return motherboardIncompatibleWithCPU(item, selectedItems.cpu)
+  }
+
+  const ramIncompatible = (item: RAMType) => {
+    const sameChipset = ramIncompatibleWithCPU(item, selectedItems.cpu)
+    const isMotherboardSupport = ramIncompatibleWithMotherboard(
+      item,
+      selectedItems.motherboard
+    )
+    return sameChipset || isMotherboardSupport
+  }
+
+  const psuIncompatible = (item: PSUType) => {
+    return psuPowerNotEnough(item.watt, getTotalPower(selectedItems))
+  }
+
+  const caseIncompatible = (item: CaseType) => {
+    const gpuLengthValid = caseIncompatibleWithGPU(item, selectedItems.gpu)
+    const motherboardValid = caseIncompatibleWithMotherboard(
+      item,
+      selectedItems.motherboard
+    )
+    const aioValid = caseIncompatibleWithAIO(item, selectedItems.aio)
+    return gpuLengthValid || motherboardValid || aioValid
   }
 
   const changeSelectItem = (value: string, type: string) => {
@@ -260,7 +175,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         <SelectElement
           label="cpu"
           placeholder="select"
-          options={generateCPUSelectElement()}
+          options={generateCPUSelectElement(cpuList, i18n.language)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -269,7 +184,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         <SelectElement
           label="gpu"
           placeholder="select"
-          options={generateGPUSelectElement()}
+          options={generateGPUSelectElement(gpuList, i18n.language)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -278,7 +193,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         <SelectElement
           label="motherboard"
           placeholder="select"
-          options={generateMotherboardSelectElement()}
+          options={generateMotherboardSelectElement(
+            motherboardList,
+            i18n.language,
+            motherboardIncompatible
+          )}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -287,7 +206,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         <SelectElement
           label="ram"
           placeholder="select"
-          options={generateRAMSelectElement()}
+          options={generateRAMSelectElement(
+            ramList,
+            i18n.language,
+            ramIncompatible
+          )}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -296,7 +219,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         <SelectElement
           label="psu"
           placeholder="select"
-          options={generatePSUSelectElement()}
+          options={generatePSUSelectElement(
+            psuList,
+            i18n.language,
+            psuIncompatible
+          )}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -305,7 +232,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         <SelectElement
           label="computer-case"
           placeholder="select"
-          options={generateCaseSelectElement()}
+          options={generateCaseSelectElement(
+            caseList,
+            i18n.language,
+            caseIncompatible
+          )}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -314,7 +245,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         <SelectElement
           label="liquid-cpu-cooler"
           placeholder="select"
-          options={generateAIOSelectElement()}
+          options={generateAIOSelectElement(aioList, i18n.language)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
