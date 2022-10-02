@@ -14,7 +14,6 @@ import {
 
 export const generateCPUSelectElement = (
   list: CPUType[],
-  lang: string,
   disableFunc?: (item: CPUType) => boolean,
 ) => {
   const tempMap = list.map((item: CPUType) => {
@@ -22,16 +21,15 @@ export const generateCPUSelectElement = (
       item.priceUS,
       item.priceHK,
       item.priceCN,
-      lang
+      i18n.language
     )
-    return { label: item.name, value: price, disabled: false }
+    return { label: item.name, value: price, disabled: disableFunc ? disableFunc(item) : false }
   })
   return tempMap
 }
 
 export const generateGPUSelectElement = (
   list: GPUType[],
-  lang: string,
   disableFunc?: (item: GPUType) => boolean,
 ) => {
   const tempMap = list.map((item: GPUType) => {
@@ -41,14 +39,13 @@ export const generateGPUSelectElement = (
       item.priceCN,
       i18n.language
     )
-    return { label: item.name, value: price, disabled: false }
+    return { label: item.name, value: price, disabled: disableFunc ? disableFunc(item) : false }
   })
   return tempMap
 }
 
 export const generateMotherboardSelectElement = (
   list: MotherboardType[],
-  lang: string,
   disableFunc?: (item: MotherboardType) => boolean,
 ) => {
   const tempMap = list.map((item: MotherboardType) => {
@@ -66,7 +63,6 @@ export const generateMotherboardSelectElement = (
 
 export const generateRAMSelectElement = (
   list: RAMType[],
-  lang: string,
   disableFunc?: (item: RAMType) => boolean,
 ) => {
   const tempMap = list.map((item: RAMType) => {
@@ -89,7 +85,6 @@ export const generateRAMSelectElement = (
 
 export const generatePSUSelectElement = (
   list: PSUType[],
-  lang: string,
   disableFunc?: (item: PSUType) => boolean,
 ) => {
   const tempMap = list.map((item: PSUType) => {
@@ -99,14 +94,13 @@ export const generatePSUSelectElement = (
       item.priceCN,
       i18n.language
     )
-    return { label: item.name, value: price, disabled: false }
+    return { label: item.name, value: price, disabled: disableFunc ? disableFunc(item) : false }
   })
   return tempMap
 }
 
 export const generateCaseSelectElement = (
   list: CaseType[],
-  lang: string,
   disableFunc?: (item: CaseType) => boolean,
 ) => {
   const tempMap = list.map((item: CaseType) => {
@@ -116,15 +110,13 @@ export const generateCaseSelectElement = (
       item.priceCN,
       i18n.language
     )
-    // const disablePSULength = caseIncompatibleWithGPU(selectedItems.gpu?.length, item.maxGPULength)
-    return { label: item.name, value: price, disabled: false }
+    return { label: item.name, value: price, disabled: disableFunc ? disableFunc(item) : false }
   })
   return tempMap
 }
 
 export const generateAIOSelectElement = (
   list: AIOType[],
-  lang: string,
   disableFunc?: (item: AIOType) => boolean,
 ) => {
   const tempMap = list.map((item: AIOType) => {
@@ -135,7 +127,7 @@ export const generateAIOSelectElement = (
       i18n.language
     )
 
-    return { label: item.name, value: price, disabled: false }
+    return { label: item.name, value: price, disabled: disableFunc ? disableFunc(item) : false }
   })
   return tempMap
 }

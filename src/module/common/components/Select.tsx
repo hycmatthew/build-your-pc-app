@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  Box,
   CircularProgress,
   FormControl,
-  InputLabel,
   SelectProps,
+  TextField,
   Typography,
 } from '@mui/material'
-import MenuItem from '@mui/material/MenuItem'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import Autocomplete from '@mui/material/Autocomplete'
 import { styled } from '@mui/material/styles'
 
 const CustomFormControl = styled(FormControl)({
@@ -18,8 +18,8 @@ const CustomFormControl = styled(FormControl)({
   borderRadius: 3,
 })
 
-const CustomSelect = styled(Select)({
-  height: '74px'
+const CustomAutocomplete = styled(Autocomplete)({
+  height: '60px',
 })
 
 const ValueTypography = styled(Typography)({
@@ -27,13 +27,19 @@ const ValueTypography = styled(Typography)({
   fontWeight: 'bold',
   fontStyle: 'italic',
   color: '#555',
-  marginLeft: 'auto'
+  marginLeft: 'auto',
 })
+
+interface OptionType {
+  label: string
+  value: any
+  disabled: boolean
+}
 
 type SelectElementProps = SelectProps & {
   label: string
   placeholder?: string
-  options: { label: any; value: any, disabled: boolean }[]
+  options: OptionType[]
   selectChange?: (value: string, type: string) => void
   isLoading?: boolean
 }
@@ -41,61 +47,56 @@ type SelectElementProps = SelectProps & {
 const SelectElement = ({
   isLoading,
   label,
-  placeholder,
   options,
   selectChange,
 }: SelectElementProps) => {
   const [selectValue, setSelectValue] = useState('')
   const { t } = useTranslation()
 
-  const handleChange = (event: SelectChangeEvent<unknown>) => {
-    if (selectChange) {
-      const tempValue = event.target.value as string
-      selectChange(tempValue, label)
-      setSelectValue(tempValue)
+  const handleChange = (event: any, newValue: any) => {
+    if (selectChange && newValue) {
+      console.log(newValue)
+      selectChange(newValue.label, label)
+      setSelectValue(newValue)
     }
   }
 
   if (isLoading) {
+    console.log('test loading')
     return (
-      <CustomFormControl disabled>
-        <CustomSelect id="outlined-disabled" />
-        <CircularProgress
-          size={24}
-          sx={{
-            color: '#9e9e9e',
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            margin: 'auto',
-            zIndex: 1,
-          }}
-        />
-      </CustomFormControl>
+      <CustomAutocomplete
+        id="outlined-disabled"
+        renderInput={(params) => (
+          <CircularProgress
+            size={24}
+            sx={{
+              color: '#9e9e9e',
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              margin: 'auto',
+              zIndex: 1,
+            }}
+          />
+        )}
+        options={[]}
+      />
     )
   }
 
   return (
-    <CustomFormControl variant="filled">
-      <InputLabel id="demo-simple-select-standard-label">{t(label)}</InputLabel>
-      <CustomSelect
-        label={t(label)}
-        value={selectValue}
-        onChange={handleChange}
-      >
-        <MenuItem key="select" value="" disabled>
-          <em>{placeholder}</em>
-        </MenuItem>
-        {options.map((item: any) => (
-          <MenuItem key={item.label} value={item.label} disabled={item.disabled}>
-            <Typography>{item.label}</Typography>
-            <ValueTypography>{item.value}</ValueTypography>
-          </MenuItem>
-        ))}
-      </CustomSelect>
-    </CustomFormControl>
+    <CustomAutocomplete
+      disablePortal
+      id={label}
+      options={options}
+      onChange={handleChange}
+      // getOptionLabel={(option: any) => option.label}
+      // renderOption={(props, option: any) => <Box>{option.label}</Box>}
+      /* eslint-disable react/jsx-props-no-spreading */
+      renderInput={(params) => <TextField {...params} label={t(label)} />}
+    />
   )
 }
 

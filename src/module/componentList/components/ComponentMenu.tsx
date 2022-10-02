@@ -174,8 +174,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label="cpu"
-          placeholder="select"
-          options={generateCPUSelectElement(cpuList, i18n.language)}
+          options={generateCPUSelectElement(cpuList)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -183,8 +182,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label="gpu"
-          placeholder="select"
-          options={generateGPUSelectElement(gpuList, i18n.language)}
+          options={generateGPUSelectElement(gpuList)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -192,10 +190,8 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label="motherboard"
-          placeholder="select"
           options={generateMotherboardSelectElement(
             motherboardList,
-            i18n.language,
             motherboardIncompatible
           )}
           selectChange={changeSelectItem}
@@ -205,10 +201,8 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label="ram"
-          placeholder="select"
           options={generateRAMSelectElement(
             ramList,
-            i18n.language,
             ramIncompatible
           )}
           selectChange={changeSelectItem}
@@ -221,7 +215,6 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
           placeholder="select"
           options={generatePSUSelectElement(
             psuList,
-            i18n.language,
             psuIncompatible
           )}
           selectChange={changeSelectItem}
@@ -234,7 +227,6 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
           placeholder="select"
           options={generateCaseSelectElement(
             caseList,
-            i18n.language,
             caseIncompatible
           )}
           selectChange={changeSelectItem}
@@ -245,7 +237,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         <SelectElement
           label="liquid-cpu-cooler"
           placeholder="select"
-          options={generateAIOSelectElement(aioList, i18n.language)}
+          options={generateAIOSelectElement(aioList)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />

@@ -3,7 +3,7 @@ body{
 }
 
 .main_container{
-  background-color: cornflowerblue;
+  background-color: #FBEDB8;
 }
 
 .main_container .header-link-grid a{
@@ -13,4 +13,8 @@ body{
 .normal-header-typography{
   size: 16px;
   font-weight: 600 !important;
+}
+
+.MuiAutocomplete-root .MuiAutocomplete-inputRoot{
+  background: #fff;
 }
