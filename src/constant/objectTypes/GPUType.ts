@@ -1,20 +1,21 @@
 interface GPUType {
   name: string
   brand: string
+  model: string
   manufacturer: string
   gpu: string
-  clockSpeed: string
-  cudaCores: string
-  dram: string
-  memoryInterfaceWidth: string
-  openGLScore: string
-  vulkanScore: string
-  physicsScore: string
+  clockSpeed: number
+  cudaCores: number
+  memorySize: string
+  memoryInterface: string
+  memoryType: string
+  gpuScore: number
   length: number
-  power: string
+  power: number
   priceUS: string
   priceHK: string
   priceCN: string
+  img: string
 }
 
 export default GPUType

@@ -1,7 +1,7 @@
 interface CaseType {
-  name: string
   brand: string
   series: string
+  model: string
   type: string
   motherboardCompatibility: string[]
   window: string
@@ -16,6 +16,7 @@ interface CaseType {
   priceUS: string
   priceHK: string
   priceCN: string
+  img: string
 }
 
 export default CaseType

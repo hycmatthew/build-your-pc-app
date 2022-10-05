@@ -1,12 +1,13 @@
 interface CPUType {
-  name: string
   brand: string
-  socket: string
-  chipset: string
+  series: string
+  model: string
   sizeType: string
-  ramType: string
-  supportedRam: string
-  m2Number: string
+  memoryType: string
+  interface: string
+  capacity: string
+  readSpeed: string
+  writeSpeed: string
   priceUS: string
   priceHK: string
   priceCN: string

@@ -10,6 +10,7 @@ interface CPUType {
   priceUS: string
   priceHK: string
   priceCN: string
+  img: string
 }
 
 export default CPUType

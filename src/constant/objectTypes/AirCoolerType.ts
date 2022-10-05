@@ -2,9 +2,8 @@ interface AIOType {
   name: string
   brand: string
   model: string
-  blockCompatibility: string
-  radiatorSize: [string]
-  fanSize: number
+  socketCompatibility: string
+  maxCoolerHeight: number
   fanSpeed: string
   fanAirflow: string
   fanNoise: string
