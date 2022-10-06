@@ -5,12 +5,14 @@ import { BrowserRouter } from 'react-router-dom'
 import ComponentListRoutes from './module/componentList/pages/Route'
 import {
   getAIODataList,
+  getAirCoolerDataList,
   getCaseDataList,
   getCPUDataList,
   getGPUDataList,
   getMotherboardDataList,
   getPSUDataList,
   getRAMDataList,
+  getSSDDataList,
 } from './module/store/rawDataReducer'
 import store from './module/store/store'
 
@@ -22,6 +24,8 @@ function App() {
   store.dispatch(getPSUDataList())
   store.dispatch(getCaseDataList())
   store.dispatch(getAIODataList())
+  store.dispatch(getSSDDataList())
+  store.dispatch(getAirCoolerDataList())
 
   return (
     <Suspense fallback="loading">

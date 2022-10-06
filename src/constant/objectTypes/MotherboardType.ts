@@ -1,6 +1,6 @@
-interface CPUType {
-  name: string
+interface MotherboardType {
   brand: string
+  model: string
   socket: string
   chipset: string
   sizeType: string
@@ -13,4 +13,4 @@ interface CPUType {
   img: string
 }
 
-export default CPUType
+export default MotherboardType

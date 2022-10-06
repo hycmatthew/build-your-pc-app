@@ -1,7 +1,7 @@
 interface RAMType {
-  name: string
   brand: string
   series: string
+  model: string
   type: string
   chipset: string
   speed: string

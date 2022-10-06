@@ -15,6 +15,8 @@ import {
   PSUType,
   CaseType,
   AIOType,
+  SSDType,
+  AirCoolerType
 } from '../../../constant/objectTypes'
 import {
   generateAIOSelectElement,
@@ -61,33 +63,33 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     })
   }
 
-  const searchGPUItem = (name: string) => {
+  const searchGPUItem = (model: string) => {
     return gpuList.find((item: GPUType) => {
-      return item.name === name
+      return item.model === model
     })
   }
 
-  const searchMotherboardItem = (name: string) => {
+  const searchMotherboardItem = (model: string) => {
     return motherboardList.find((item: MotherboardType) => {
-      return item.name === name
+      return item.model === model
     })
   }
 
-  const searchRAMItem = (name: string) => {
+  const searchRAMItem = (model: string) => {
     return ramList.find((item: RAMType) => {
-      return name.includes(item.name)
+      return item.model === model
     })
   }
 
-  const searchPSUItem = (name: string) => {
+  const searchPSUItem = (model: string) => {
     return psuList.find((item: PSUType) => {
-      return item.name === name
+      return item.model === model
     })
   }
 
-  const searchCaseItem = (name: string) => {
+  const searchCaseItem = (model: string) => {
     return caseList.find((item: CaseType) => {
-      return item.name === name
+      return item.model === model
     })
   }
 

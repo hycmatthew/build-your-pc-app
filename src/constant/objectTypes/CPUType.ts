@@ -4,9 +4,9 @@ interface CPUType {
   socket: string
   cores: string
   gpu: string
-  singleCoreScore: string
-  multiCoreScore: string
-  power: string
+  singleCoreScore: number
+  multiCoreScore: number
+  power: number
   priceUS: string
   priceHK: string
   priceCN: string

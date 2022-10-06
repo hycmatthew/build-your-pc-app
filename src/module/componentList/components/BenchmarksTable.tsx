@@ -136,8 +136,8 @@ function BenchmarksTable({ selectedType }: BenchmarksProps) {
         return {
           id: item.name,
           index,
-          singleScore: stringToNumber(item.singleCoreScore),
-          multiScore: stringToNumber(item.multiCoreScore),
+          singleScore: item.singleCoreScore,
+          multiScore: item.multiCoreScore,
           price: getCurrentPrice(item.priceUS, item.priceHK, item.priceCN, i18n.language),
         }
       })

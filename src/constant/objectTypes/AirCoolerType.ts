@@ -1,4 +1,4 @@
-interface AIOType {
+interface AirCoolerType {
   name: string
   brand: string
   model: string
@@ -15,4 +15,4 @@ interface AIOType {
   img: string
 }
 
-export default AIOType
+export default AirCoolerType

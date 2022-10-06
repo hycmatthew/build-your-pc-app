@@ -1,4 +1,4 @@
-import { compact, toNumber } from 'lodash'
+import { compact, sum, toNumber } from 'lodash'
 import { SelectedItemType } from '../module/store/rawDataReducer'
 
 const calculateTotalNumber = (numberList: string[]) => {
@@ -88,5 +88,5 @@ export const getTotalPrice = (
 
 export const getTotalPower = (selectedItems: SelectedItemType) => {
   const numberList = [selectedItems.cpu?.power, selectedItems.gpu?.power]
-  return calculateTotalNumber(compact(numberList))
+  return sum(numberList)
 }
