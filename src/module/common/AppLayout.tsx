@@ -60,7 +60,8 @@ function AppLayout({ children }: Props) {
   const pages = [
     { label: 'pc-builder', link: '/' },
     { label: 'benchmarks', link: '/benchmarks' },
-    { label: 'ai-list', link: '/benchmarks' }
+    { label: 'ai-list', link: '/benchmarks' },
+    { label: 'database', link: '/database' }
   ]
 
   const handleMenuClick = () => {

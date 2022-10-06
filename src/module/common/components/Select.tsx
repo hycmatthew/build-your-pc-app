@@ -53,14 +53,14 @@ const SelectElement = ({
   options,
   selectChange,
 }: SelectElementProps) => {
-  const [selectValue, setSelectValue] = useState('')
+  // const [selectValue, setSelectValue] = useState('')
   const { t } = useTranslation()
 
   const handleChange = (event: any, newValue: any) => {
     if (selectChange && newValue) {
       console.log(newValue)
-      selectChange(newValue.label, label)
-      setSelectValue(newValue)
+      selectChange(newValue.model, label)
+      // setSelectValue(newValue.model)
     }
   }
 
@@ -96,6 +96,7 @@ const SelectElement = ({
       options={options}
       groupBy={(option: any) => option.brand}
       onChange={handleChange}
+      isOptionEqualToValue={(option: any, value: any) => option.model === value.model}
       /* eslint-disable react/jsx-props-no-spreading */
       renderOption={(props, option: any) => (
         <Box component="li" {...props}>

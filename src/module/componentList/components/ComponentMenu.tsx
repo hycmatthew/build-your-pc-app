@@ -24,8 +24,10 @@ import {
   generateCPUSelectElement,
   generateGPUSelectElement,
   generateMotherboardSelectElement,
+  generateSSDSelectElement,
   generatePSUSelectElement,
   generateRAMSelectElement,
+  generateAirCoolerSelectElement
 } from '../../common/utils/generateSelectElements'
 import { getTotalPower } from '../../../utils/NumberHelper'
 import {
@@ -51,9 +53,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     gpuList,
     motherboardList,
     ramList,
+    ssdList,
     psuList,
     caseList,
     aioList,
+    airCoolerList,
     isLoading,
   } = dataState
 
@@ -81,6 +85,12 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     })
   }
 
+  const searchSSDItem = (model: string) => {
+    return ssdList.find((item: SSDType) => {
+      return item.model === model
+    })
+  }
+
   const searchPSUItem = (model: string) => {
     return psuList.find((item: PSUType) => {
       return item.model === model
@@ -96,6 +106,12 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
   const searchAIOItem = (name: string) => {
     return aioList.find((item: AIOType) => {
       return item.name === name
+    })
+  }
+
+  const searchAirCoolerItem = (model: string) => {
+    return airCoolerList.find((item: AirCoolerType) => {
+      return item.model === model
     })
   }
 
@@ -127,7 +143,6 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
   }
 
   const changeSelectItem = (value: string, type: string) => {
-    console.log(type)
     if (!isEmpty(value)) {
       switch (type) {
         case 'cpu': {
@@ -150,6 +165,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
           dispatch(sliceActions.updateSelectedRAM(selectedItem))
           break
         }
+        case 'ssd': {
+          const selectedItem = searchSSDItem(value)
+          dispatch(sliceActions.updateSelectedSSD(selectedItem))
+          break
+        }
         case 'psu': {
           const selectedItem = searchPSUItem(value)
           dispatch(sliceActions.updateSelectedPSU(selectedItem))
@@ -163,6 +183,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
         case 'liquid-cpu-cooler': {
           const selectedItem = searchAIOItem(value)
           dispatch(sliceActions.updateSelectedAIO(selectedItem))
+          break
+        }
+        case 'air-cpu-cooler': {
+          const selectedItem = searchAirCoolerItem(value)
+          dispatch(sliceActions.updateSelectedAirCooler(selectedItem))
           break
         }
         default:
@@ -213,6 +238,14 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       </Grid>
       <Grid item xs={12}>
         <SelectElement
+          label="ssd"
+          options={generateSSDSelectElement(ssdList)}
+          selectChange={changeSelectItem}
+          isLoading={isLoading}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <SelectElement
           label="psu"
           placeholder="select"
           options={generatePSUSelectElement(
@@ -240,6 +273,15 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
           label="liquid-cpu-cooler"
           placeholder="select"
           options={generateAIOSelectElement(aioList)}
+          selectChange={changeSelectItem}
+          isLoading={isLoading}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <SelectElement
+          label="air-cpu-cooler"
+          placeholder="select"
+          options={generateAirCoolerSelectElement(airCoolerList)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />

@@ -88,5 +88,6 @@ export const getTotalPrice = (
 
 export const getTotalPower = (selectedItems: SelectedItemType) => {
   const numberList = [selectedItems.cpu?.power, selectedItems.gpu?.power]
-  return sum(numberList)
+  console.log(sum(numberList))
+  return sum(numberList) || 0
 }
