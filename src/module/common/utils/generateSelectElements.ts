@@ -26,6 +26,7 @@ export const generateCPUSelectElement = (
 
     return {
       model: item.name,
+      brand: item.brand,
       label: item.name,
       value: price,
       disabled: disableFunc ? disableFunc(item) : false,
@@ -49,6 +50,7 @@ export const generateGPUSelectElement = (
 
     return {
       model: item.model,
+      brand: item.brand,
       label: itemLabel,
       value: price,
       disabled: disableFunc ? disableFunc(item) : false,
@@ -72,6 +74,7 @@ export const generateMotherboardSelectElement = (
 
     return {
       model: item.model,
+      brand: item.brand,
       label: itemLabel,
       value: price,
       disabled: disableFunc ? disableFunc(item) : false,
@@ -95,6 +98,7 @@ export const generateRAMSelectElement = (
 
     return {
       model: item.model,
+      brand: item.brand,
       label: itemLabel,
       value: price,
       disabled: disableFunc ? disableFunc(item) : false,
@@ -118,6 +122,7 @@ export const generatePSUSelectElement = (
 
     return {
       model: item.model,
+      brand: item.brand,
       label: itemLabel,
       value: price,
       disabled: disableFunc ? disableFunc(item) : false,
@@ -141,6 +146,7 @@ export const generateCaseSelectElement = (
 
     return {
       model: item.model,
+      brand: item.brand,
       label: itemLabel,
       value: price,
       disabled: disableFunc ? disableFunc(item) : false,
@@ -163,6 +169,7 @@ export const generateAIOSelectElement = (
 
     return {
       model: item.model,
+      brand: item.brand,
       label: item.name,
       value: price,
       disabled: disableFunc ? disableFunc(item) : false,
@@ -186,6 +193,7 @@ export const generateSSDSelectElement = (
 
     return {
       model: item.model,
+      brand: item.brand,
       label: itemLabel,
       value: price,
       disabled: disableFunc ? disableFunc(item) : false,
@@ -209,6 +217,7 @@ export const generateAirCoolerSelectElement = (
 
     return {
       model: item.model,
+      brand: item.brand,
       label: itemLabel,
       value: price,
       disabled: disableFunc ? disableFunc(item) : false,

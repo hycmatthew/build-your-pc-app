@@ -5,6 +5,7 @@ import {
   CircularProgress,
   FormControl,
   SelectProps,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material'
@@ -31,6 +32,8 @@ const ValueTypography = styled(Typography)({
 })
 
 interface OptionType {
+  model: string
+  brand: string
   label: string
   value: any
   disabled: boolean
@@ -91,9 +94,17 @@ const SelectElement = ({
       disablePortal
       id={label}
       options={options}
+      groupBy={(option: any) => option.brand}
       onChange={handleChange}
-      // getOptionLabel={(option: any) => option.label}
-      // renderOption={(props, option: any) => <Box>{option.label}</Box>}
+      /* eslint-disable react/jsx-props-no-spreading */
+      renderOption={(props, option: any) => (
+        <Box component="li" {...props}>
+          <Stack sx={{ width: '100%' }} direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+            <Typography>{option.label}</Typography>
+            <ValueTypography>{option.value}</ValueTypography>
+          </Stack>
+        </Box>
+      )}
       /* eslint-disable react/jsx-props-no-spreading */
       renderInput={(params) => <TextField {...params} label={t(label)} />}
     />
