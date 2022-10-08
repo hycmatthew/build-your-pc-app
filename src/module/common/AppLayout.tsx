@@ -19,6 +19,7 @@ import './AppLayout.scss'
 
 type Props = {
   children: JSX.Element
+  bgColor?: string
 }
 
 const theme = createTheme({
@@ -55,7 +56,7 @@ const FooterGrid = styled(Grid)({
   height: '44px',
 })
 
-function AppLayout({ children }: Props) {
+function AppLayout({ children, bgColor }: Props) {
   const [subMenuOpen, setSubMenuOpen] = useState(false)
   const pages = [
     { label: 'pc-builder', link: '/' },
@@ -177,7 +178,7 @@ function AppLayout({ children }: Props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box display="flex" className="main_container">
+      <Box display="flex" sx={{ background: bgColor }} className="main_container">
         <Container maxWidth="xl">
           <Grid container spacing={1}>
             <TopGrid item xs={12}>
@@ -198,6 +199,10 @@ function AppLayout({ children }: Props) {
       </Box>
     </ThemeProvider>
   )
+}
+
+AppLayout.defaultProps = {
+  bgColor: '#FBEDB8'
 }
 
 export default AppLayout

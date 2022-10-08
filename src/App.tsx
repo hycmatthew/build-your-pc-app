@@ -3,6 +3,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
 import ComponentListRoutes from './module/componentList/pages/Route'
+import DatabaseListRoutes from './module/database/page/Route'
 import {
   getAIODataList,
   getAirCoolerDataList,
@@ -32,6 +33,7 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
           <ComponentListRoutes />
+          <DatabaseListRoutes />
         </BrowserRouter>
       </Provider>
     </Suspense>
