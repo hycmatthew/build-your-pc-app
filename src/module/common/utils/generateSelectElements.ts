@@ -23,11 +23,12 @@ export const generateCPUSelectElement = (
       item.priceCN,
       i18n.language
     )
+    const itemLabel = `${item.brand} ${item.name}`
 
     return {
       model: item.name,
       brand: item.brand,
-      label: item.name,
+      label: itemLabel,
       value: price,
       disabled: disableFunc ? disableFunc(item) : false,
     }

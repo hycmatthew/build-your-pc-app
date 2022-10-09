@@ -7,6 +7,7 @@ import flatten from 'lodash/flatten'
 import SelectElement from '../../common/components/Select'
 import { DataState, sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
+import ProductEnum from '../../../constant/ProductEnum'
 import {
   CPUType,
   GPUType,
@@ -16,7 +17,7 @@ import {
   CaseType,
   AIOType,
   SSDType,
-  AirCoolerType
+  AirCoolerType,
 } from '../../../constant/objectTypes'
 import {
   generateAIOSelectElement,
@@ -27,7 +28,7 @@ import {
   generateSSDSelectElement,
   generatePSUSelectElement,
   generateRAMSelectElement,
-  generateAirCoolerSelectElement
+  generateAirCoolerSelectElement,
 } from '../../common/utils/generateSelectElements'
 import { getTotalPower } from '../../../utils/NumberHelper'
 import {
@@ -39,6 +40,17 @@ import {
   caseIncompatibleWithMotherboard,
   caseIncompatibleWithAIO,
 } from '../../../logic/incompatibleLogic'
+import {
+  searchCPUItem,
+  searchMotherboardItem,
+  searchGPUItem,
+  searchRAMItem,
+  searchSSDItem,
+  searchPSUItem,
+  searchCaseItem,
+  searchAIOItem,
+  searchAirCoolerItem,
+} from '../../common/utils/searchItemLogic'
 
 type ComponentMenuProps = {
   dataState: DataState
@@ -60,60 +72,6 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     airCoolerList,
     isLoading,
   } = dataState
-
-  const searchCPUItem = (name: string) => {
-    return cpuList.find((item: CPUType) => {
-      return item.name === name
-    })
-  }
-
-  const searchGPUItem = (model: string) => {
-    return gpuList.find((item: GPUType) => {
-      return item.model === model
-    })
-  }
-
-  const searchMotherboardItem = (model: string) => {
-    return motherboardList.find((item: MotherboardType) => {
-      return item.model === model
-    })
-  }
-
-  const searchRAMItem = (model: string) => {
-    return ramList.find((item: RAMType) => {
-      return item.model === model
-    })
-  }
-
-  const searchSSDItem = (model: string) => {
-    return ssdList.find((item: SSDType) => {
-      return item.model === model
-    })
-  }
-
-  const searchPSUItem = (model: string) => {
-    return psuList.find((item: PSUType) => {
-      return item.model === model
-    })
-  }
-
-  const searchCaseItem = (model: string) => {
-    return caseList.find((item: CaseType) => {
-      return item.model === model
-    })
-  }
-
-  const searchAIOItem = (name: string) => {
-    return aioList.find((item: AIOType) => {
-      return item.name === name
-    })
-  }
-
-  const searchAirCoolerItem = (model: string) => {
-    return airCoolerList.find((item: AirCoolerType) => {
-      return item.model === model
-    })
-  }
 
   const motherboardIncompatible = (item: MotherboardType) => {
     return motherboardIncompatibleWithCPU(item, selectedItems.cpu)
@@ -145,48 +103,48 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
   const changeSelectItem = (value: string, type: string) => {
     if (!isEmpty(value)) {
       switch (type) {
-        case 'cpu': {
-          const selectedItem = searchCPUItem(value)
+        case ProductEnum.CPU: {
+          const selectedItem = searchCPUItem(cpuList, value)
           dispatch(sliceActions.updateSelectedCPU(selectedItem))
           break
         }
-        case 'motherboard': {
-          const selectedItem = searchMotherboardItem(value)
+        case ProductEnum.Motherboard: {
+          const selectedItem = searchMotherboardItem(motherboardList, value)
           dispatch(sliceActions.updateSelectedMotherBoard(selectedItem))
           break
         }
-        case 'gpu': {
-          const selectedItem = searchGPUItem(value)
+        case ProductEnum.GPU: {
+          const selectedItem = searchGPUItem(gpuList, value)
           dispatch(sliceActions.updateSelectedGPU(selectedItem))
           break
         }
-        case 'ram': {
-          const selectedItem = searchRAMItem(value)
+        case ProductEnum.RAM: {
+          const selectedItem = searchRAMItem(ramList, value)
           dispatch(sliceActions.updateSelectedRAM(selectedItem))
           break
         }
-        case 'ssd': {
-          const selectedItem = searchSSDItem(value)
+        case ProductEnum.SSD: {
+          const selectedItem = searchSSDItem(ssdList, value)
           dispatch(sliceActions.updateSelectedSSD(selectedItem))
           break
         }
-        case 'psu': {
-          const selectedItem = searchPSUItem(value)
+        case ProductEnum.PSU: {
+          const selectedItem = searchPSUItem(psuList, value)
           dispatch(sliceActions.updateSelectedPSU(selectedItem))
           break
         }
-        case 'computer-case': {
-          const selectedItem = searchCaseItem(value)
+        case ProductEnum.ComputerCase: {
+          const selectedItem = searchCaseItem(caseList, value)
           dispatch(sliceActions.updateSelectedCase(selectedItem))
           break
         }
-        case 'liquid-cpu-cooler': {
-          const selectedItem = searchAIOItem(value)
+        case ProductEnum.AIO: {
+          const selectedItem = searchAIOItem(aioList, value)
           dispatch(sliceActions.updateSelectedAIO(selectedItem))
           break
         }
-        case 'air-cpu-cooler': {
-          const selectedItem = searchAirCoolerItem(value)
+        case ProductEnum.AirCooler: {
+          const selectedItem = searchAirCoolerItem(airCoolerList, value)
           dispatch(sliceActions.updateSelectedAirCooler(selectedItem))
           break
         }
@@ -200,7 +158,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <SelectElement
-          label="cpu"
+          label={ProductEnum.CPU}
           options={generateCPUSelectElement(cpuList)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
@@ -208,7 +166,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="gpu"
+          label={ProductEnum.GPU}
           options={generateGPUSelectElement(gpuList)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
@@ -216,7 +174,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="motherboard"
+          label={ProductEnum.Motherboard}
           options={generateMotherboardSelectElement(
             motherboardList,
             motherboardIncompatible
@@ -227,18 +185,15 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="ram"
-          options={generateRAMSelectElement(
-            ramList,
-            ramIncompatible
-          )}
+          label={ProductEnum.RAM}
+          options={generateRAMSelectElement(ramList, ramIncompatible)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="ssd"
+          label={ProductEnum.SSD}
           options={generateSSDSelectElement(ssdList)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
@@ -246,32 +201,23 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="psu"
-          placeholder="select"
-          options={generatePSUSelectElement(
-            psuList,
-            psuIncompatible
-          )}
+          label={ProductEnum.PSU}
+          options={generatePSUSelectElement(psuList, psuIncompatible)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="computer-case"
-          placeholder="select"
-          options={generateCaseSelectElement(
-            caseList,
-            caseIncompatible
-          )}
+          label={ProductEnum.ComputerCase}
+          options={generateCaseSelectElement(caseList, caseIncompatible)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="liquid-cpu-cooler"
-          placeholder="select"
+          label={ProductEnum.AIO}
           options={generateAIOSelectElement(aioList)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
@@ -279,8 +225,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       </Grid>
       <Grid item xs={12}>
         <SelectElement
-          label="air-cpu-cooler"
-          placeholder="select"
+          label={ProductEnum.AirCooler}
           options={generateAirCoolerSelectElement(airCoolerList)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
