@@ -9,7 +9,7 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded'
 import styled from '@emotion/styled'
 
 import { SelectedItemType } from '../../store/rawDataReducer'
-import { getTotalPower, stringToNumber } from '../../../utils/NumberHelper'
+import { getTotalPower } from '../../../utils/NumberHelper'
 import {
   motherboardIncompatibleWithCPU,
   ramIncompatibleWithCPU,
@@ -94,12 +94,12 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
             item.type === 'warning' ? (
               <WarningStack direction="row" alignItems="center" spacing={2}>
                 <CancelRoundedIcon />
-                <Typography>{t(item.name)}</Typography>
+                <Typography>{t(`warningMsg.${item.name}`)}</Typography>
               </WarningStack>
             ) : (
               <SuggectStack direction="row" alignItems="center" spacing={2}>
                 <WarningRoundedIcon />
-                <Typography>{t(item.name)}</Typography>
+                <Typography>{t(`warningMsg.${item.name}`)}</Typography>
               </SuggectStack>
             )
           ))}

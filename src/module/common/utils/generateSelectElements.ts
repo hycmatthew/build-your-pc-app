@@ -144,7 +144,6 @@ export const generateCaseSelectElement = (
       i18n.language
     )
     const itemLabel = `${item.brand} ${item.series} ${item.type}`
-    console.log(price)
     return {
       model: item.model,
       brand: item.brand,

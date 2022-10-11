@@ -107,56 +107,54 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
   }
 
   const changeSelectItem = (value: string, type: string) => {
-    if (!isEmpty(value)) {
-      switch (type) {
-        case ProductEnum.CPU: {
-          const selectedItem = searchCPUItem(cpuList, value)
-          dispatch(sliceActions.updateSelectedCPU(selectedItem))
-          break
-        }
-        case ProductEnum.Motherboard: {
-          const selectedItem = searchMotherboardItem(motherboardList, value)
-          dispatch(sliceActions.updateSelectedMotherBoard(selectedItem))
-          break
-        }
-        case ProductEnum.GPU: {
-          const selectedItem = searchGPUItem(gpuList, value)
-          dispatch(sliceActions.updateSelectedGPU(selectedItem))
-          break
-        }
-        case ProductEnum.RAM: {
-          const selectedItem = searchRAMItem(ramList, value)
-          dispatch(sliceActions.updateSelectedRAM(selectedItem))
-          break
-        }
-        case ProductEnum.SSD: {
-          const selectedItem = searchSSDItem(ssdList, value)
-          dispatch(sliceActions.updateSelectedSSD(selectedItem))
-          break
-        }
-        case ProductEnum.PSU: {
-          const selectedItem = searchPSUItem(psuList, value)
-          dispatch(sliceActions.updateSelectedPSU(selectedItem))
-          break
-        }
-        case ProductEnum.ComputerCase: {
-          const selectedItem = searchCaseItem(caseList, value)
-          dispatch(sliceActions.updateSelectedCase(selectedItem))
-          break
-        }
-        case ProductEnum.AIO: {
-          const selectedItem = searchAIOItem(aioList, value)
-          dispatch(sliceActions.updateSelectedAIO(selectedItem))
-          break
-        }
-        case ProductEnum.AirCooler: {
-          const selectedItem = searchAirCoolerItem(airCoolerList, value)
-          dispatch(sliceActions.updateSelectedAirCooler(selectedItem))
-          break
-        }
-        default:
-          break
+    switch (type) {
+      case ProductEnum.CPU: {
+        const selectedItem = searchCPUItem(cpuList, value)
+        dispatch(sliceActions.updateSelectedCPU(selectedItem))
+        break
       }
+      case ProductEnum.Motherboard: {
+        const selectedItem = searchMotherboardItem(motherboardList, value)
+        dispatch(sliceActions.updateSelectedMotherBoard(selectedItem))
+        break
+      }
+      case ProductEnum.GPU: {
+        const selectedItem = searchGPUItem(gpuList, value)
+        dispatch(sliceActions.updateSelectedGPU(selectedItem))
+        break
+      }
+      case ProductEnum.RAM: {
+        const selectedItem = searchRAMItem(ramList, value)
+        dispatch(sliceActions.updateSelectedRAM(selectedItem))
+        break
+      }
+      case ProductEnum.SSD: {
+        const selectedItem = searchSSDItem(ssdList, value)
+        dispatch(sliceActions.updateSelectedSSD(selectedItem))
+        break
+      }
+      case ProductEnum.PSU: {
+        const selectedItem = searchPSUItem(psuList, value)
+        dispatch(sliceActions.updateSelectedPSU(selectedItem))
+        break
+      }
+      case ProductEnum.ComputerCase: {
+        const selectedItem = searchCaseItem(caseList, value)
+        dispatch(sliceActions.updateSelectedCase(selectedItem))
+        break
+      }
+      case ProductEnum.AIO: {
+        const selectedItem = searchAIOItem(aioList, value)
+        dispatch(sliceActions.updateSelectedAIO(selectedItem))
+        break
+      }
+      case ProductEnum.AirCooler: {
+        const selectedItem = searchAirCoolerItem(airCoolerList, value)
+        dispatch(sliceActions.updateSelectedAirCooler(selectedItem))
+        break
+      }
+      default:
+        break
     }
   }
 

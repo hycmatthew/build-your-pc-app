@@ -13,7 +13,12 @@
   "recommended-psu-wattage": "Recommended PSU wattage",
   "ssd": "SSD",
   "watt": " W",
-  "motherboard-incompatible-warning": "motherboard-incompatible-socket",
-  "ram-incompatible-warning": "motherboard-incompatible-socket",
-  "suggestion": "Suggestion"
+  "suggestion": "Suggestion",
+  "warningMsg": {
+    "motherboard-incompatible-warning": "motherboard-incompatible-socket",
+    "ram-incompatible-warning": "motherboard-incompatible-socket",
+    "gpu-incompatible-warning": "motherboard-incompatible-socket",
+    "case-incompatible-warning": "motherboard-incompatible-socket",
+    "power-incompatible-warning": "motherboard-incompatible-socket"
+  }
 }

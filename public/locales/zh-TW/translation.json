@@ -13,7 +13,12 @@
   "recommended-psu-wattage": "推薦電源功率",
   "ssd": "SSD",
   "watt": " W",
-  "motherboard-incompatible-warning": "motherboard-incompatible-socket",
-  "ram-incompatible-warning": "motherboard-incompatible-socket",
-  "suggestion": "建議"
+  "suggestion": "建議",
+  "warningMsg": {
+    "motherboard-incompatible-warning": "主機板和CPU不兼容",
+    "ram-incompatible-warning": "主機板和RAM不兼容",
+    "gpu-incompatible-warning": "顯示卡長度過長",
+    "case-incompatible-warning": "主機板和主板不兼容",
+    "power-incompatible-warning": "電源瓦數不足"
+  }
 }

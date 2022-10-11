@@ -59,9 +59,9 @@ const SelectElement = ({
   const { t } = useTranslation()
 
   const handleChange = (event: any, newValue: any) => {
-    if (selectChange && newValue) {
-      console.log(newValue)
-      selectChange(newValue.model, label)
+    if (selectChange) {
+      console.log(`test = ${newValue}`)
+      selectChange(newValue ? newValue.model : '', label)
       // setSelectValue(newValue.model)
     }
   }
@@ -94,9 +94,7 @@ const SelectElement = ({
       options={options}
       groupBy={(option: any) => option.brand}
       onChange={handleChange}
-      isOptionEqualToValue={(option: any, value: any) => (
-        option.model === value.model
-      )}
+      isOptionEqualToValue={(option: any, value: any) => option.model === value.model}
       getOptionDisabled={(option: any) => option.disabled === true}
       /* eslint-disable react/jsx-props-no-spreading */
       renderOption={(props, option: any) => (
@@ -109,7 +107,9 @@ const SelectElement = ({
             spacing={1}
           >
             <Typography>{option.label}</Typography>
-            <ValueTypography>{addCurrencySign(option.value, i18n.language)}</ValueTypography>
+            <ValueTypography>
+              {addCurrencySign(option.value, i18n.language)}
+            </ValueTypography>
           </Stack>
         </Box>
       )}
