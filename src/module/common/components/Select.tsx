@@ -1,3 +1,4 @@
+import i18n from 'i18next'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -11,6 +12,7 @@ import {
 } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
 import { styled } from '@mui/material/styles'
+import { addCurrencySign } from '../../../utils/NumberHelper'
 
 const CustomFormControl = styled(FormControl)({
   position: 'relative',
@@ -64,23 +66,19 @@ const SelectElement = ({
     }
   }
 
-  if (isLoading) {
-    console.log('test loading')
+  if (options.length === 0) {
     return (
       <CustomAutocomplete
-        id="outlined-disabled"
         renderInput={(params) => (
           <CircularProgress
             size={24}
             sx={{
               color: '#9e9e9e',
-              position: 'absolute',
               left: 0,
               right: 0,
               top: 0,
               bottom: 0,
               margin: 'auto',
-              zIndex: 1,
             }}
           />
         )}
@@ -96,13 +94,22 @@ const SelectElement = ({
       options={options}
       groupBy={(option: any) => option.brand}
       onChange={handleChange}
-      isOptionEqualToValue={(option: any, value: any) => option.model === value.model}
+      isOptionEqualToValue={(option: any, value: any) => (
+        option.model === value.model
+      )}
+      getOptionDisabled={(option: any) => option.disabled === true}
       /* eslint-disable react/jsx-props-no-spreading */
       renderOption={(props, option: any) => (
         <Box component="li" {...props}>
-          <Stack sx={{ width: '100%' }} direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+          <Stack
+            sx={{ width: '100%' }}
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            spacing={1}
+          >
             <Typography>{option.label}</Typography>
-            <ValueTypography>{option.value}</ValueTypography>
+            <ValueTypography>{addCurrencySign(option.value, i18n.language)}</ValueTypography>
           </Stack>
         </Box>
       )}

@@ -39,6 +39,7 @@ import {
   ramIncompatibleWithMotherboard,
   caseIncompatibleWithMotherboard,
   caseIncompatibleWithAIO,
+  airCoolerIncompatibleWithCase,
 } from '../../../logic/incompatibleLogic'
 import {
   searchCPUItem,
@@ -98,6 +99,11 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     )
     const aioValid = caseIncompatibleWithAIO(item, selectedItems.aio)
     return gpuLengthValid || motherboardValid || aioValid
+  }
+
+  const airCoolerIncompatible = (item: AirCoolerType) => {
+    const coolerHeightValid = airCoolerIncompatibleWithCase(item, selectedItems.pcCase)
+    return coolerHeightValid
   }
 
   const changeSelectItem = (value: string, type: string) => {
@@ -226,7 +232,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label={ProductEnum.AirCooler}
-          options={generateAirCoolerSelectElement(airCoolerList)}
+          options={generateAirCoolerSelectElement(airCoolerList, airCoolerIncompatible)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />

@@ -6,6 +6,7 @@ import {
   RAMType,
   CaseType,
   AIOType,
+  AirCoolerType,
 } from '../constant/objectTypes'
 
 export const motherboardIncompatibleWithCPU = (
@@ -51,4 +52,11 @@ export const caseIncompatibleWithAIO = (
   aio: AIOType | null
 ) => {
   return aio ? !flatten(pcCase.radiatorOptions).includes(aio.fanSize) : false
+}
+
+export const airCoolerIncompatibleWithCase = (
+  airCooler: AirCoolerType,
+  pcCase: CaseType | null
+) => {
+  return pcCase ? airCooler.maxCoolerHeight > pcCase.maxCPUCoolerLength : false
 }

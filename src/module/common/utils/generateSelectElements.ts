@@ -33,7 +33,7 @@ export const generateCPUSelectElement = (
       disabled: disableFunc ? disableFunc(item) : false,
     }
   })
-  return tempMap
+  return tempMap.filter((item: any) => item.price !== '0.00')
 }
 
 export const generateGPUSelectElement = (
@@ -57,7 +57,7 @@ export const generateGPUSelectElement = (
       disabled: disableFunc ? disableFunc(item) : false,
     }
   })
-  return tempMap
+  return tempMap.filter((item: any) => item.value !== '0.00')
 }
 
 export const generateMotherboardSelectElement = (
@@ -81,7 +81,7 @@ export const generateMotherboardSelectElement = (
       disabled: disableFunc ? disableFunc(item) : false,
     }
   })
-  return tempMap
+  return tempMap.filter((item: any) => item.value !== '0.00')
 }
 
 export const generateRAMSelectElement = (
@@ -105,7 +105,7 @@ export const generateRAMSelectElement = (
       disabled: disableFunc ? disableFunc(item) : false,
     }
   })
-  return tempMap
+  return tempMap.filter((item: any) => item.value !== '0.00')
 }
 
 export const generatePSUSelectElement = (
@@ -129,7 +129,7 @@ export const generatePSUSelectElement = (
       disabled: disableFunc ? disableFunc(item) : false,
     }
   })
-  return tempMap
+  return tempMap.filter((item: any) => item.value !== '0.00')
 }
 
 export const generateCaseSelectElement = (
@@ -144,7 +144,7 @@ export const generateCaseSelectElement = (
       i18n.language
     )
     const itemLabel = `${item.brand} ${item.series} ${item.type}`
-
+    console.log(price)
     return {
       model: item.model,
       brand: item.brand,
@@ -153,7 +153,7 @@ export const generateCaseSelectElement = (
       disabled: disableFunc ? disableFunc(item) : false,
     }
   })
-  return tempMap
+  return tempMap.filter((item: any) => item.value !== '0.00')
 }
 
 export const generateAIOSelectElement = (
@@ -176,7 +176,7 @@ export const generateAIOSelectElement = (
       disabled: disableFunc ? disableFunc(item) : false,
     }
   })
-  return tempMap
+  return tempMap.filter((item: any) => item.value !== '0.00')
 }
 
 export const generateSSDSelectElement = (
@@ -200,7 +200,7 @@ export const generateSSDSelectElement = (
       disabled: disableFunc ? disableFunc(item) : false,
     }
   })
-  return tempMap
+  return tempMap.filter((item: any) => item.value !== '0.00')
 }
 
 export const generateAirCoolerSelectElement = (
@@ -224,5 +224,5 @@ export const generateAirCoolerSelectElement = (
       disabled: disableFunc ? disableFunc(item) : false,
     }
   })
-  return tempMap
+  return tempMap.filter((item: any) => item.value !== '0.00')
 }

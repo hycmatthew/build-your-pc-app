@@ -9,7 +9,7 @@ const calculateTotalNumber = (numberList: string[]) => {
   return totalNumber
 }
 
-const addCurrencySign = (str: string, lang: string) => {
+export const addCurrencySign = (str: string, lang: string) => {
   switch (lang) {
     case 'zh-TW':
       return `$${str}`
@@ -36,11 +36,11 @@ export const getCurrentPrice = (
 ) => {
   switch (lang) {
     case 'zh-TW':
-      return `$${stringToNumberWithDP(priceHK)}`
+      return stringToNumberWithDP(priceHK)
     case 'zh-CN':
-      return `¥${stringToNumberWithDP(priceCN)}`
+      return stringToNumberWithDP(priceCN)
     default:
-      return `$${stringToNumberWithDP(priceUS)}`
+      return stringToNumberWithDP(priceUS)
   }
 }
 
