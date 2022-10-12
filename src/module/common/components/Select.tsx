@@ -5,6 +5,7 @@ import {
   Box,
   CircularProgress,
   FormControl,
+  InputAdornment,
   SelectProps,
   Stack,
   TextField,
@@ -13,13 +14,6 @@ import {
 import Autocomplete from '@mui/material/Autocomplete'
 import { styled } from '@mui/material/styles'
 import { addCurrencySign } from '../../../utils/NumberHelper'
-
-const CustomFormControl = styled(FormControl)({
-  position: 'relative',
-  width: '100%',
-  background: '#fff',
-  borderRadius: 3,
-})
 
 const CustomAutocomplete = styled(Autocomplete)({
   height: '60px',
@@ -69,16 +63,18 @@ const SelectElement = ({
   if (options.length === 0) {
     return (
       <CustomAutocomplete
+        disabled
         renderInput={(params) => (
-          <CircularProgress
-            size={24}
-            sx={{
-              color: '#9e9e9e',
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              margin: 'auto',
+          /* eslint-disable react/jsx-props-no-spreading */
+          <TextField
+            {...params}
+            label={t(label)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <CircularProgress size={28} />
+                </InputAdornment>
+              ),
             }}
           />
         )}

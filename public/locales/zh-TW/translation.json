@@ -14,11 +14,9 @@
   "ssd": "SSD",
   "watt": " W",
   "suggestion": "建議",
-  "warningMsg": {
-    "motherboard-incompatible-warning": "主機板和CPU不兼容",
-    "ram-incompatible-warning": "主機板和RAM不兼容",
-    "gpu-incompatible-warning": "顯示卡長度過長",
-    "case-incompatible-warning": "主機板和主板不兼容",
-    "power-incompatible-warning": "電源瓦數不足"
-  }
+  "warning-motherboard-incompatible": "主機板和CPU不兼容",
+  "warning-ram-incompatible": "主機板和RAM不兼容",
+  "warning-gpu-incompatible": "顯示卡長度過長",
+  "warning-case-incompatible": "主機板和主板不兼容",
+  "warning-power-incompatible": "電源瓦數不足"
 }

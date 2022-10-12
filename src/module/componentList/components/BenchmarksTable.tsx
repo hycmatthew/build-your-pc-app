@@ -133,7 +133,7 @@ function BenchmarksTable({ selectedType }: BenchmarksProps) {
     if (selectedType === 'cpu') {
       tempOptions = dataStatus.cpuList.map((item: CPUType, index: number) => {
         return {
-          id: item.name,
+          id: `${item.brand} ${item.name}`,
           index,
           singleScore: item.singleCoreScore,
           multiScore: item.multiCoreScore,

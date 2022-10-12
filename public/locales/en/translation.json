@@ -14,11 +14,9 @@
   "ssd": "SSD",
   "watt": " W",
   "suggestion": "Suggestion",
-  "warningMsg": {
-    "motherboard-incompatible-warning": "motherboard-incompatible-socket",
-    "ram-incompatible-warning": "motherboard-incompatible-socket",
-    "gpu-incompatible-warning": "motherboard-incompatible-socket",
-    "case-incompatible-warning": "motherboard-incompatible-socket",
-    "power-incompatible-warning": "motherboard-incompatible-socket"
-  }
+  "warning-motherboard-incompatible": "motherboard-incompatible-socket",
+  "warning-ram-incompatible": "motherboard-incompatible-socket",
+  "warning-gpu-incompatible": "motherboard-incompatible-socket",
+  "warning-case-incompatible": "motherboard-incompatible-socket",
+  "warning-power-incompatible": "motherboard-incompatible-socket"
 }

@@ -50,35 +50,41 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
   const { t } = useTranslation()
 
   const {
-    cpu, gpu, motherboard, ram, psu, pcCase, aio
+    cpu,
+    gpu,
+    motherboard,
+    ram,
+    psu,
+    pcCase,
+    aio
   } = selectedItems
 
   const createSuggestion = () => {
     const suggestion: SuggestionType[] = []
     if (motherboard && motherboardIncompatibleWithCPU(motherboard, cpu)) {
       suggestion.push({
-        name: 'motherboard-incompatible-warning',
+        name: 'warning-motherboard-incompatible',
         type: 'warning',
       })
     }
     if (ram && ramIncompatibleWithCPU(ram, cpu)) {
-      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
+      suggestion.push({ name: 'warning-ram-incompatible', type: 'warning' })
     }
     if (ram && ramIncompatibleWithMotherboard(ram, motherboard)) {
-      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
+      suggestion.push({ name: 'warning-ram-incompatible', type: 'warning' })
     }
 
     if (psu && psuPowerNotEnough(psu.watt, getTotalPower(selectedItems))) {
-      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
+      suggestion.push({ name: 'warning-ram-incompatible', type: 'warning' })
     }
     if (pcCase && caseIncompatibleWithGPU(pcCase, gpu)) {
-      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
+      suggestion.push({ name: 'warning-ram-incompatible', type: 'warning' })
     }
     if (pcCase && caseIncompatibleWithMotherboard(pcCase, motherboard)) {
-      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
+      suggestion.push({ name: 'warning-ram-incompatible', type: 'warning' })
     }
     if (pcCase && caseIncompatibleWithAIO(pcCase, aio)) {
-      suggestion.push({ name: 'ram-incompatible-warning', type: 'warning' })
+      suggestion.push({ name: 'warning-ram-incompatible', type: 'warning' })
     }
     return suggestion
   }
@@ -90,19 +96,21 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
           <Typography className="normal-header-typography">
             {t('suggestion')}
           </Typography>
-          {createSuggestion().map((item: SuggestionType) => (
-            item.type === 'warning' ? (
-              <WarningStack direction="row" alignItems="center" spacing={2}>
-                <CancelRoundedIcon />
-                <Typography>{t(`warningMsg.${item.name}`)}</Typography>
-              </WarningStack>
-            ) : (
-              <SuggectStack direction="row" alignItems="center" spacing={2}>
-                <WarningRoundedIcon />
-                <Typography>{t(`warningMsg.${item.name}`)}</Typography>
-              </SuggectStack>
-            )
-          ))}
+          {
+            createSuggestion().map((item: SuggestionType) => (
+              item.type === 'warning' ? (
+                <WarningStack direction="row" alignItems="center" spacing={2}>
+                  <CancelRoundedIcon />
+                  <Typography>{t(`warningMsg.${item.name}`)}</Typography>
+                </WarningStack>
+              ) : (
+                <SuggectStack direction="row" alignItems="center" spacing={2}>
+                  <WarningRoundedIcon />
+                  <Typography>{t(`warningMsg.${item.name}`)}</Typography>
+                </SuggectStack>
+              )
+            ))
+          }
         </Grid>
       </Grid>
     </CustomContainer>
