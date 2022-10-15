@@ -61,7 +61,7 @@ function AppLayout({ children, bgColor }: Props) {
   const pages = [
     { label: 'pc-builder', link: '/' },
     { label: 'benchmarks', link: '/benchmarks' },
-    { label: 'ai-list', link: '/benchmarks' },
+    { label: 'ai-list', link: '/ai-build' },
     { label: 'database', link: '/database' }
   ]
 
@@ -202,7 +202,7 @@ function AppLayout({ children, bgColor }: Props) {
 }
 
 AppLayout.defaultProps = {
-  bgColor: '#FBEDB8'
+  bgColor: '#ECF0F1'
 }
 
 export default AppLayout

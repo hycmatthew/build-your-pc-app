@@ -73,7 +73,6 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
     if (ram && ramIncompatibleWithMotherboard(ram, motherboard)) {
       suggestion.push({ name: 'warning-ram-incompatible', type: 'warning' })
     }
-
     if (psu && psuPowerNotEnough(psu.watt, getTotalPower(selectedItems))) {
       suggestion.push({ name: 'warning-ram-incompatible', type: 'warning' })
     }
@@ -101,12 +100,12 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
               item.type === 'warning' ? (
                 <WarningStack direction="row" alignItems="center" spacing={2}>
                   <CancelRoundedIcon />
-                  <Typography>{t(`warningMsg.${item.name}`)}</Typography>
+                  <Typography>{t(item.name)}</Typography>
                 </WarningStack>
               ) : (
                 <SuggectStack direction="row" alignItems="center" spacing={2}>
                   <WarningRoundedIcon />
-                  <Typography>{t(`warningMsg.${item.name}`)}</Typography>
+                  <Typography>{t(item.name)}</Typography>
                 </SuggectStack>
               )
             ))

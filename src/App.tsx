@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import AIComponentListRoutes from './module/aiComponentList/pages/Route'
 
 import ComponentListRoutes from './module/componentList/pages/Route'
 import DatabaseListRoutes from './module/database/page/Route'
@@ -34,6 +35,7 @@ function App() {
         <BrowserRouter>
           <ComponentListRoutes />
           <DatabaseListRoutes />
+          <AIComponentListRoutes />
         </BrowserRouter>
       </Provider>
     </Suspense>

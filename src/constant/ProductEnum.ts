@@ -1,7 +1,7 @@
 enum ProductEnum {
   CPU = 'cpu',
   Motherboard = 'motherboard',
-  GPU = 'gpu',
+  GPU = 'graphic-card',
   RAM = 'ram',
   SSD = 'ssd',
   PSU = 'psu',
