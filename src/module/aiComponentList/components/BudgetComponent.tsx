@@ -8,7 +8,17 @@ import {
   Button,
 } from '@mui/material'
 
-function BudgetComponent() {
+type BudgetComponentProps = {
+  currectStep: number
+  updateStep: (newStep: number) => void
+}
+
+function BudgetComponent({ currectStep, updateStep }: BudgetComponentProps) {
+  
+  const submitButtonOnClick = () => {
+    
+  }
+
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>

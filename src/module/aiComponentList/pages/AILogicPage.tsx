@@ -5,9 +5,55 @@ import AppLayout from '../../common/AppLayout'
 import BudgetComponent from '../components/BudgetComponent'
 import UsageComponent from '../components/UsageComponent'
 import SpecificComponent from '../components/SpecificComponent'
+import {
+  AIOType,
+  AirCoolerType,
+  CaseType,
+  CPUType,
+  GPUType,
+  MotherboardType,
+  PSUType,
+  SSDType,
+  RAMType,
+} from '../../../constant/objectTypes'
+
+interface BuildLogicType {
+  budget: number
+  gamingUsage: number
+  normalUsage: number
+  preSelectedCPU: CPUType | null
+  preSelectedMotherboard: MotherboardType | null
+  preSelectedGPU: GPUType | null
+  preSelectedRAM: RAMType | null
+  preSelectedSSD: SSDType | null
+  preSelectedPSU: PSUType | null
+  preSelectedAIO: AIOType | null
+  preSelectedCase: CaseType | null
+  preSelectedAirCooler: AirCoolerType | null
+}
 
 function AILogicPage() {
+  const buildLogicInitValue: BuildLogicType = {
+    budget: 0,
+    gamingUsage: 0,
+    normalUsage: 0,
+    preSelectedCPU: null,
+    preSelectedMotherboard: null,
+    preSelectedGPU: null,
+    preSelectedRAM: null,
+    preSelectedSSD: null,
+    preSelectedPSU: null,
+    preSelectedAIO: null,
+    preSelectedCase: null,
+    preSelectedAirCooler: null,
+  }
+
   const [step, setStep] = useState(0)
+  const [buildLogic, setBuildLogic] = useState(buildLogicInitValue)
+
+  const updateStep = (newStep: number) => {
+    setStep(newStep)
+  }
 
   return (
     <AppLayout>
@@ -15,10 +61,10 @@ function AILogicPage() {
         <Grid item xs={12}>
           <BudgetComponent />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{ display: step > 0 ? 'block' : 'none' }}>
           <UsageComponent />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{ display: step > 1 ? 'block' : 'none' }}>
           <SpecificComponent />
         </Grid>
       </Grid>

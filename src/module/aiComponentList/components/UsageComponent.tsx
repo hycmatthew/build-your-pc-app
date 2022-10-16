@@ -12,10 +12,8 @@ function UsageComponent() {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Budget
-        </Typography>
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+        <Button size="small">Learn More</Button>
+        <Button size="small">Learn More</Button>
       </CardContent>
       <CardActions>
         <Button size="small">Learn More</Button>
