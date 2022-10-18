@@ -1,5 +1,4 @@
 interface GPUType {
-  name: string
   brand: string
   model: string
   manufacturer: string
@@ -9,7 +8,8 @@ interface GPUType {
   memorySize: string
   memoryInterface: string
   memoryType: string
-  gpuScore: number
+  timespyScore: number
+  firestrikeScore: number
   length: number
   power: number
   priceUS: string

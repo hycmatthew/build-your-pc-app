@@ -14,10 +14,7 @@ type BudgetComponentProps = {
 }
 
 function BudgetComponent({ currectStep, updateStep }: BudgetComponentProps) {
-  
-  const submitButtonOnClick = () => {
-    
-  }
+  const submitButtonOnClick = () => {}
 
   return (
     <Card sx={{ minWidth: 275 }}>

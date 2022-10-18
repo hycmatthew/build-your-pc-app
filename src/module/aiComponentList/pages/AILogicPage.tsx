@@ -59,7 +59,7 @@ function AILogicPage() {
     <AppLayout>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <BudgetComponent />
+          <BudgetComponent currectStep={step} updateStep={updateStep} />
         </Grid>
         <Grid item xs={12} sx={{ display: step > 0 ? 'block' : 'none' }}>
           <UsageComponent />
