@@ -44,6 +44,15 @@ export const getCurrentPrice = (
   }
 }
 
+export const getCurrentPriceWithSign = (
+  priceUS: string,
+  priceHK: string,
+  priceCN: string,
+  lang: string
+) => {
+  return addCurrencySign(getCurrentPrice(priceUS, priceHK, priceCN, lang), lang)
+}
+
 export const getTotalPrice = (
   selectedItems: SelectedItemType,
   lang: string

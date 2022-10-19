@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import { ToggleButtonGroup, ToggleButton } from '@mui/material'
+import ProductEnum from '../../../constant/ProductEnum'
 
 import AppLayout from '../../common/AppLayout'
-import BenchmarksTable from '../components/BenchmarksTable'
-import ProductEnum from '../../../constant/ProductEnum'
+import CPUBenchmarksTable from '../components/CPUBenchmarksTable'
+import GPUBenchmarksTable from '../components/GPUBenchmarksTable'
 
 function Benchmarks() {
   const [itemType, setItemType] = React.useState(ProductEnum.CPU)
@@ -32,7 +33,9 @@ function Benchmarks() {
           </ToggleButtonGroup>
         </Grid>
         <Grid item xs={12}>
-          <BenchmarksTable selectedType="cpu" />
+          {
+            itemType === ProductEnum.CPU ? <CPUBenchmarksTable /> : <GPUBenchmarksTable />
+          }
         </Grid>
       </Grid>
     </AppLayout>

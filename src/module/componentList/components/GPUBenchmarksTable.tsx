@@ -6,28 +6,21 @@ import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-import CPUType from '../../../constant/objectTypes/CPUType'
-import {
-  getCurrentPrice,
-  stringToNumber,
-  stringToNumberWithDP,
-} from '../../../utils/NumberHelper'
+import GPUType from '../../../constant/objectTypes/GPUType'
+import { getCurrentPriceWithSign } from '../../../utils/NumberHelper'
 import i18n from '../../../config/i18n'
+import ProductEnum from '../../../constant/ProductEnum'
 
-type BenchmarksProps = {
-  selectedType: string
-}
-
-type CPUOptionsType = {
+type GPUOptionsType = {
   name: string
   singleScore: number
   multiScore: number
   price: number
 }
 
-function BenchmarksTable({ selectedType }: BenchmarksProps) {
+function GPUBenchmarksTable() {
   const { t } = useTranslation()
-  const [selectedField, setSelectedField] = useState('multiScore')
+  const [selectedField, setSelectedField] = useState('timespyScore')
   const [showBar, setShowBar] = useState(false)
 
   const dataStatus = useSelector((state: any) => {
@@ -52,14 +45,14 @@ function BenchmarksTable({ selectedType }: BenchmarksProps) {
     ]
     const maxWidth = 500
     let setLength = 1
-    const dutation = (index * 250) + 800
+    const dutation = index * 250 + 800
 
     switch (type) {
-      case 'singleScore':
-        setLength = score / 2500
+      case 'timespyScore':
+        setLength = score / 45000
         break
       default:
-        setLength = score / 40000
+        setLength = score / 50000
         break
     }
     return (
@@ -83,12 +76,12 @@ function BenchmarksTable({ selectedType }: BenchmarksProps) {
       sortable: false,
       width: 250,
       editable: false,
-      disableColumnMenu: true
+      disableColumnMenu: true,
     },
     {
-      field: 'singleScore',
-      headerName: 'Single Score',
-      width: selectedField === 'singleScore' ? 550 : 150,
+      field: 'timespyScore',
+      headerName: 'Time Spy Score',
+      width: selectedField === 'timespyScore' ? 550 : 150,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
@@ -103,9 +96,9 @@ function BenchmarksTable({ selectedType }: BenchmarksProps) {
       },
     },
     {
-      field: 'multiScore',
-      headerName: 'Multi Score',
-      width: selectedField === 'multiScore' ? 550 : 150,
+      field: 'firestrikeScore',
+      headerName: 'Fire Strike Score',
+      width: selectedField === 'firestrikeScore' ? 550 : 150,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
@@ -130,22 +123,25 @@ function BenchmarksTable({ selectedType }: BenchmarksProps) {
 
   const createListOptions = () => {
     let tempOptions: any[] = []
-    if (selectedType === 'cpu') {
-      tempOptions = dataStatus.cpuList.map((item: CPUType, index: number) => {
-        return {
-          id: `${item.brand} ${item.name}`,
-          index,
-          singleScore: item.singleCoreScore,
-          multiScore: item.multiCoreScore,
-          price: getCurrentPrice(item.priceUS, item.priceHK, item.priceCN, i18n.language),
-        }
-      })
-    }
-    return tempOptions.sort((a, b) => b.multiScore - a.multiScore)
+    tempOptions = dataStatus.gpuList.map((item: GPUType, index: number) => {
+      return {
+        id: `${item.manufacturer} ${item.model}`,
+        index,
+        timespyScore: item.timespyScore,
+        firestrikeScore: item.firestrikeScore,
+        price: getCurrentPriceWithSign(
+          item.priceUS,
+          item.priceHK,
+          item.priceCN,
+          i18n.language
+        ),
+      }
+    })
+    return tempOptions.sort((a, b) => b.timespyScore - a.timespyScore)
   }
 
   const handleColumnHeaderClick = (fieldName: string) => {
-    if (fieldName === 'singleScore' || fieldName === 'multiScore') {
+    if (fieldName === 'timespyScore' || fieldName === 'firestrikeScore') {
       setSelectedField(fieldName)
     }
   }
@@ -167,8 +163,4 @@ function BenchmarksTable({ selectedType }: BenchmarksProps) {
   )
 }
 
-const defaultProps: BenchmarksProps = {
-  selectedType: 'cpu',
-}
-
-export default BenchmarksTable
+export default GPUBenchmarksTable
