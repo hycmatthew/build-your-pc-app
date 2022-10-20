@@ -8,18 +8,9 @@ import 'aos/dist/aos.css'
 
 import GPUType from '../../../constant/objectTypes/GPUType'
 import { getCurrentPriceWithSign } from '../../../utils/NumberHelper'
-import i18n from '../../../config/i18n'
-import ProductEnum from '../../../constant/ProductEnum'
-
-type GPUOptionsType = {
-  name: string
-  singleScore: number
-  multiScore: number
-  price: number
-}
 
 function GPUBenchmarksTable() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [selectedField, setSelectedField] = useState('timespyScore')
   const [showBar, setShowBar] = useState(false)
 

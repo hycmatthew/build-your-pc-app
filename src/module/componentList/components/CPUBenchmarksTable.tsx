@@ -10,18 +10,9 @@ import CPUType from '../../../constant/objectTypes/CPUType'
 import {
   getCurrentPriceWithSign,
 } from '../../../utils/NumberHelper'
-import i18n from '../../../config/i18n'
-import ProductEnum from '../../../constant/ProductEnum'
-
-type CPUOptionsType = {
-  name: string
-  singleScore: number
-  multiScore: number
-  price: number
-}
 
 function CPUBenchmarksTable() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [selectedField, setSelectedField] = useState('multiScore')
   const [showBar, setShowBar] = useState(false)
 

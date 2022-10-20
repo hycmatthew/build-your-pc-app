@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardContent,
@@ -7,6 +7,8 @@ import {
   TextField,
   Button,
 } from '@mui/material'
+import { current } from '@reduxjs/toolkit'
+import { useAppDispatch } from '../../store/store'
 
 type BudgetComponentProps = {
   currectStep: number
@@ -14,7 +16,14 @@ type BudgetComponentProps = {
 }
 
 function BudgetComponent({ currectStep, updateStep }: BudgetComponentProps) {
-  const submitButtonOnClick = () => {}
+  const dispatch = useAppDispatch()
+  const [budget, setBudget] = useState(0)
+
+  const submitButtonOnClick = () => {
+    if (currectStep === 0) {
+      updateStep(1)
+    }
+  }
 
   return (
     <Card sx={{ minWidth: 275 }}>
@@ -25,7 +34,9 @@ function BudgetComponent({ currectStep, updateStep }: BudgetComponentProps) {
         <TextField label="Budget" variant="outlined" type="number" />
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={submitButtonOnClick}>
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   )
