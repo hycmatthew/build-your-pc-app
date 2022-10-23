@@ -1,8 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
-import isEmpty from 'lodash/isEmpty'
-import flatten from 'lodash/flatten'
 
 import SelectElement from '../../common/components/Select'
 import { DataState, sliceActions } from '../../store/rawDataReducer'
@@ -74,38 +72,6 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
     isLoading,
   } = dataState
 
-  const motherboardIncompatible = (item: MotherboardType) => {
-    return motherboardIncompatibleWithCPU(item, selectedItems.cpu)
-  }
-
-  const ramIncompatible = (item: RAMType) => {
-    const sameChipset = ramIncompatibleWithCPU(item, selectedItems.cpu)
-    const isMotherboardSupport = ramIncompatibleWithMotherboard(
-      item,
-      selectedItems.motherboard
-    )
-    return sameChipset || isMotherboardSupport
-  }
-
-  const psuIncompatible = (item: PSUType) => {
-    return psuPowerNotEnough(item.watt, getTotalPower(selectedItems))
-  }
-
-  const caseIncompatible = (item: CaseType) => {
-    const gpuLengthValid = caseIncompatibleWithGPU(item, selectedItems.gpu)
-    const motherboardValid = caseIncompatibleWithMotherboard(
-      item,
-      selectedItems.motherboard
-    )
-    const aioValid = caseIncompatibleWithAIO(item, selectedItems.aio)
-    return gpuLengthValid || motherboardValid || aioValid
-  }
-
-  const airCoolerIncompatible = (item: AirCoolerType) => {
-    const coolerHeightValid = airCoolerIncompatibleWithCase(item, selectedItems.pcCase)
-    return coolerHeightValid
-  }
-
   const changeSelectItem = (value: string, type: string) => {
     switch (type) {
       case ProductEnum.CPU: {
@@ -115,7 +81,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       }
       case ProductEnum.Motherboard: {
         const selectedItem = searchMotherboardItem(motherboardList, value)
-        dispatch(sliceActions.updateSelectedMotherBoard(selectedItem))
+        dispatch(sliceActions.updateSelectedMotherboard(selectedItem))
         break
       }
       case ProductEnum.GPU: {
@@ -181,7 +147,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
           label={ProductEnum.Motherboard}
           options={generateMotherboardSelectElement(
             motherboardList,
-            motherboardIncompatible
+            selectedItems
           )}
           selectChange={changeSelectItem}
           isLoading={isLoading}
@@ -190,7 +156,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label={ProductEnum.RAM}
-          options={generateRAMSelectElement(ramList, ramIncompatible)}
+          options={generateRAMSelectElement(ramList, selectedItems)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -206,7 +172,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label={ProductEnum.PSU}
-          options={generatePSUSelectElement(psuList, psuIncompatible)}
+          options={generatePSUSelectElement(psuList, selectedItems)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -214,7 +180,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label={ProductEnum.ComputerCase}
-          options={generateCaseSelectElement(caseList, caseIncompatible)}
+          options={generateCaseSelectElement(caseList, selectedItems)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -230,7 +196,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label={ProductEnum.AirCooler}
-          options={generateAirCoolerSelectElement(airCoolerList, airCoolerIncompatible)}
+          options={generateAirCoolerSelectElement(airCoolerList, selectedItems)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />

@@ -11,10 +11,18 @@ import {
   AirCoolerType,
 } from '../../../constant/objectTypes'
 import { getCurrentPrice } from '../../../utils/NumberHelper'
+import { SelectedItemType } from '../../store/rawDataReducer'
+import {
+  airCoolerIncompatible,
+  caseIncompatible,
+  motherboardIncompatible,
+  psuIncompatible,
+  ramIncompatible,
+} from './compatibleLogic'
 
 export const generateCPUSelectElement = (
   list: CPUType[],
-  disableFunc?: (item: CPUType) => boolean
+  selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: CPUType) => {
     const price = getCurrentPrice(
@@ -30,7 +38,7 @@ export const generateCPUSelectElement = (
       brand: item.brand,
       label: itemLabel,
       value: price,
-      disabled: disableFunc ? disableFunc(item) : false,
+      disabled: false,
     }
   })
   return tempMap.filter((item: any) => item.price !== '0.00')
@@ -38,7 +46,7 @@ export const generateCPUSelectElement = (
 
 export const generateGPUSelectElement = (
   list: GPUType[],
-  disableFunc?: (item: GPUType) => boolean
+  selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: GPUType) => {
     const price = getCurrentPrice(
@@ -54,7 +62,7 @@ export const generateGPUSelectElement = (
       brand: item.brand,
       label: itemLabel,
       value: price,
-      disabled: disableFunc ? disableFunc(item) : false,
+      disabled: false,
     }
   })
   return tempMap.filter((item: any) => item.value !== '0.00')
@@ -62,7 +70,7 @@ export const generateGPUSelectElement = (
 
 export const generateMotherboardSelectElement = (
   list: MotherboardType[],
-  disableFunc?: (item: MotherboardType) => boolean
+  selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: MotherboardType) => {
     const price = getCurrentPrice(
@@ -78,7 +86,9 @@ export const generateMotherboardSelectElement = (
       brand: item.brand,
       label: itemLabel,
       value: price,
-      disabled: disableFunc ? disableFunc(item) : false,
+      disabled: selectedItems
+        ? motherboardIncompatible(item, selectedItems)
+        : false,
     }
   })
   return tempMap.filter((item: any) => item.value !== '0.00')
@@ -86,7 +96,7 @@ export const generateMotherboardSelectElement = (
 
 export const generateRAMSelectElement = (
   list: RAMType[],
-  disableFunc?: (item: RAMType) => boolean
+  selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: RAMType) => {
     const price = getCurrentPrice(
@@ -102,7 +112,7 @@ export const generateRAMSelectElement = (
       brand: item.brand,
       label: itemLabel,
       value: price,
-      disabled: disableFunc ? disableFunc(item) : false,
+      disabled: selectedItems ? ramIncompatible(item, selectedItems) : false,
     }
   })
   return tempMap.filter((item: any) => item.value !== '0.00')
@@ -110,7 +120,7 @@ export const generateRAMSelectElement = (
 
 export const generatePSUSelectElement = (
   list: PSUType[],
-  disableFunc?: (item: PSUType) => boolean
+  selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: PSUType) => {
     const price = getCurrentPrice(
@@ -126,7 +136,7 @@ export const generatePSUSelectElement = (
       brand: item.brand,
       label: itemLabel,
       value: price,
-      disabled: disableFunc ? disableFunc(item) : false,
+      disabled: selectedItems ? psuIncompatible(item, selectedItems) : false,
     }
   })
   return tempMap.filter((item: any) => item.value !== '0.00')
@@ -134,7 +144,7 @@ export const generatePSUSelectElement = (
 
 export const generateCaseSelectElement = (
   list: CaseType[],
-  disableFunc?: (item: CaseType) => boolean
+  selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: CaseType) => {
     const price = getCurrentPrice(
@@ -149,7 +159,7 @@ export const generateCaseSelectElement = (
       brand: item.brand,
       label: itemLabel,
       value: price,
-      disabled: disableFunc ? disableFunc(item) : false,
+      disabled: selectedItems ? caseIncompatible(item, selectedItems) : false,
     }
   })
   return tempMap.filter((item: any) => item.value !== '0.00')
@@ -157,7 +167,7 @@ export const generateCaseSelectElement = (
 
 export const generateAIOSelectElement = (
   list: AIOType[],
-  disableFunc?: (item: AIOType) => boolean
+  selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: AIOType) => {
     const price = getCurrentPrice(
@@ -172,7 +182,7 @@ export const generateAIOSelectElement = (
       brand: item.brand,
       label: item.name,
       value: price,
-      disabled: disableFunc ? disableFunc(item) : false,
+      disabled: false,
     }
   })
   return tempMap.filter((item: any) => item.value !== '0.00')
@@ -180,7 +190,7 @@ export const generateAIOSelectElement = (
 
 export const generateSSDSelectElement = (
   list: SSDType[],
-  disableFunc?: (item: SSDType) => boolean
+  selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: SSDType) => {
     const price = getCurrentPrice(
@@ -196,7 +206,7 @@ export const generateSSDSelectElement = (
       brand: item.brand,
       label: itemLabel,
       value: price,
-      disabled: disableFunc ? disableFunc(item) : false,
+      disabled: false,
     }
   })
   return tempMap.filter((item: any) => item.value !== '0.00')
@@ -204,7 +214,7 @@ export const generateSSDSelectElement = (
 
 export const generateAirCoolerSelectElement = (
   list: AirCoolerType[],
-  disableFunc?: (item: AirCoolerType) => boolean
+  selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: AirCoolerType) => {
     const price = getCurrentPrice(
@@ -220,7 +230,9 @@ export const generateAirCoolerSelectElement = (
       brand: item.brand,
       label: itemLabel,
       value: price,
-      disabled: disableFunc ? disableFunc(item) : false,
+      disabled: selectedItems
+        ? airCoolerIncompatible(item, selectedItems)
+        : false,
     }
   })
   return tempMap.filter((item: any) => item.value !== '0.00')

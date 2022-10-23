@@ -16,8 +16,8 @@ function CPUBenchmarksTable() {
   const [selectedField, setSelectedField] = useState('multiScore')
   const [showBar, setShowBar] = useState(false)
 
-  const dataStatus = useSelector((state: any) => {
-    return state
+  const dataState = useSelector((state: any) => {
+    return state.rawData
   })
 
   useEffect(() => {
@@ -116,7 +116,7 @@ function CPUBenchmarksTable() {
 
   const createListOptions = () => {
     let tempOptions: any[] = []
-    tempOptions = dataStatus.cpuList.map((item: CPUType, index: number) => {
+    tempOptions = dataState.cpuList.map((item: CPUType, index: number) => {
       return {
         id: `${item.brand} ${item.name}`,
         index,

@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 import rawDataReducer from './rawDataReducer'
+import aiLogicReducer from '../aiComponentList/store/aiLogicReducer'
 
 const store = configureStore({
-  reducer: rawDataReducer,
+  reducer: {
+    rawData: rawDataReducer,
+    aiLogic: aiLogicReducer
+  },
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

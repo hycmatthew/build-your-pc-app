@@ -143,7 +143,7 @@ export const counterSlice = createSlice({
     updateSelectedCPU: (state, action) => {
       state.selectedItems.cpu = action.payload
     },
-    updateSelectedMotherBoard: (state, action) => {
+    updateSelectedMotherboard: (state, action) => {
       state.selectedItems.motherboard = action.payload
     },
     updateSelectedGPU: (state, action) => {

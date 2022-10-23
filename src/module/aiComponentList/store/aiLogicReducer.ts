@@ -1,6 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { CPUType, MotherboardType, GPUType, RAMType, SSDType, PSUType, AIOType, CaseType, AirCoolerType } from '../../../constant/objectTypes'
-
+import {
+  CPUType,
+  MotherboardType,
+  GPUType,
+  RAMType,
+  SSDType,
+  PSUType,
+  AIOType,
+  CaseType,
+  AirCoolerType,
+} from '../../../constant/objectTypes'
 
 export interface BuildLogicState {
   budget: number
@@ -32,10 +41,16 @@ const initialState: BuildLogicState = {
   preSelectedAirCooler: null,
 }
 
-export const counterSlice = createSlice({
-  name: 'counter',
+export const aiLogicSlice = createSlice({
+  name: 'aiLogic',
   initialState,
   reducers: {
+    updateBudget: (state, action) => {
+      state.budget = action.payload
+    },
+    updateBuildUsage: (state, action) => {
+      state.gamingUsage = action.payload
+    },
     updatePreSelectedCPU: (state, action) => {
       state.preSelectedCPU = action.payload
     },
@@ -67,6 +82,6 @@ export const counterSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const sliceActions = counterSlice.actions
+export const sliceActions = aiLogicSlice.actions
 
-export default counterSlice.reducer
+export default aiLogicSlice.reducer

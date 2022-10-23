@@ -23,7 +23,7 @@ function Database() {
   const categoryList = Object.values(ProductEnum)
 
   const dataState = useSelector((state: any) => {
-    return state
+    return state.rawData
   })
 
   const [selectedType, setSelectedType] = useState(ProductEnum.CPU)

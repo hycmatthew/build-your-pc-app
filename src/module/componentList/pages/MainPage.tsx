@@ -11,9 +11,9 @@ import CompatibleSection from '../components/CompatibleSection'
 
 function MainPage() {
   const dataState = useSelector((state: any) => {
-    return state
+    return state.rawData
   })
-
+  console.log(dataState)
   return (
     <AppLayout>
       <Grid

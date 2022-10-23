@@ -14,8 +14,8 @@ function GPUBenchmarksTable() {
   const [selectedField, setSelectedField] = useState('timespyScore')
   const [showBar, setShowBar] = useState(false)
 
-  const dataStatus = useSelector((state: any) => {
-    return state
+  const dataState = useSelector((state: any) => {
+    return state.rawData
   })
 
   useEffect(() => {
@@ -114,7 +114,7 @@ function GPUBenchmarksTable() {
 
   const createListOptions = () => {
     let tempOptions: any[] = []
-    tempOptions = dataStatus.gpuList.map((item: GPUType, index: number) => {
+    tempOptions = dataState.gpuList.map((item: GPUType, index: number) => {
       return {
         id: `${item.manufacturer} ${item.model}`,
         index,

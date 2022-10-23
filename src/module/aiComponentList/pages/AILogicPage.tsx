@@ -16,6 +16,7 @@ import {
   SSDType,
   RAMType,
 } from '../../../constant/objectTypes'
+import { useSelector } from 'react-redux'
 
 interface BuildLogicType {
   budget: number
@@ -48,6 +49,10 @@ function AILogicPage() {
     preSelectedAirCooler: null,
   }
 
+  const dataState = useSelector((state: any) => {
+    return state
+  })
+  
   const [step, setStep] = useState(0)
   const [buildLogic, setBuildLogic] = useState(buildLogicInitValue)
 
@@ -62,10 +67,10 @@ function AILogicPage() {
           <BudgetComponent currectStep={step} updateStep={updateStep} />
         </Grid>
         <Grid item xs={12} sx={{ display: step > 0 ? 'block' : 'none' }}>
-          <UsageComponent />
+          <UsageComponent currectStep={step} updateStep={updateStep} />
         </Grid>
         <Grid item xs={12} sx={{ display: step > 1 ? 'block' : 'none' }}>
-          <SpecificComponent />
+          <SpecificComponent rawData={dataState.rawData} currectStep={step} updateStep={updateStep} />
         </Grid>
       </Grid>
     </AppLayout>
