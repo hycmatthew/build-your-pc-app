@@ -41,7 +41,17 @@ type SpecificComponentProps = {
   updateStep: (newStep: number) => void
 }
 
-function SpecificComponent({ rawData, currectStep, updateStep }: SpecificComponentProps) {
+function SpecificComponent({
+  rawData,
+  currectStep,
+  updateStep,
+}: SpecificComponentProps) {
+  const submitButtonOnClick = () => {
+    if (currectStep === 1) {
+      updateStep(2)
+    }
+  }
+
   const dispatch = useAppDispatch()
   const {
     selectedItems,
@@ -194,7 +204,9 @@ function SpecificComponent({ rawData, currectStep, updateStep }: SpecificCompone
         </Grid>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={submitButtonOnClick}>
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   )
