@@ -24,7 +24,7 @@ export const ramIncompatibleWithMotherboard = (
   ram: RAMType,
   motherboard: MotherboardType | null
 ) => {
-  return motherboard ? !motherboard.supportedRam.includes(ram.speed) : false
+  return motherboard ? !motherboard.supportedRam.includes(ram.speed.toString()) : false
 }
 
 export const psuPowerNotEnough = (psuPower: number, totalPower: number) => {

@@ -32,9 +32,7 @@ function ResultComponent({
     }
   }
 
-  const buildLogic = () => {
-    
-  }
+  const buildLogic = () => {}
 
   return (
     <Card sx={{ minWidth: 275 }}>

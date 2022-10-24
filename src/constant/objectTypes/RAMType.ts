@@ -4,9 +4,9 @@ interface RAMType {
   model: string
   type: string
   chipset: string
-  speed: string
+  speed: number
   capacity: string
-  cl: string
+  cl: number
   timing: string
   rgb: string
   priceUS: string

@@ -6,17 +6,6 @@ import AppLayout from '../../common/AppLayout'
 import BudgetComponent from '../components/BudgetComponent'
 import UsageComponent from '../components/UsageComponent'
 import SpecificComponent from '../components/SpecificComponent'
-import {
-  AIOType,
-  AirCoolerType,
-  CaseType,
-  CPUType,
-  GPUType,
-  MotherboardType,
-  PSUType,
-  SSDType,
-  RAMType,
-} from '../../../constant/objectTypes'
 import ResultComponent from '../components/ResultComponent'
 
 function AILogicPage() {
