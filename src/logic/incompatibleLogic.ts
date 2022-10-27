@@ -10,10 +10,10 @@ import {
 } from '../constant/objectTypes'
 
 export const motherboardIncompatibleWithCPU = (
-  motherboard: MotherboardType,
+  motherboard: MotherboardType | null,
   cpu: CPUType | null
 ) => {
-  return cpu ? motherboard.socket !== cpu.socket : false
+  return cpu && motherboard ? motherboard.socket !== cpu.socket : false
 }
 
 export const ramIncompatibleWithCPU = (ram: RAMType, cpu: CPUType | null) => {
@@ -24,7 +24,9 @@ export const ramIncompatibleWithMotherboard = (
   ram: RAMType,
   motherboard: MotherboardType | null
 ) => {
-  return motherboard ? !motherboard.supportedRam.includes(ram.speed.toString()) : false
+  return motherboard
+    ? !motherboard.supportedRam.includes(ram.speed.toString())
+    : false
 }
 
 export const psuPowerNotEnough = (psuPower: number, totalPower: number) => {
@@ -32,10 +34,10 @@ export const psuPowerNotEnough = (psuPower: number, totalPower: number) => {
 }
 
 export const caseIncompatibleWithGPU = (
-  pcCase: CaseType,
+  pcCase: CaseType | null,
   gpu: GPUType | null
 ) => {
-  return gpu ? gpu.length > pcCase.maxGPULength : false
+  return gpu && pcCase ? gpu.length > pcCase.maxGPULength : false
 }
 
 export const caseIncompatibleWithMotherboard = (

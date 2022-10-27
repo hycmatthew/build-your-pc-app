@@ -29,7 +29,7 @@ const Calculator = ({ selectedItems }: CalculatorProps) => {
           <Typography className="normal-header-typography">
             {t('price')}
           </Typography>
-          <Typography>{getTotalPrice(selectedItems, i18n.language)}</Typography>
+          <Typography>{getTotalPrice(selectedItems)}</Typography>
         </Grid>
       </Grid>
     </CustomContainer>

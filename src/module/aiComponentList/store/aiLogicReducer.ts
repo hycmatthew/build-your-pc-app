@@ -1,44 +1,28 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import {
-  CPUType,
-  MotherboardType,
-  GPUType,
-  RAMType,
-  SSDType,
-  PSUType,
-  AIOType,
-  CaseType,
-  AirCoolerType,
-} from '../../../constant/objectTypes'
+import { SelectedItemType } from '../../store/rawDataReducer'
 
 export interface BuildLogicState {
   budget: number
   gamingUsage: number
   normalUsage: number
-  preSelectedCPU: CPUType | null
-  preSelectedMotherboard: MotherboardType | null
-  preSelectedGPU: GPUType | null
-  preSelectedRAM: RAMType | null
-  preSelectedSSD: SSDType | null
-  preSelectedPSU: PSUType | null
-  preSelectedAIO: AIOType | null
-  preSelectedCase: CaseType | null
-  preSelectedAirCooler: AirCoolerType | null
+  preSelectedItem: SelectedItemType
 }
 
 const initialState: BuildLogicState = {
   budget: 0,
   gamingUsage: 0,
   normalUsage: 0,
-  preSelectedCPU: null,
-  preSelectedMotherboard: null,
-  preSelectedGPU: null,
-  preSelectedRAM: null,
-  preSelectedSSD: null,
-  preSelectedPSU: null,
-  preSelectedAIO: null,
-  preSelectedCase: null,
-  preSelectedAirCooler: null,
+  preSelectedItem: {
+    cpu: null,
+    motherboard: null,
+    gpu: null,
+    ram: null,
+    psu: null,
+    pcCase: null,
+    aio: null,
+    ssd: null,
+    airCooler: null
+  }
 }
 
 export const aiLogicSlice = createSlice({
@@ -52,31 +36,31 @@ export const aiLogicSlice = createSlice({
       state.gamingUsage = action.payload
     },
     updatePreSelectedCPU: (state, action) => {
-      state.preSelectedCPU = action.payload
+      state.preSelectedItem.cpu = action.payload
     },
     updatePreSelectedMotherboard: (state, action) => {
-      state.preSelectedMotherboard = action.payload
+      state.preSelectedItem.motherboard = action.payload
     },
     updatePreSelectedGPU: (state, action) => {
-      state.preSelectedGPU = action.payload
+      state.preSelectedItem.gpu = action.payload
     },
     updatePreSelectedRAM: (state, action) => {
-      state.preSelectedRAM = action.payload
+      state.preSelectedItem.ram = action.payload
     },
     updatePreSelectedSSD: (state, action) => {
-      state.preSelectedSSD = action.payload
+      state.preSelectedItem.ssd = action.payload
     },
     updatePreSelectedPSU: (state, action) => {
-      state.preSelectedPSU = action.payload
+      state.preSelectedItem.psu = action.payload
     },
     updatePreSelectedAIO: (state, action) => {
-      state.preSelectedAIO = action.payload
+      state.preSelectedItem.aio = action.payload
     },
     updatePreSelectedCase: (state, action) => {
-      state.preSelectedCase = action.payload
+      state.preSelectedItem.pcCase = action.payload
     },
     updatePreSelectedAirCooler: (state, action) => {
-      state.preSelectedAirCooler = action.payload
+      state.preSelectedItem.airCooler = action.payload
     },
   },
 })

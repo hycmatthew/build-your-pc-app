@@ -1,7 +1,19 @@
 import { compact, sum, toNumber } from 'lodash'
+import i18n from '../config/i18n'
 import { SelectedItemType } from '../module/store/rawDataReducer'
 
-const calculateTotalNumber = (numberList: string[]) => {
+export const getSelectedCurrency = () => {
+  switch (i18n.language) {
+    case 'zh-TW':
+      return 'priceHK'
+    case 'zh-CN':
+      return 'priceCN'
+    default:
+      return 'priceUS'
+  }
+}
+
+export const calculateTotalNumber = (numberList: string[]) => {
   let totalNumber = 0
   numberList.forEach((item) => {
     totalNumber += toNumber(item)
@@ -9,8 +21,8 @@ const calculateTotalNumber = (numberList: string[]) => {
   return totalNumber
 }
 
-export const addCurrencySign = (str: string, lang: string) => {
-  switch (lang) {
+export const addCurrencySign = (str: string) => {
+  switch (i18n.language) {
     case 'zh-TW':
       return `$${str}`
     case 'zh-CN':
@@ -50,49 +62,28 @@ export const getCurrentPriceWithSign = (
   priceCN: string,
   lang: string
 ) => {
-  return addCurrencySign(getCurrentPrice(priceUS, priceHK, priceCN, lang), lang)
+  return addCurrencySign(getCurrentPrice(priceUS, priceHK, priceCN, lang))
 }
 
 export const getTotalPrice = (
   selectedItems: SelectedItemType,
-  lang: string
 ) => {
-  const numberList = () => {
-    switch (lang) {
-      case 'zh-CN':
-        return [
-          selectedItems.cpu?.priceCN,
-          selectedItems.gpu?.priceCN,
-          selectedItems.motherboard?.priceCN,
-          selectedItems.ram?.priceCN,
-          selectedItems.psu?.priceCN,
-          selectedItems.pcCase?.priceCN,
-        ]
-      case 'zh-TW':
-        return [
-          selectedItems.cpu?.priceHK,
-          selectedItems.gpu?.priceHK,
-          selectedItems.motherboard?.priceHK,
-          selectedItems.ram?.priceHK,
-          selectedItems.psu?.priceHK,
-          selectedItems.pcCase?.priceHK,
-        ]
-      default:
-        return [
-          selectedItems.cpu?.priceUS,
-          selectedItems.gpu?.priceUS,
-          selectedItems.motherboard?.priceUS,
-          selectedItems.ram?.priceUS,
-          selectedItems.psu?.priceUS,
-          selectedItems.pcCase?.priceUS,
-        ]
-    }
-  }
+  const numberList = [
+    selectedItems.cpu?.[getSelectedCurrency()],
+    selectedItems.gpu?.[getSelectedCurrency()],
+    selectedItems.motherboard?.[getSelectedCurrency()],
+    selectedItems.ram?.[getSelectedCurrency()],
+    selectedItems.psu?.[getSelectedCurrency()],
+    selectedItems.ssd?.[getSelectedCurrency()],
+    selectedItems.aio?.[getSelectedCurrency()],
+    selectedItems.airCooler?.[getSelectedCurrency()],
+    selectedItems.pcCase?.[getSelectedCurrency()],
+  ]
 
-  const totolPrice = calculateTotalNumber(compact(numberList()))
+  const totolPrice = calculateTotalNumber(compact(numberList))
     .toFixed(2)
     .toString()
-  return addCurrencySign(totolPrice, lang)
+  return addCurrencySign(totolPrice)
 }
 
 export const getTotalPower = (selectedItems: SelectedItemType) => {

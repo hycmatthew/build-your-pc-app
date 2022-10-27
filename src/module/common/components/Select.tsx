@@ -1,4 +1,3 @@
-import i18n from 'i18next'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -104,7 +103,7 @@ const SelectElement = ({
           >
             <Typography>{option.label}</Typography>
             <ValueTypography>
-              {addCurrencySign(option.value, i18n.language)}
+              {addCurrencySign(option.value)}
             </ValueTypography>
           </Stack>
         </Box>
