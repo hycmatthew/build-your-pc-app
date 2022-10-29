@@ -10,6 +10,7 @@ import {
 import { useAppDispatch } from '../../store/store'
 import { aiLogicSlice, BuildLogicState } from '../store/aiLogicReducer'
 import { DataState } from '../../store/rawDataReducer'
+import SelectedItemCard from './SelectedItemCard'
 
 type ResultComponentProps = {
   logicState: BuildLogicState
@@ -36,16 +37,10 @@ function ResultComponent({
 
   return (
     <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Budget
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small" onClick={submitButtonOnClick}>
-          Confirm
-        </Button>
-      </CardActions>
+      <SelectedItemCard />
+      <SelectedItemCard />
+      <SelectedItemCard />
+      <SelectedItemCard />
     </Card>
   )
 }

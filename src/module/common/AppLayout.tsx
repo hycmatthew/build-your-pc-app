@@ -49,7 +49,8 @@ const TopGrid = styled(Grid)({
 
 const ChildGrid = styled(Grid)({
   paddingTop: '80px !important',
-  height: 'calc(100vh - 44px)',
+  minHeight: '100vh',
+  height: '100%',
 })
 
 const FooterGrid = styled(Grid)({

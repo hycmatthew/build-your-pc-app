@@ -47,8 +47,8 @@ function SpecificComponent({
   updateStep,
 }: SpecificComponentProps) {
   const submitButtonOnClick = () => {
-    if (currectStep === 1) {
-      updateStep(2)
+    if (currectStep === 2) {
+      updateStep(3)
     }
   }
 

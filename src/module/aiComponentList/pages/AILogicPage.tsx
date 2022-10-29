@@ -16,6 +16,7 @@ function AILogicPage() {
   const [step, setStep] = useState(0)
 
   const updateStep = (newStep: number) => {
+    console.log(newStep)
     setStep(newStep)
   }
 

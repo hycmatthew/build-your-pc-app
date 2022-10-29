@@ -1,4 +1,4 @@
-import { flatten, isEmpty } from 'lodash'
+import { flatten } from 'lodash'
 import {
   CPUType,
   GPUType,
