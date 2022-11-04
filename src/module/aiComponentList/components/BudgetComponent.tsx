@@ -6,10 +6,12 @@ import {
   CardActions,
   TextField,
   Button,
+  InputAdornment,
 } from '@mui/material'
 import { current } from '@reduxjs/toolkit'
 import { useAppDispatch } from '../../store/store'
 import { aiLogicSlice } from '../store/aiLogicReducer'
+import { addCurrencySign } from '../../../utils/NumberHelper'
 
 type BudgetComponentProps = {
   currectStep: number
@@ -27,6 +29,11 @@ function BudgetComponent({ currectStep, updateStep }: BudgetComponentProps) {
       updateStep(1)
     }
   }
+
+  const clearButtonOnClick = () => {
+    dispatch(aiLogicSlice.actions.clearAllLogic({}))
+  }
+
   const budgetTextfieldChanged = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -36,19 +43,22 @@ function BudgetComponent({ currectStep, updateStep }: BudgetComponentProps) {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Budget
-        </Typography>
         <TextField
           label="Budget"
           variant="outlined"
           type="number"
           onChange={budgetTextfieldChanged}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">{addCurrencySign('')}</InputAdornment>,
+          }}
         />
       </CardContent>
       <CardActions>
         <Button size="small" onClick={submitButtonOnClick}>
           Confirm
+        </Button>
+        <Button size="small" onClick={clearButtonOnClick}>
+          Clear
         </Button>
       </CardActions>
     </Card>

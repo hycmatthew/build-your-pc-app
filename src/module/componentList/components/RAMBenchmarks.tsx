@@ -6,14 +6,13 @@ import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-import CPUType from '../../../constant/objectTypes/CPUType'
-import {
-  getCurrentPriceWithSign,
-} from '../../../utils/NumberHelper'
+import { RAMType } from '../../../constant/objectTypes'
+import { getCurrentPriceWithSign } from '../../../utils/NumberHelper'
+import { ramPerformanceLogic } from '../../../logic/performanceLogic'
 
-function CPUBenchmarksTable() {
+function RAMBenchmarksTable() {
   const { t, i18n } = useTranslation()
-  const [selectedField, setSelectedField] = useState('multiScore')
+  const [selectedField, setSelectedField] = useState('speed')
   const [showBar, setShowBar] = useState(false)
 
   const dataState = useSelector((state: any) => {
@@ -36,18 +35,10 @@ function CPUBenchmarksTable() {
       '#2666CF',
       '#6166B3',
     ]
-    const maxWidth = 500
-    let setLength = 1
+    const maxWidth = 450
+    const setLength = score / 8000
     const dutation = index * 250 + 800
 
-    switch (type) {
-      case 'singleScore':
-        setLength = score / 2500
-        break
-      default:
-        setLength = score / 50000
-        break
-    }
     return (
       <Box
         data-aos="zoom-in-right"
@@ -67,39 +58,34 @@ function CPUBenchmarksTable() {
       field: 'id',
       headerName: 'Name',
       sortable: false,
-      width: 250,
+      width: 330,
       editable: false,
       disableColumnMenu: true,
     },
     {
-      field: 'singleScore',
-      headerName: 'Single Score',
-      width: selectedField === 'singleScore' ? 550 : 150,
+      field: 'speed',
+      headerName: 'Speed',
+      width: 120,
+      editable: false,
+      disableColumnMenu: true,
+    },
+    {
+      field: 'cl',
+      headerName: 'Latency (Lower is better)',
+      width: 150,
+      editable: false,
+      disableColumnMenu: true,
+    },
+    {
+      field: 'performance',
+      headerName: 'Overall Performance',
+      width: 450,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
         return (
           <Stack direction="row" alignItems="center" spacing={2}>
-            {params.field === selectedField
-              ? benchmarksBarWidth(params.field, params.value, params.row.index)
-              : ''}
-            <Typography variant="subtitle2">{params.value}</Typography>
-          </Stack>
-        )
-      },
-    },
-    {
-      field: 'multiScore',
-      headerName: 'Multi Score',
-      width: selectedField === 'multiScore' ? 550 : 150,
-      editable: false,
-      disableColumnMenu: true,
-      renderCell: (params) => {
-        return (
-          <Stack direction="row" alignItems="center" spacing={2}>
-            {params.field === selectedField
-              ? benchmarksBarWidth(params.field, params.value, params.row.index)
-              : ''}
+            {benchmarksBarWidth(params.field, params.value, params.row.index)}
             <Typography variant="subtitle2">{params.value}</Typography>
           </Stack>
         )
@@ -108,7 +94,7 @@ function CPUBenchmarksTable() {
     {
       field: 'price',
       headerName: 'Price',
-      width: 160,
+      width: 140,
       editable: false,
       disableColumnMenu: true,
     },
@@ -116,12 +102,13 @@ function CPUBenchmarksTable() {
 
   const createListOptions = () => {
     let tempOptions: any[] = []
-    tempOptions = dataState.cpuList.map((item: CPUType, index: number) => {
+    tempOptions = dataState.ramList.map((item: RAMType, index: number) => {
       return {
-        id: `${item.brand} ${item.name}`,
+        id: `${item.brand} ${item.model}`,
         index,
-        singleScore: item.singleCoreScore,
-        multiScore: item.multiCoreScore,
+        speed: item.speed,
+        performance: ramPerformanceLogic(item.speed, item.cl),
+        cl: item.cl,
         price: getCurrentPriceWithSign(
           item.priceUS,
           item.priceHK,
@@ -130,11 +117,11 @@ function CPUBenchmarksTable() {
         ),
       }
     })
-    return tempOptions.sort((a, b) => b.multiScore - a.multiScore)
+    return tempOptions.sort((a, b) => b.performance - a.performance)
   }
 
   const handleColumnHeaderClick = (fieldName: string) => {
-    if (fieldName === 'singleScore' || fieldName === 'multiScore') {
+    if (fieldName === 'speed' || fieldName === 'cl' || fieldName === 'performance') {
       setSelectedField(fieldName)
     }
   }
@@ -156,4 +143,4 @@ function CPUBenchmarksTable() {
   )
 }
 
-export default CPUBenchmarksTable
+export default RAMBenchmarksTable

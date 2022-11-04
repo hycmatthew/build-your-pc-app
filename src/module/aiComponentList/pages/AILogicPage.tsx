@@ -7,43 +7,47 @@ import BudgetComponent from '../components/BudgetComponent'
 import UsageComponent from '../components/UsageComponent'
 import SpecificComponent from '../components/SpecificComponent'
 import ResultComponent from '../components/ResultComponent'
+import { aiLogicSlice } from '../store/aiLogicReducer'
+import { useAppDispatch } from '../../store/store'
 
 function AILogicPage() {
-  const dataState = useSelector((state: any) => {
+  const dispatch = useAppDispatch()
+
+  const { aiLogic, rawData } = useSelector((state: any) => {
     return state
   })
-
-  const [step, setStep] = useState(0)
-
   const updateStep = (newStep: number) => {
-    console.log(newStep)
-    setStep(newStep)
+    dispatch(aiLogicSlice.actions.updateStep(newStep))
   }
 
   return (
     <AppLayout>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <BudgetComponent currectStep={step} updateStep={updateStep} />
+          <BudgetComponent currectStep={aiLogic.step} updateStep={updateStep} />
         </Grid>
-        <Grid item xs={12} sx={{ display: step > 0 ? 'block' : 'none' }}>
-          <UsageComponent currectStep={step} updateStep={updateStep} />
-        </Grid>
-        <Grid item xs={12} sx={{ display: step > 1 ? 'block' : 'none' }}>
-          <SpecificComponent
-            rawData={dataState.rawData}
-            currectStep={step}
-            updateStep={updateStep}
-          />
-        </Grid>
-        <Grid item xs={12} sx={{ display: step > 2 ? 'block' : 'none' }}>
-          <ResultComponent
-            logicState={dataState.aiLogic}
-            rawData={dataState.rawData}
-            currectStep={step}
-            updateStep={updateStep}
-          />
-        </Grid>
+        {aiLogic.step > 0 && (
+          <Grid item xs={12}>
+            <UsageComponent
+              currectStep={aiLogic.step}
+              updateStep={updateStep}
+            />
+          </Grid>
+        )}
+        {aiLogic.step > 1 && (
+          <Grid item xs={12}>
+            <SpecificComponent
+              rawData={rawData}
+              currectStep={aiLogic.step}
+              updateStep={updateStep}
+            />
+          </Grid>
+        )}
+        {aiLogic.step > 2 && (
+          <Grid item xs={12}>
+            <ResultComponent logicState={aiLogic} rawData={rawData} />
+          </Grid>
+        )}
       </Grid>
     </AppLayout>
   )

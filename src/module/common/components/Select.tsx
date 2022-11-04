@@ -53,7 +53,6 @@ const SelectElement = ({
 
   const handleChange = (event: any, newValue: any) => {
     if (selectChange) {
-      console.log(`test = ${newValue}`)
       selectChange(newValue ? newValue.model : '', label)
       // setSelectValue(newValue.model)
     }

@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { SelectedItemType } from '../../store/rawDataReducer'
 
 export interface BuildLogicState {
+  step: number
   budget: number
   gamingUsage: number
   normalUsage: number
@@ -9,6 +10,7 @@ export interface BuildLogicState {
 }
 
 const initialState: BuildLogicState = {
+  step: 0,
   budget: 0,
   gamingUsage: 0,
   normalUsage: 0,
@@ -21,14 +23,21 @@ const initialState: BuildLogicState = {
     pcCase: null,
     aio: null,
     ssd: null,
-    airCooler: null
-  }
+    airCooler: null,
+  },
 }
 
 export const aiLogicSlice = createSlice({
   name: 'aiLogic',
   initialState,
   reducers: {
+    clearAllLogic: (state, action) => {
+      /* eslint-disable no-param-reassign */
+      state.step = 0
+    },
+    updateStep: (state, action) => {
+      state.step = action.payload
+    },
     updateBudget: (state, action) => {
       state.budget = action.payload
     },

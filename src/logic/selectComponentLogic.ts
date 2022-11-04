@@ -1,15 +1,17 @@
 import { compact, sum, toNumber } from 'lodash'
 import i18n from '../config/i18n'
-import { CPUType, GPUType, MotherboardType } from '../constant/objectTypes'
+import { CPUType, GPUType, MotherboardType, RAMType } from '../constant/objectTypes'
 import { BuildLogicState } from '../module/aiComponentList/store/aiLogicReducer'
 import {
   gpuIncompatible,
   motherboardIncompatible,
+  ramIncompatible,
 } from '../module/common/utils/compatibleLogic'
 import {
   calculateTotalNumber,
   getSelectedCurrency,
 } from '../utils/NumberHelper'
+import { ramPerformanceLogic } from './performanceLogic'
 import { motherboardOverclockSuggestion } from './suggestionLogic'
 
 export const selectComponentLogic = (budget: number, type: number) => {
@@ -17,7 +19,7 @@ export const selectComponentLogic = (budget: number, type: number) => {
 }
 
 const calculateCurrentBudget = (buildLogic: BuildLogicState) => {
-  let dataList = [
+  const dataList = [
     buildLogic.preSelectedItem.cpu?.[getSelectedCurrency()],
     buildLogic.preSelectedItem.gpu?.[getSelectedCurrency()],
     buildLogic.preSelectedItem.motherboard?.[getSelectedCurrency()],
@@ -101,7 +103,7 @@ export const selectCPULogic = (
   buildLogic: BuildLogicState,
   cpuList: CPUType[]
 ) => {
-  let cpuBudget = getItemCPUBudget(buildLogic.budget)
+  const cpuBudget = getItemCPUBudget(buildLogic.budget)
   let selectedCPU: CPUType | null = null
   let currentScore = 0
   cpuList.forEach((item: CPUType) => {
@@ -122,17 +124,15 @@ export const selectMotherboardLogic = (
   let selectedMotherboard: MotherboardType | null = null
   let currentScore = 0
   motherboardList.forEach((item: MotherboardType) => {
-    let cpuValid = motherboardIncompatible(item, buildLogic.preSelectedItem)
+    const cpuValid = motherboardIncompatible(item, buildLogic.preSelectedItem)
     if (!cpuValid) {
       if (
         motherboardOverclockSuggestion(item, buildLogic.preSelectedItem.cpu)
       ) {
-        let tempScore =
-          buildLogic.budget - toNumber(item[getSelectedCurrency()])
+        const tempScore = buildLogic.budget - toNumber(item[getSelectedCurrency()])
         if (tempScore > currentScore) {
           selectedMotherboard = item
-          currentScore =
-            buildLogic.budget - toNumber(item[getSelectedCurrency()])
+          currentScore = buildLogic.budget - toNumber(item[getSelectedCurrency()])
         }
       }
     }
@@ -147,14 +147,32 @@ export const selectGPULogic = (
   let selectedGPU: GPUType | null = null
   let currentScore = 0
   gpuList.forEach((item: GPUType) => {
-    let gpuValid = gpuIncompatible(item, buildLogic.preSelectedItem)
+    const gpuValid = gpuIncompatible(item, buildLogic.preSelectedItem)
     if (
-      !gpuValid &&
-      buildLogic.budget > toNumber(item[getSelectedCurrency()])
+      !gpuValid && buildLogic.budget > toNumber(item[getSelectedCurrency()])
     ) {
       selectedGPU = item
       currentScore = 100
     }
   })
   return selectedGPU
+}
+
+export const selectRAMLogic = (
+  buildLogic: BuildLogicState,
+  ramList: RAMType[]
+) => {
+  let selectedRAM: RAMType | null = null
+  let currentScore = 0
+  ramList.forEach((item: RAMType) => {
+    const ramValid = ramIncompatible(item, buildLogic.preSelectedItem)
+    if (
+      !ramValid && buildLogic.budget > toNumber(item[getSelectedCurrency()])
+    ) {
+      const performance = ramPerformanceLogic(item.speed, item.cl)
+      selectedRAM = item
+      currentScore = performance
+    }
+  })
+  return selectedRAM
 }

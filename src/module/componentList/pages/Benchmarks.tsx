@@ -1,11 +1,18 @@
 import React, { useEffect } from 'react'
 import Grid from '@mui/material/Grid'
+import styled from '@emotion/styled'
 import { ToggleButtonGroup, ToggleButton } from '@mui/material'
 import ProductEnum from '../../../constant/ProductEnum'
 
 import AppLayout from '../../common/AppLayout'
 import CPUBenchmarksTable from '../components/CPUBenchmarksTable'
 import GPUBenchmarksTable from '../components/GPUBenchmarksTable'
+import RAMBenchmarksTable from '../components/RAMBenchmarks'
+
+const CustomToggleButton = styled(ToggleButton)({
+  background: '#fff',
+  width: 120,
+})
 
 function Benchmarks() {
   const [itemType, setItemType] = React.useState(ProductEnum.CPU)
@@ -28,14 +35,21 @@ function Benchmarks() {
             onChange={handleChange}
             aria-label="Platform"
           >
-            <ToggleButton value={ProductEnum.CPU}>CPU</ToggleButton>
-            <ToggleButton value={ProductEnum.GPU}>GPU</ToggleButton>
+            <CustomToggleButton sx={{ width: 100 }} value={ProductEnum.CPU}>
+              CPU
+            </CustomToggleButton>
+            <CustomToggleButton sx={{ width: 100 }} value={ProductEnum.GPU}>
+              GPU
+            </CustomToggleButton>
+            <CustomToggleButton sx={{ width: 100 }} value={ProductEnum.RAM}>
+              RAM
+            </CustomToggleButton>
           </ToggleButtonGroup>
         </Grid>
         <Grid item xs={12}>
-          {
-            itemType === ProductEnum.CPU ? <CPUBenchmarksTable /> : <GPUBenchmarksTable />
-          }
+          {itemType === ProductEnum.CPU && <CPUBenchmarksTable />}
+          {itemType === ProductEnum.GPU && <GPUBenchmarksTable />}
+          {itemType === ProductEnum.RAM && <RAMBenchmarksTable />}
         </Grid>
       </Grid>
     </AppLayout>
