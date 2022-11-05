@@ -19,7 +19,8 @@ import SelectedItemCard from './SelectedItemCard'
 import {
   selectCPULogic,
   selectMotherboardLogic,
-} from '../../../logic/selectComponentLogic'
+  selectRAMLogic,
+} from '../../../logic/SelectComponent'
 
 type ResultComponentProps = {
   logicState: BuildLogicState
@@ -37,8 +38,8 @@ function ResultComponent({ logicState, rawData }: ResultComponentProps) {
       rawData.motherboardList
     )
     dispatch(sliceActions.updatePreSelectedMotherboard(selectMotherboard))
-    console.log(selectCPU)
-    console.log(selectMotherboard)
+    const selectRAM = selectRAMLogic(logicState, rawData.ramList)
+    dispatch(sliceActions.updatePreSelectedRAM(selectRAM))
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
