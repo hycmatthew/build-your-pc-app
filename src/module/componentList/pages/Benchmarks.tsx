@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
 import styled from '@emotion/styled'
 import { ToggleButtonGroup, ToggleButton } from '@mui/material'
@@ -15,6 +16,7 @@ const CustomToggleButton = styled(ToggleButton)({
 })
 
 function Benchmarks() {
+  const { t, i18n } = useTranslation()
   const [itemType, setItemType] = React.useState(ProductEnum.CPU)
 
   const handleChange = (
@@ -36,13 +38,13 @@ function Benchmarks() {
             aria-label="Platform"
           >
             <CustomToggleButton sx={{ width: 100 }} value={ProductEnum.CPU}>
-              CPU
+              {t('cpu')}
             </CustomToggleButton>
             <CustomToggleButton sx={{ width: 100 }} value={ProductEnum.GPU}>
-              GPU
+              {t('gpu')}
             </CustomToggleButton>
             <CustomToggleButton sx={{ width: 100 }} value={ProductEnum.RAM}>
-              RAM
+              {t('ram')}
             </CustomToggleButton>
           </ToggleButtonGroup>
         </Grid>

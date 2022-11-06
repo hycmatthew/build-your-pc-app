@@ -65,7 +65,7 @@ function CPUBenchmarksTable() {
   const columns: GridColDef[] = [
     {
       field: 'id',
-      headerName: 'Name',
+      headerName: t('name'),
       sortable: false,
       width: 250,
       editable: false,
@@ -73,7 +73,7 @@ function CPUBenchmarksTable() {
     },
     {
       field: 'singleScore',
-      headerName: 'Single Score',
+      headerName: t('single-core'),
       width: selectedField === 'singleScore' ? 550 : 150,
       editable: false,
       disableColumnMenu: true,
@@ -90,7 +90,7 @@ function CPUBenchmarksTable() {
     },
     {
       field: 'multiScore',
-      headerName: 'Multi Score',
+      headerName: t('multi-core'),
       width: selectedField === 'multiScore' ? 550 : 150,
       editable: false,
       disableColumnMenu: true,
@@ -107,7 +107,7 @@ function CPUBenchmarksTable() {
     },
     {
       field: 'price',
-      headerName: 'Price',
+      headerName: t('price'),
       width: 160,
       editable: false,
       disableColumnMenu: true,
