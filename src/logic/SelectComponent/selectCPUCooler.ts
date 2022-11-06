@@ -4,7 +4,7 @@ import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReduc
 import { getSelectedCurrency } from '../../utils/NumberHelper'
 import { getBudgetPriceList } from '../LogicUtil/pricingLogic'
 
-const getItemCPUBudget = (budget: number) => {
+const getItemCPUCoolerBudget = (budget: number) => {
   const ratioList = [0.4, 0.35, 0.3, 0.25]
   const priceList = getBudgetPriceList()
 
@@ -20,8 +20,8 @@ const getItemCPUBudget = (budget: number) => {
   return cpuBudget
 }
 
-const selectCPULogic = (buildLogic: BuildLogicState, cpuList: CPUType[]) => {
-  const cpuBudget = getItemCPUBudget(buildLogic.budget)
+const selectCPUCoolerLogic = (buildLogic: BuildLogicState, cpuList: CPUType[]) => {
+  const cpuBudget = getItemCPUCoolerBudget(buildLogic.budget)
   let selectedCPU: CPUType | null = null
   let currentScore = 0
   cpuList.forEach((item: CPUType) => {
@@ -35,4 +35,4 @@ const selectCPULogic = (buildLogic: BuildLogicState, cpuList: CPUType[]) => {
   return selectedCPU
 }
 
-export default selectCPULogic
+export default selectCPUCoolerLogic

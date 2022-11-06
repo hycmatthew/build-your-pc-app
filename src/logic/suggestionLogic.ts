@@ -53,15 +53,15 @@ export const motherboardChipsetSuggestion = (
         return !motherboard?.chipset.includes('Z')
       }
     } else {
-      if (cpu?.name.includes('3')) {
+      if (cpu?.name.includes('Ryzen 3')) {
         return !motherboard?.chipset.includes('A')
       }
-      if (cpu?.name.includes('5')) {
+      if (cpu?.name.includes('Ryzen 5')) {
         return !(
           motherboard?.chipset.includes('A') || motherboard?.chipset.includes('B')
         )
       }
-      if (cpu?.name.includes('X')) {
+      if (cpu?.name.includes('Ryzen 7') || cpu?.name.includes('Ryzen 9')) {
         return !motherboard?.chipset.includes('X')
       }
     }

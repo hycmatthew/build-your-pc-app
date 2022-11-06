@@ -21,6 +21,7 @@ import {
   selectMotherboardLogic,
   selectRAMLogic,
 } from '../../../logic/SelectComponent'
+import selectSSDLogic from '../../../logic/SelectComponent/selectSSDLogic'
 
 type ResultComponentProps = {
   logicState: BuildLogicState
@@ -40,6 +41,8 @@ function ResultComponent({ logicState, rawData }: ResultComponentProps) {
     dispatch(sliceActions.updatePreSelectedMotherboard(selectMotherboard))
     const selectRAM = selectRAMLogic(logicState, rawData.ramList)
     dispatch(sliceActions.updatePreSelectedRAM(selectRAM))
+    const selectSSD = selectSSDLogic(logicState, rawData.ssdList)
+    dispatch(sliceActions.updatePreSelectedSSD(selectSSD))
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

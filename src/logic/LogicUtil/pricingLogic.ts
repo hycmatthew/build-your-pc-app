@@ -15,3 +15,14 @@ export const getBudgetPriceList = () => {
       })
   }
 }
+
+export const getPriceFactor = () => {
+  switch (i18n.language) {
+    case 'zh-TW':
+      return 1
+    case 'zh-CN':
+      return 1.1
+    default:
+      return 8
+  }
+}

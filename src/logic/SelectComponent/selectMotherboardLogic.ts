@@ -3,24 +3,25 @@ import i18n from '../../config/i18n'
 import { MotherboardType } from '../../constant/objectTypes'
 import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReducer'
 import { motherboardIncompatible } from '../../module/common/utils/compatibleLogic'
-import { getSelectedCurrency } from '../../utils/NumberHelper'
-import { getBudgetPriceList } from '../LogicUtil/pricingLogic'
-import { motherboardOverclockSuggestion } from '../suggestionLogic'
+import { getCurrentPrice, getSelectedCurrency } from '../../utils/NumberHelper'
+import { getBudgetPriceList, getPriceFactor } from '../LogicUtil/pricingLogic'
+import { motherboardChipsetSuggestion, motherboardOverclockSuggestion } from '../suggestionLogic'
 
-const getItemMotherboardBudget = (budget: number) => {
-  const ratioList = [0.4, 0.35, 0.3, 0.25]
+const getItemMotherboardScore = (motherboard: MotherboardType, budget: number) => {
+  const ratioList = [1, 1, 1, 2, 2, 3]
   const priceList = getBudgetPriceList()
 
-  let cpuBudget = 0
+  let motherboardLevel = 0
   priceList.forEach((element, index) => {
     if (budget < element) {
-      const setRatio = ratioList[index]
+      motherboardLevel = ratioList[index]
         ? ratioList[index]
         : ratioList[ratioList.length - 1]
-      cpuBudget = budget * setRatio
     }
   })
-  return cpuBudget
+
+  const score = 10000 - (toNumber(motherboard[getSelectedCurrency()]) * getPriceFactor())
+  return score
 }
 
 const selectMotherboardLogic = (
@@ -29,18 +30,16 @@ const selectMotherboardLogic = (
 ) => {
   let selectedMotherboard: MotherboardType | null = null
   let currentScore = 0
-  motherboardList.forEach((item: MotherboardType) => {
-    const cpuValid = motherboardIncompatible(item, buildLogic.preSelectedItem)
-    if (!cpuValid) {
-      if (
-        motherboardOverclockSuggestion(item, buildLogic.preSelectedItem.cpu)
-      ) {
-        const tempScore = buildLogic.budget - toNumber(item[getSelectedCurrency()])
-        if (tempScore > currentScore) {
-          selectedMotherboard = item
-          currentScore = buildLogic.budget - toNumber(item[getSelectedCurrency()])
-        }
-      }
+
+  const filteredList = motherboardList.filter((item) => {
+    return (!motherboardIncompatible(item, buildLogic.preSelectedItem) && !motherboardChipsetSuggestion(item, buildLogic.preSelectedItem.cpu) && !motherboardOverclockSuggestion(item, buildLogic.preSelectedItem.cpu))
+  }).sort((a: MotherboardType, b:MotherboardType) => toNumber(b?.[getSelectedCurrency()]) - toNumber(a?.[getSelectedCurrency()]))
+
+  filteredList.forEach((item: MotherboardType) => {
+    const tempScore = getItemMotherboardScore(item, buildLogic.budget)
+    if (tempScore > currentScore) {
+      selectedMotherboard = item
+      currentScore = tempScore
     }
   })
   return selectedMotherboard
