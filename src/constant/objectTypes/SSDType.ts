@@ -6,8 +6,8 @@ interface CPUType {
   memoryType: string
   interface: string
   capacity: string
-  readSpeed: string
-  writeSpeed: string
+  readSpeed: number
+  writeSpeed: number
   priceUS: string
   priceHK: string
   priceCN: string

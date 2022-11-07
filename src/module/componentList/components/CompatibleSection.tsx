@@ -71,45 +71,74 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
       suggestion.push({ name: 'warning-ram-incompatible', type: 'warning' })
     }
     if (ram && ramIncompatibleWithMotherboard(ram, motherboard)) {
-      suggestion.push({ name: 'warning-ram-motherboard-incompatible', type: 'warning' })
+      suggestion.push({
+        name: 'warning-ram-motherboard-incompatible',
+        type: 'warning',
+      })
     }
     if (psu && psuPowerNotEnough(psu.watt, getTotalPower(selectedItems))) {
       suggestion.push({ name: 'warning-power-not-enough', type: 'warning' })
     }
     if (pcCase && caseIncompatibleWithGPU(pcCase, gpu)) {
-      suggestion.push({ name: 'warning-gpu-case-incompatible', type: 'warning' })
+      suggestion.push({
+        name: 'warning-gpu-case-incompatible',
+        type: 'warning',
+      })
     }
     if (pcCase && caseIncompatibleWithMotherboard(pcCase, motherboard)) {
-      suggestion.push({ name: 'warning-motherboard-case-incompatible', type: 'warning' })
+      suggestion.push({
+        name: 'warning-motherboard-case-incompatible',
+        type: 'warning',
+      })
     }
     if (pcCase && caseIncompatibleWithAIO(pcCase, aio)) {
-      suggestion.push({ name: 'warning-air-cooler-case-incompatible', type: 'warning' })
+      suggestion.push({
+        name: 'warning-air-cooler-case-incompatible',
+        type: 'warning',
+      })
     }
     return suggestion
   }
+
+  const suggestions = createSuggestion()
 
   return (
     <CustomContainer>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Typography className="normal-header-typography">
-            {t('suggestion')}
-          </Typography>
-          {
-            createSuggestion().map((item: SuggestionType) => (
-              item.type === 'warning' ? (
-                <WarningStack direction="row" alignItems="center" spacing={2} key={item.name}>
-                  <CancelRoundedIcon />
-                  <Typography>{t(item.name)}</Typography>
-                </WarningStack>
-              ) : (
-                <SuggectStack direction="row" alignItems="center" spacing={2} key={item.name}>
-                  <WarningRoundedIcon />
-                  <Typography>{t(item.name)}</Typography>
-                </SuggectStack>
-              )
-            ))
-          }
+          {suggestions.map((item: SuggestionType) => (
+            item.type === 'warning' ? (
+              <WarningStack
+                direction="row"
+                alignItems="center"
+                spacing={2}
+                key={item.name}
+              >
+                <CancelRoundedIcon />
+                <Typography>{t(item.name)}</Typography>
+              </WarningStack>
+            ) : (
+              <SuggectStack
+                direction="row"
+                alignItems="center"
+                spacing={2}
+                key={item.name}
+              >
+                <WarningRoundedIcon />
+                <Typography>{t(item.name)}</Typography>
+              </SuggectStack>
+            )
+          ))}
+          {suggestions.length === 0 && (
+            <SuggectStack
+              direction="row"
+              alignItems="center"
+              spacing={2}
+            >
+              <WarningRoundedIcon />
+              <Typography>{t('no-suggestion')}</Typography>
+            </SuggectStack>
+          )}
         </Grid>
       </Grid>
     </CustomContainer>

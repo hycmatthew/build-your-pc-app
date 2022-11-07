@@ -6,6 +6,7 @@ interface RAMType {
   chipset: string
   speed: number
   capacity: string
+  capacityNum: number
   cl: number
   timing: string
   rgb: string
