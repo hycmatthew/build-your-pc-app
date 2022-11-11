@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { createTheme, styled, ThemeProvider } from '@mui/material/styles'
 import { Link } from 'react-router-dom'
 
+import { Popover } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
@@ -13,7 +14,7 @@ import Collapse from '@mui/material/Collapse'
 import MenuIcon from '@mui/icons-material/Menu'
 import LanguageIcon from '@mui/icons-material/Language'
 import Stack from '@mui/material/Stack'
-import LanguageButton from './components/LanguageButton'
+import LanguageButtons from './components/LanguageButtons'
 
 import './AppLayout.scss'
 
@@ -58,6 +59,7 @@ const FooterGrid = styled(Grid)({
 })
 
 function AppLayout({ children, bgColor }: Props) {
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
   const [subMenuOpen, setSubMenuOpen] = useState(false)
   const pages = [
     { label: 'pc-builder', link: '/' },
@@ -70,9 +72,15 @@ function AppLayout({ children, bgColor }: Props) {
     setSubMenuOpen(!subMenuOpen)
   }
 
-  const handleLangClick = () => {
+  const handleLangClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
     setSubMenuOpen(!subMenuOpen)
   }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+    setSubMenuOpen(false)
+  };
 
   const DesktopMenu = useMemo(
     () => (
@@ -126,9 +134,25 @@ function AppLayout({ children, bgColor }: Props) {
             </IconButton>
           </Grid>
         </Grid>
-        <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
-          <LanguageButton />
-        </Collapse>
+        <Popover
+          sx={{
+            pointerEvents: 'none',
+          }}
+          open={subMenuOpen}
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          onClose={handleClose}
+          disableRestoreFocus
+        >
+          <LanguageButtons />
+        </Popover>
       </Container>
     ),
     [subMenuOpen] // eslint-disable-line react-hooks/exhaustive-deps
@@ -168,7 +192,7 @@ function AppLayout({ children, bgColor }: Props) {
               </Grid>
             ))}
             <Grid item xs={12}>
-              <LanguageButton />
+              <LanguageButtons />
             </Grid>
           </Grid>
         </Collapse>

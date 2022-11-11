@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
-const LanguageButton = () => {
+const LanguageButtons = () => {
   const langOptions = ['en', 'zh-CN', 'zh-TW']
   const { t, i18n } = useTranslation()
 
@@ -27,4 +27,4 @@ const LanguageButton = () => {
   )
 }
 
-export default LanguageButton
+export default LanguageButtons
