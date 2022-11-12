@@ -60,7 +60,8 @@ const FooterGrid = styled(Grid)({
 
 function AppLayout({ children, bgColor }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-  const [subMenuOpen, setSubMenuOpen] = useState(false)
+  const [langMenuOpen, setLangMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pages = [
     { label: 'pc-builder', link: '/' },
     { label: 'benchmarks', link: '/benchmarks' },
@@ -68,18 +69,18 @@ function AppLayout({ children, bgColor }: Props) {
     { label: 'database', link: '/database' }
   ]
 
-  const handleMenuClick = () => {
-    setSubMenuOpen(!subMenuOpen)
+  const handleMobileMenuClick = () => {
+    setMobileMenuOpen(!mobileMenuOpen)
   }
 
-  const handleLangClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLangMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-    setSubMenuOpen(!subMenuOpen)
+    setLangMenuOpen(!langMenuOpen)
   }
 
   const handleClose = () => {
     setAnchorEl(null)
-    setSubMenuOpen(false)
+    setLangMenuOpen(false)
   };
 
   const DesktopMenu = useMemo(
@@ -125,20 +126,17 @@ function AppLayout({ children, bgColor }: Props) {
             <IconButton
               aria-label="more"
               id="long-button"
-              aria-controls={subMenuOpen ? 'long-menu' : undefined}
-              aria-expanded={subMenuOpen ? 'true' : undefined}
+              aria-controls={langMenuOpen ? 'long-menu' : undefined}
+              aria-expanded={langMenuOpen ? 'true' : undefined}
               aria-haspopup="true"
-              onClick={handleLangClick}
+              onClick={handleLangMenuClick}
             >
               <LanguageIcon />
             </IconButton>
           </Grid>
         </Grid>
         <Popover
-          sx={{
-            pointerEvents: 'none',
-          }}
-          open={subMenuOpen}
+          open={langMenuOpen}
           anchorEl={anchorEl}
           anchorOrigin={{
             vertical: 'bottom',
@@ -149,13 +147,12 @@ function AppLayout({ children, bgColor }: Props) {
             horizontal: 'right',
           }}
           onClose={handleClose}
-          disableRestoreFocus
         >
           <LanguageButtons />
         </Popover>
       </Container>
     ),
-    [subMenuOpen] // eslint-disable-line react-hooks/exhaustive-deps
+    [langMenuOpen] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   const MobileMenu = useMemo(
@@ -174,13 +171,13 @@ function AppLayout({ children, bgColor }: Props) {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleMenuClick}
+              onClick={handleMobileMenuClick}
             >
               <MenuIcon />
             </IconButton>
           </Grid>
         </Grid>
-        <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
+        <Collapse in={mobileMenuOpen} timeout="auto" unmountOnExit>
           <Grid className="header-link-grid" container spacing={1}>
             {pages.map((page) => (
               <Grid item xs={12} key={page.label}>
@@ -198,7 +195,7 @@ function AppLayout({ children, bgColor }: Props) {
         </Collapse>
       </Container>
     ),
-    [subMenuOpen] // eslint-disable-line react-hooks/exhaustive-deps
+    [mobileMenuOpen] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   return (
