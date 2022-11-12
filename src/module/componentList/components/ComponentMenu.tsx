@@ -7,17 +7,6 @@ import { DataState, sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
 import ProductEnum from '../../../constant/ProductEnum'
 import {
-  CPUType,
-  GPUType,
-  MotherboardType,
-  RAMType,
-  PSUType,
-  CaseType,
-  AIOType,
-  SSDType,
-  AirCoolerType,
-} from '../../../constant/objectTypes'
-import {
   generateAIOSelectElement,
   generateCaseSelectElement,
   generateCPUSelectElement,
@@ -28,17 +17,6 @@ import {
   generateRAMSelectElement,
   generateAirCoolerSelectElement,
 } from '../../common/utils/generateSelectElements'
-import { getTotalPower } from '../../../utils/NumberHelper'
-import {
-  caseIncompatibleWithGPU,
-  motherboardIncompatibleWithCPU,
-  psuPowerNotEnough,
-  ramIncompatibleWithCPU,
-  ramIncompatibleWithMotherboard,
-  caseIncompatibleWithMotherboard,
-  caseIncompatibleWithAIO,
-  airCoolerIncompatibleWithCase,
-} from '../../../logic/incompatibleLogic'
 import {
   searchCPUItem,
   searchMotherboardItem,

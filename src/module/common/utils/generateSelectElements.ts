@@ -115,7 +115,7 @@ export const generateRAMSelectElement = (
       disabled: selectedItems ? ramIncompatible(item, selectedItems) : false,
     }
   })
-  return tempMap.filter((item: any) => item.value !== '0.00')
+  return tempMap.filter((item: any) => item.value !== '0.00').sort((a, b) => a.brand.localeCompare(b.brand))
 }
 
 export const generatePSUSelectElement = (
