@@ -41,6 +41,18 @@ type SelectElementProps = SelectProps & {
   isLoading?: boolean
 }
 
+const GroupHeader = styled('div')(({ theme }) => ({
+  position: 'sticky',
+  padding: '8px 12px',
+  color: '#222222',
+  fontSize: '12px',
+}));
+
+const GroupItems = styled('ul')({
+  fontSize: '7px !important',
+  padding: 0
+});
+
 const SelectElement = ({
   isLoading,
   label,
@@ -89,6 +101,12 @@ const SelectElement = ({
       onChange={handleChange}
       isOptionEqualToValue={(option: any, value: any) => option.model === value.model}
       getOptionDisabled={(option: any) => option.disabled === true}
+      renderGroup={(params) => (
+        <li>
+          <GroupHeader>{t(params.group)}</GroupHeader>
+          <GroupItems>{params.children}</GroupItems>
+        </li>
+      )}
       /* eslint-disable react/jsx-props-no-spreading */
       renderOption={(props, option: any) => (
         <Box component="li" {...props}>

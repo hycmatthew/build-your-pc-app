@@ -1,3 +1,4 @@
+import { t } from 'i18next'
 import i18n from '../../../config/i18n'
 import {
   CPUType,
@@ -31,7 +32,7 @@ export const generateCPUSelectElement = (
       item.priceCN,
       i18n.language
     )
-    const itemLabel = `${item.brand} ${item.name}`
+    const itemLabel = `${t(item.brand)} ${item.name}`
 
     return {
       model: item.name,
@@ -55,7 +56,7 @@ export const generateGPUSelectElement = (
       item.priceCN,
       i18n.language
     )
-    const itemLabel = `${item.brand} ${item.model}`
+    const itemLabel = `${t(item.brand)} ${item.model}`
 
     return {
       model: item.model,
@@ -79,7 +80,7 @@ export const generateMotherboardSelectElement = (
       item.priceCN,
       i18n.language
     )
-    const itemLabel = `${item.brand} ${item.model}`
+    const itemLabel = `${t(item.brand)} ${item.model}`
 
     return {
       model: item.model,
