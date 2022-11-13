@@ -22,6 +22,7 @@ import {
   selectRAMLogic,
 } from '../../../logic/SelectComponent'
 import selectSSDLogic from '../../../logic/SelectComponent/selectSSDLogic'
+import selectPSULogic from '../../../logic/SelectComponent/selectPSULogic'
 
 type ResultComponentProps = {
   logicState: BuildLogicState
@@ -43,6 +44,8 @@ function ResultComponent({ logicState, rawData }: ResultComponentProps) {
     dispatch(sliceActions.updatePreSelectedRAM(selectRAM))
     const selectSSD = selectSSDLogic(logicState, rawData.ssdList)
     dispatch(sliceActions.updatePreSelectedSSD(selectSSD))
+    const selectPSU = selectPSULogic(logicState, rawData.psuList)
+    dispatch(sliceActions.updatePreSelectedSSD(selectPSU))
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -62,11 +65,25 @@ function ResultComponent({ logicState, rawData }: ResultComponentProps) {
             img={logicState.preSelectedItem.motherboard?.img}
           />
         )}
-        {logicState.preSelectedItem.motherboard && (
+        {logicState.preSelectedItem.ram && (
           <SelectedItemCard
-            name={logicState.preSelectedItem.motherboard?.model}
-            price={logicState.preSelectedItem.motherboard?.priceHK.toString()}
-            img={logicState.preSelectedItem.motherboard?.img}
+            name={logicState.preSelectedItem.ram?.model}
+            price={logicState.preSelectedItem.ram?.priceHK.toString()}
+            img={logicState.preSelectedItem.ram?.img}
+          />
+        )}
+        {logicState.preSelectedItem.ssd && (
+          <SelectedItemCard
+            name={logicState.preSelectedItem.ssd?.model}
+            price={logicState.preSelectedItem.ssd?.priceHK.toString()}
+            img={logicState.preSelectedItem.ssd?.img}
+          />
+        )}
+        {logicState.preSelectedItem.psu && (
+          <SelectedItemCard
+            name={logicState.preSelectedItem.psu?.model}
+            price={logicState.preSelectedItem.psu?.priceHK.toString()}
+            img={logicState.preSelectedItem.psu?.img}
           />
         )}
       </Grid>

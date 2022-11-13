@@ -3,6 +3,7 @@ import { CPUType } from '../../constant/objectTypes'
 import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReducer'
 import { getSelectedCurrency } from '../../utils/NumberHelper'
 import { getBudgetPriceList } from '../LogicUtil/pricingLogic'
+import { cpuShouldHaveInternalGPU } from '../suggestionLogic'
 
 const getItemCPUBudget = (budget: number) => {
   const ratioList = [0.4, 0.35, 0.3, 0.25]
@@ -25,7 +26,7 @@ const selectCPULogic = (buildLogic: BuildLogicState, cpuList: CPUType[]) => {
   let selectedCPU: CPUType | null = null
   let currentScore = 0
   cpuList.forEach((item: CPUType) => {
-    if (cpuBudget > toNumber(item[getSelectedCurrency()])) {
+    if (cpuShouldHaveInternalGPU(item) && cpuBudget > toNumber(item[getSelectedCurrency()])) {
       if (item.multiCoreScore + item.singleCoreScore > currentScore) {
         selectedCPU = item
         currentScore = item.multiCoreScore + item.singleCoreScore

@@ -1,5 +1,6 @@
 import { compact, sum, toNumber } from 'lodash'
 import i18n from '../config/i18n'
+import { AIOType, RAMType } from '../constant/objectTypes'
 import { SelectedItemType } from '../module/store/rawDataReducer'
 
 export const getSelectedCurrency = () => {
@@ -65,9 +66,7 @@ export const getCurrentPriceWithSign = (
   return addCurrencySign(getCurrentPrice(priceUS, priceHK, priceCN, lang))
 }
 
-export const getTotalPrice = (
-  selectedItems: SelectedItemType,
-) => {
+export const getTotalPrice = (selectedItems: SelectedItemType) => {
   const numberList = [
     selectedItems.cpu?.[getSelectedCurrency()],
     selectedItems.gpu?.[getSelectedCurrency()],
@@ -87,6 +86,33 @@ export const getTotalPrice = (
 }
 
 export const getTotalPower = (selectedItems: SelectedItemType) => {
-  const numberList = [selectedItems.cpu?.power, selectedItems.gpu?.power]
+  const getAIOPower = (aio: AIOType | null) => {
+    if (aio) {
+      switch (aio.fanSize) {
+        case 120:
+          return 3
+        case 240:
+          return 6
+        case 280:
+          return 8
+        case 360:
+          return 9
+        default:
+          return 5
+      }
+    }
+    return 0
+  }
+
+  const getRamPower = (ram: RAMType | null) => {
+    return ram ? 5 : 0
+  }
+
+  const numberList = [
+    selectedItems.cpu?.power,
+    selectedItems.gpu?.power,
+    getAIOPower(selectedItems.aio),
+    getRamPower(selectedItems.ram),
+  ]
   return sum(numberList) || 0
 }

@@ -1,9 +1,8 @@
 import { toNumber } from 'lodash'
-import i18n from '../../config/i18n'
 import { MotherboardType } from '../../constant/objectTypes'
 import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReducer'
 import { motherboardIncompatible } from '../../module/common/utils/compatibleLogic'
-import { getCurrentPrice, getSelectedCurrency } from '../../utils/NumberHelper'
+import { getSelectedCurrency } from '../../utils/NumberHelper'
 import { getBudgetPriceList, getPriceFactor } from '../LogicUtil/pricingLogic'
 import { motherboardChipsetSuggestion, motherboardOverclockSuggestion } from '../suggestionLogic'
 

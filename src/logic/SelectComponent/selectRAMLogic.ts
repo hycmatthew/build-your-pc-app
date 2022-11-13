@@ -31,8 +31,10 @@ const selectRAMLogic = (buildLogic: BuildLogicState, ramList: RAMType[]) => {
     const ramValid = ramIncompatible(item, buildLogic.preSelectedItem)
     if (!ramValid && ramBudget > toNumber(item[getSelectedCurrency()])) {
       const performance = ramPerformanceLogic(item.speed, item.cl)
-      selectedRAM = item
-      currentScore = performance
+      if (performance > currentScore) {
+        selectedRAM = item
+        currentScore = performance
+      }
     }
   })
   return selectedRAM

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import { useSelector } from 'react-redux'
-import { useTranslation } from 'react-i18next'
 
 import AppLayout from '../../common/AppLayout'
 import ComponentMenu from '../components/ComponentMenu'

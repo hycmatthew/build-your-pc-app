@@ -20,12 +20,20 @@ const getItemSSDBudget = (budget: number) => {
   return ssdBudget
 }
 
+export const ssdSuggestion = (ssd: SSDType, budget: number) => {
+  return true
+}
+
 const selectSSDLogic = (buildLogic: BuildLogicState, ssdist: SSDType[]) => {
   let selectedRAM: SSDType | null = null
   const currentScore = 0
   const ssdBudget = getItemSSDBudget(buildLogic.budget)
 
-  ssdist.forEach((item: SSDType) => {
+  const filteredSSDList = ssdist.filter((item) => {
+    return (item.capacity.toUpperCase().includes('1TB'))
+  })
+
+  filteredSSDList.forEach((item: SSDType) => {
     if (ssdBudget > toNumber(item[getSelectedCurrency()])) {
       selectedRAM = item
     }

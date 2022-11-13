@@ -7,6 +7,7 @@ import {
   CaseType,
   AIOType,
   AirCoolerType,
+  SSDType,
 } from '../constant/objectTypes'
 
 export const motherboardOverclockSuggestion = (
@@ -65,6 +66,23 @@ export const motherboardChipsetSuggestion = (
         return !motherboard?.chipset.includes('X')
       }
     }
+  }
+  return false
+}
+
+export const ramProfileIsNotMatchCPU = (
+  ram: RAMType | null,
+  cpu: CPUType | null
+) => {
+  if (cpu && ram) {
+    return !(ram?.chipset.includes(cpu.brand))
+  }
+  return false
+}
+
+export const cpuShouldHaveInternalGPU = (cpu: CPUType) => {
+  if (cpu) {
+    return cpu.gpu === ''
   }
   return false
 }
