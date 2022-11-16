@@ -1,0 +1,20 @@
+{
+  "cpu": "CPU",
+  "graphic-card": "Graphic Card",
+  "motherboard": "Motherboard",
+  "ram": "RAM",
+  "ssd": "SSD",
+  "psu": "PSU",
+  "aio": "AIO",
+  "air-cooler": "Air CPU Cooler",
+  "maximum-wattage-requirement": "Maximum Wattage Requirement",
+  "recommended-psu-wattage": "Recommended PSU wattage",
+  "price": "Price",
+  "watt": "W",
+  "warning-motherboard-cpu-incompatible": "Motherboard and CPU are incompatible",
+  "warning-ram-motherboard-incompatible": "Motherboard and RAM are incompatible",
+  "warning-gpu-case-incompatible": "The length of the graphics card is too long",
+  "warning-motherboard-case-incompatible": "The motherboard and the computer case are incompatible",
+  "warning-power-not-enough": "Insufficient power supply wattage",
+  "warning-air-cooler-case-incompatible": "The cooler is too high"
+}
