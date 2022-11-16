@@ -4,7 +4,7 @@ import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReduc
 import { getSelectedCurrency } from '../../utils/NumberHelper'
 import { getBudgetPriceList } from '../LogicUtil/pricingLogic'
 
-const getItemSSDBudget = (budget: number) => {
+const getItemSSDScore = (budget: number) => {
   const ratioList = [0.3, 0.3, 0.25, 0.2]
   const priceList = getBudgetPriceList()
 
@@ -27,7 +27,7 @@ export const ssdSuggestion = (ssd: SSDType, budget: number) => {
 const selectSSDLogic = (buildLogic: BuildLogicState, ssdist: SSDType[]) => {
   let selectedRAM: SSDType | null = null
   const currentScore = 0
-  const ssdBudget = getItemSSDBudget(buildLogic.budget)
+  const ssdBudget = getItemSSDScore(buildLogic.budget)
 
   const filteredSSDList = ssdist.filter((item) => {
     return (item.capacity.toUpperCase().includes('1TB'))

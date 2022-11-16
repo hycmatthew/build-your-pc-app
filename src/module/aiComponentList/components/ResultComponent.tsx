@@ -32,7 +32,7 @@ type ResultComponentProps = {
 function ResultComponent({ logicState, rawData }: ResultComponentProps) {
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
+  const getResult = () => {
     const selectCPU = selectCPULogic(logicState, rawData.cpuList)
     dispatch(sliceActions.updatePreSelectedCPU(selectCPU))
     const selectMotherboard = selectMotherboardLogic(
@@ -46,6 +46,10 @@ function ResultComponent({ logicState, rawData }: ResultComponentProps) {
     dispatch(sliceActions.updatePreSelectedSSD(selectSSD))
     const selectPSU = selectPSULogic(logicState, rawData.psuList)
     dispatch(sliceActions.updatePreSelectedSSD(selectPSU))
+  }
+
+  useEffect(() => {
+    getResult()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

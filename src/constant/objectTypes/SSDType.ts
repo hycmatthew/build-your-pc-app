@@ -11,6 +11,7 @@ interface CPUType {
   priceUS: string
   priceHK: string
   priceCN: string
+  score: number
   img: string
 }
 

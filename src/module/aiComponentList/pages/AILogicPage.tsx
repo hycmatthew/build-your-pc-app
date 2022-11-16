@@ -16,6 +16,7 @@ function AILogicPage() {
   const { aiLogic, rawData } = useSelector((state: any) => {
     return state
   })
+
   const updateStep = (newStep: number) => {
     dispatch(aiLogicSlice.actions.updateStep(newStep))
   }

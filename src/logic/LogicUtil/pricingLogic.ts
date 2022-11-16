@@ -16,6 +16,14 @@ export const getBudgetPriceList = () => {
   }
 }
 
+export const getCPUBudgetFactor = () => {
+  return [0.4, 0.35, 0.3, 0.25]
+}
+
+export const getSSDBudgetFactor = () => {
+  return [0.01, 0.01, 0.008, 0.007, 0.005]
+}
+
 export const getPriceFactor = () => {
   switch (i18n.language) {
     case 'zh-TW':

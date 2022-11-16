@@ -17,6 +17,7 @@ import {
   getSSDDataList,
 } from './module/store/rawDataReducer'
 import store from './module/store/store'
+import ENV_CONFIG from './config/config'
 
 function App() {
   store.dispatch(getCPUDataList())
@@ -32,7 +33,7 @@ function App() {
   return (
     <Suspense fallback="loading">
       <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter basename={ENV_CONFIG.URL_BASENAME}>
           <ComponentListRoutes />
           <DatabaseListRoutes />
           <AIComponentListRoutes />
