@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, HashRouter } from 'react-router-dom'
 import AIComponentListRoutes from './module/aiComponentList/pages/Route'
 
 import ComponentListRoutes from './module/componentList/pages/Route'
@@ -17,7 +17,6 @@ import {
   getSSDDataList,
 } from './module/store/rawDataReducer'
 import store from './module/store/store'
-import ENV_CONFIG from './config/config'
 
 function App() {
   store.dispatch(getCPUDataList())
@@ -33,11 +32,11 @@ function App() {
   return (
     <Suspense fallback="loading">
       <Provider store={store}>
-        <BrowserRouter basename={ENV_CONFIG.URL_BASENAME}>
+        <HashRouter>
           <ComponentListRoutes />
           <DatabaseListRoutes />
           <AIComponentListRoutes />
-        </BrowserRouter>
+        </HashRouter>
       </Provider>
     </Suspense>
   )
