@@ -8,7 +8,6 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material'
-import ProductEnum from '../../../constant/ProductEnum'
 import { CPUType, MotherboardType } from '../../../constant/objectTypes'
 
 interface InfoTableProp {
@@ -17,7 +16,6 @@ interface InfoTableProp {
 }
 
 function ItemInfoTable({ cpuType, motherboardType }: InfoTableProp) {
-  console.log(cpuType)
   return (
     <Card>
       {cpuType && (

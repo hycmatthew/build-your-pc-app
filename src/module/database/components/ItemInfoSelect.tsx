@@ -55,7 +55,6 @@ const ItemInfoSelect = ({
   }
 
   if (isLoading) {
-    console.log('test loading')
     return (
       <CustomAutocomplete
         id="outlined-disabled"

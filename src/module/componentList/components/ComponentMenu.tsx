@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
 
-import SelectElement from '../../common/components/Select'
+import SelectElement from '../../common/components/SelectElement'
 import { DataState, sliceActions } from '../../store/rawDataReducer'
 import { useAppDispatch } from '../../store/store'
 import ProductEnum from '../../../constant/ProductEnum'

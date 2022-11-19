@@ -9,7 +9,7 @@ import {
   Grid,
 } from '@mui/material'
 import ProductEnum from '../../../constant/ProductEnum'
-import SelectElement from '../../common/components/Select'
+import SelectElement from '../../common/components/SelectElement'
 import {
   generateCPUSelectElement,
   generateGPUSelectElement,
