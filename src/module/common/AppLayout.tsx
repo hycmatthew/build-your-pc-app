@@ -73,8 +73,12 @@ function AppLayout({ children, bgColor }: Props) {
   ]
 
   useEffect(() => {
-    ReactGA.event({ category: location.pathname, action: 'Navigate action', label: 'Navigate label' })
-  }, [location]);
+    const TRACKING_ID = 'G-P2H9P3ZY0Z'
+    ReactGA.initialize(TRACKING_ID)
+    ReactGA.pageview(location.pathname + location.search)
+    // ReactGA.event({ category: location.pathname, action: 'Navigate action', label: 'Navigate label' })
+    console.log(location.pathname)
+  }, [location])
 
   const handleMobileMenuClick = () => {
     setMobileMenuOpen(!mobileMenuOpen)
