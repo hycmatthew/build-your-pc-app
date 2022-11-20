@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { useState } from 'react'
 import { t } from 'i18next'
 import { isEmpty } from 'lodash'
 
@@ -13,7 +13,6 @@ import {
 import GPUType from '../../../constant/objectTypes/GPUType'
 import SelectElement from '../../common/components/SelectElement'
 import { generateGPUSelectElement } from '../../common/utils/generateSelectElements'
-import { GPUFilterType } from '../data/FilterType'
 import SelectFilter from '../../common/components/SelectFilter'
 import { GPU_FILTER_INIT_DATA } from '../data/FilterInitData'
 
@@ -26,7 +25,8 @@ const GPUSuggestion = ({
   gpuList,
   isLoading,
 }: GPUSuggestionProps) => {
-  const [test, setTest] = useState(GPU_FILTER_INIT_DATA)
+  const [filterLogic, setfilterLogic] = useState(GPU_FILTER_INIT_DATA)
+
   let selectedItem: GPUType | null = null
   const brandOptions = ['AMD', 'NVIDIA']
 
@@ -35,14 +35,13 @@ const GPUSuggestion = ({
   }
 
   const updateFilterBrand = (brand: string) => {
-    // setFilter({ ...filterLogic, brand })
-    setTest({ ...test, brand })
+    setfilterLogic({ ...filterLogic, brand })
   }
 
   const updatedList = gpuList.filter((item) => {
     let isMatch = true
-    if (!isEmpty(test.brand)) {
-      isMatch = (item.brand === test.brand)
+    if (!isEmpty(filterLogic.brand)) {
+      isMatch = (item.brand === filterLogic.brand)
     }
     return isMatch
   })
@@ -86,7 +85,6 @@ const GPUSuggestion = ({
             </CardActions>
           </Grid>
         ))}
-        <p>{test.brand}</p>
       </Grid>
     </>
   )

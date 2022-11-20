@@ -19,3 +19,9 @@ export interface RAMFilterType {
     price: number
     size: string
 }
+
+export interface SSDFilterType {
+    brand: string
+    price: number
+    size: string
+}

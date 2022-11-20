@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { useState } from 'react'
 import { t } from 'i18next'
 import { isEmpty } from 'lodash'
 

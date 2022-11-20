@@ -10,25 +10,25 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
-import MotherboardType from '../../../constant/objectTypes/MotherboardType'
+import RAMType from '../../../constant/objectTypes/RAMType'
 import SelectElement from '../../common/components/SelectElement'
-import { generateMotherboardSelectElement } from '../../common/utils/generateSelectElements'
+import { generateRAMSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
-import { MOTHERBOARD_FILTER_INIT_DATA } from '../data/FilterInitData'
+import { RAM_FILTER_INIT_DATA } from '../data/FilterInitData'
 
-type MotherboardSuggestionProps = {
-  motherboardList: MotherboardType[]
+type RAMSuggestionProps = {
+  ramList: RAMType[]
   isLoading: boolean
 }
 
-const MotherboardSuggestion = ({
-  motherboardList,
+const RAMSuggestion = ({
+  ramList,
   isLoading,
-}: MotherboardSuggestionProps) => {
-  const [filterLogic, setfilterLogic] = useState(MOTHERBOARD_FILTER_INIT_DATA)
+}: RAMSuggestionProps) => {
+  const [filterLogic, setfilterLogic] = useState(RAM_FILTER_INIT_DATA)
 
-  let selectedItem: MotherboardType | null = null
-  const brandOptions = ['AMD', 'Intel']
+  let selectedItem: RAMType | null = null
+  const brandOptions = ['AMD', 'NVIDIA']
 
   const updateSelectedItem = (item: any) => {
     selectedItem = item
@@ -38,10 +38,10 @@ const MotherboardSuggestion = ({
     setfilterLogic({ ...filterLogic, brand })
   }
 
-  const updatedList = motherboardList.filter((item) => {
+  const updatedList = ramList.filter((item) => {
     let isMatch = true
     if (!isEmpty(filterLogic.brand)) {
-      isMatch = item.brand === filterLogic.brand
+      isMatch = (item.brand === filterLogic.brand)
     }
     return isMatch
   })
@@ -51,8 +51,8 @@ const MotherboardSuggestion = ({
       <Grid container>
         <Grid item xs={12}>
           <SelectElement
-            label={t('motherboard')}
-            options={generateMotherboardSelectElement(motherboardList)}
+            label={t('ram')}
+            options={generateRAMSelectElement(ramList)}
             selectChange={updateSelectedItem}
             isLoading={isLoading}
           />
@@ -78,10 +78,6 @@ const MotherboardSuggestion = ({
               <Typography gutterBottom component="div">
                 {item.model}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
             </CardContent>
             <CardActions>
               <Button size="small">Share</Button>
@@ -94,4 +90,4 @@ const MotherboardSuggestion = ({
   )
 }
 
-export default MotherboardSuggestion
+export default RAMSuggestion

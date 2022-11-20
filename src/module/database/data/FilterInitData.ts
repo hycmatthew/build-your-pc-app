@@ -3,6 +3,7 @@ import {
   GPUFilterType,
   MotherboardFilterType,
   RAMFilterType,
+  SSDFilterType,
 } from './FilterType'
 
 export const CPU_FILTER_INIT_DATA: CPUFilterType = {
@@ -22,6 +23,12 @@ export const MOTHERBOARD_FILTER_INIT_DATA: MotherboardFilterType = {
 }
 
 export const RAM_FILTER_INIT_DATA: RAMFilterType = {
+  brand: '',
+  price: 0,
+  size: '',
+}
+
+export const SSD_FILTER_INIT_DATA: SSDFilterType = {
   brand: '',
   price: 0,
   size: '',

@@ -30,6 +30,18 @@ function Database() {
         return (
           <GPUSuggestion gpuList={dataState.gpuList} isLoading={dataState.isLoading} />
         )
+      case ProductEnum.Motherboard:
+        return (
+          <GPUSuggestion gpuList={dataState.gpuList} isLoading={dataState.isLoading} />
+        )
+      case ProductEnum.RAM:
+        return (
+          <GPUSuggestion gpuList={dataState.gpuList} isLoading={dataState.isLoading} />
+        )
+      case ProductEnum.SSD:
+        return (
+          <GPUSuggestion gpuList={dataState.gpuList} isLoading={dataState.isLoading} />
+        )
       default:
         return ''
     }
