@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { createTheme, styled, ThemeProvider } from '@mui/material/styles'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import ReactGA from 'react-ga'
 
 import { Popover } from '@mui/material'
 import Grid from '@mui/material/Grid'
@@ -62,12 +63,18 @@ function AppLayout({ children, bgColor }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
   const [langMenuOpen, setLangMenuOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const location = useLocation()
+
   const pages = [
     { label: 'pc-builder', link: '/' },
     { label: 'benchmarks', link: '/benchmarks' },
     { label: 'ai-list', link: '/ai-build' },
     { label: 'database', link: '/database' }
   ]
+
+  useEffect(() => {
+    ReactGA.event({ category: location.pathname, action: 'Navigate action', label: 'Navigate label' })
+  }, [location]);
 
   const handleMobileMenuClick = () => {
     setMobileMenuOpen(!mobileMenuOpen)

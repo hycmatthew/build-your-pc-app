@@ -35,7 +35,7 @@ type ComponentMenuProps = {
 
 const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
   const dispatch = useAppDispatch()
-  const { i18n } = useTranslation()
+
   const {
     selectedItems,
     cpuList,

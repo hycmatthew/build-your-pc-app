@@ -2,7 +2,6 @@
   "name": "build-your-pc-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://hycmatthew.github.io/build-your-pc-app",
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
@@ -30,6 +29,7 @@
     "react": "^18.2.0",
     "react-country-flag": "^3.0.2",
     "react-dom": "^18.2.0",
+    "react-ga": "^3.3.1",
     "react-i18next": "^11.18.5",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",

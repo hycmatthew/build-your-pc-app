@@ -12,7 +12,7 @@ function MainPage() {
   const dataState = useSelector((state: any) => {
     return state.rawData
   })
-  console.log(dataState)
+
   return (
     <AppLayout>
       <Grid
