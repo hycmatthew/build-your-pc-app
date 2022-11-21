@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense } from 'react'
 import { Provider } from 'react-redux'
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 import { BrowserRouter, HashRouter } from 'react-router-dom'
 import AIComponentListRoutes from './module/aiComponentList/pages/Route'
 
@@ -19,11 +19,11 @@ import {
   getSSDDataList,
 } from './module/store/rawDataReducer'
 import store from './module/store/store'
+import config from './config/config'
+
+ReactGA.initialize(config.GA_TRACKING_ID)
 
 function App() {
-  const TRACKING_ID = 'G-P2H9P3ZY0Z'
-  ReactGA.initialize(TRACKING_ID)
-
   store.dispatch(getCPUDataList())
   store.dispatch(getGPUDataList())
   store.dispatch(getMotherboardDataList())

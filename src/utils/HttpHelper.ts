@@ -5,7 +5,7 @@ import type {
   AxiosError,
   AxiosRequestConfig,
 } from 'axios'
-import config from '../constant/config'
+import config from '../config/config'
 
 interface Config extends AxiosRequestConfig {
   rawResponse?: boolean

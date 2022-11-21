@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { createTheme, styled, ThemeProvider } from '@mui/material/styles'
 import { Link, useLocation } from 'react-router-dom'
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 
 import { Popover } from '@mui/material'
 import Grid from '@mui/material/Grid'
@@ -73,11 +73,7 @@ function AppLayout({ children, bgColor }: Props) {
   ]
 
   useEffect(() => {
-    const TRACKING_ID = 'G-P2H9P3ZY0Z'
-    ReactGA.initialize(TRACKING_ID)
-    ReactGA.pageview(location.pathname + location.search)
-    // ReactGA.event({ category: location.pathname, action: 'Navigate action', label: 'Navigate label' })
-    console.log(location.pathname)
+    ReactGA.send({ hitType: 'pageview', page: location.pathname })
   }, [location])
 
   const handleMobileMenuClick = () => {
