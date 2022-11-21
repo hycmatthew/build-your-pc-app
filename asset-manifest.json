@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/build-your-pc-app/static/css/main.ab2347a0.css",
-    "main.js": "/build-your-pc-app/static/js/main.0c5ff25d.js",
+    "main.js": "/build-your-pc-app/static/js/main.995be43c.js",
     "index.html": "/build-your-pc-app/index.html",
     "static/media/getFetch.cjs": "/build-your-pc-app/static/media/getFetch.c780682470504fffbd04.cjs",
     "main.ab2347a0.css.map": "/build-your-pc-app/static/css/main.ab2347a0.css.map",
-    "main.0c5ff25d.js.map": "/build-your-pc-app/static/js/main.0c5ff25d.js.map"
+    "main.995be43c.js.map": "/build-your-pc-app/static/js/main.995be43c.js.map"
   },
   "entrypoints": [
     "static/css/main.ab2347a0.css",
-    "static/js/main.0c5ff25d.js"
+    "static/js/main.995be43c.js"
   ]
 }
