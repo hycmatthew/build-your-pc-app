@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Grid from '@mui/material/Grid'
 import {
   Button,
   Card,
@@ -8,6 +7,7 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material'
+
 import { CPUType, MotherboardType } from '../../../constant/objectTypes'
 
 interface InfoTableProp {

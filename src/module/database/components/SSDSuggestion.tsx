@@ -10,27 +10,27 @@ import {
   Typography,
 } from '@mui/material'
 
-import RAMType from '../../../constant/objectTypes/RAMType'
+import SSDType from '../../../constant/objectTypes/SSDType'
 import SelectElement from '../../common/components/SelectElement'
-import { generateRAMSelectElement } from '../../common/utils/generateSelectElements'
+import { generateSSDSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
-import { getRAMBrand } from '../../../utils/GroupCategoryHelper'
+import { getSSDBrand } from '../../../utils/GroupCategoryHelper'
 
-import { RAM_FILTER_INIT_DATA } from '../data/FilterInitData'
+import { SSD_FILTER_INIT_DATA } from '../data/FilterInitData'
 
-type RAMSuggestionProps = {
-  ramList: RAMType[]
+type SSDSuggestionProps = {
+  ssdList: SSDType[]
   isLoading: boolean
 }
 
-const RAMSuggestion = ({
-  ramList,
+const SSDSuggestion = ({
+  ssdList,
   isLoading,
-}: RAMSuggestionProps) => {
-  const [filterLogic, setfilterLogic] = useState(RAM_FILTER_INIT_DATA)
+}: SSDSuggestionProps) => {
+  const [filterLogic, setfilterLogic] = useState(SSD_FILTER_INIT_DATA)
 
-  let selectedItem: RAMType | null = null
-  const brandOptions = getRAMBrand(ramList)
+  let selectedItem: SSDType | null = null
+  const brandOptions = getSSDBrand(ssdList)
 
   const updateSelectedItem = (item: any) => {
     selectedItem = item
@@ -40,7 +40,7 @@ const RAMSuggestion = ({
     setfilterLogic({ ...filterLogic, brand })
   }
 
-  const updatedList = ramList.filter((item) => {
+  const updatedList = ssdList.filter((item) => {
     let isMatch = true
     if (!isEmpty(filterLogic.brand)) {
       isMatch = (item.brand === filterLogic.brand)
@@ -53,8 +53,8 @@ const RAMSuggestion = ({
       <Grid container>
         <Grid item xs={12}>
           <SelectElement
-            label={t('ram')}
-            options={generateRAMSelectElement(ramList)}
+            label={t('ssd')}
+            options={generateSSDSelectElement(ssdList)}
             selectChange={updateSelectedItem}
             isLoading={isLoading}
           />
@@ -92,4 +92,4 @@ const RAMSuggestion = ({
   )
 }
 
-export default RAMSuggestion
+export default SSDSuggestion

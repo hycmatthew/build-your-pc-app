@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { t } from 'i18next'
 import { isEmpty } from 'lodash'
-
 import {
   Button,
   CardActions,
@@ -10,10 +9,13 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
+
 import CPUType from '../../../constant/objectTypes/CPUType'
 import SelectElement from '../../common/components/SelectElement'
 import { generateCPUSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
+import { getCPUBrand } from '../../../utils/GroupCategoryHelper'
+
 import { CPU_FILTER_INIT_DATA } from '../data/FilterInitData'
 
 type CPUSuggestionProps = {
@@ -28,7 +30,7 @@ const CPUSuggestion = ({
   const [filterLogic, setfilterLogic] = useState(CPU_FILTER_INIT_DATA)
 
   let selectedItem: CPUType | null = null
-  const brandOptions = ['AMD', 'Intel']
+  const brandOptions = getCPUBrand(cpuList)
 
   const updateSelectedItem = (item: any) => {
     selectedItem = item

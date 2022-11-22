@@ -18,6 +18,7 @@ import Stack from '@mui/material/Stack'
 import LanguageButtons from './components/LanguageButtons'
 
 import './AppLayout.scss'
+import config from '../../config/config'
 
 type Props = {
   children: JSX.Element
@@ -73,7 +74,9 @@ function AppLayout({ children, bgColor }: Props) {
   ]
 
   useEffect(() => {
-    ReactGA.send({ hitType: 'pageview', page: location.pathname })
+    if (config.CURRENT_ENV !== 'dev') {
+      ReactGA.send({ hitType: 'pageview', page: location.pathname })
+    }
   }, [location])
 
   const handleMobileMenuClick = () => {

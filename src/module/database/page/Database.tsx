@@ -8,8 +8,10 @@ import ItemInfoTable from '../components/ItemInfoTable'
 import ProductEnum from '../../../constant/ProductEnum'
 import CPUSuggestion from '../components/CPUSuggestion'
 import GPUSuggestion from '../components/GPUSuggestion'
-
-import { CPU_FILTER_INIT_DATA } from '../data/FilterInitData'
+import MotherboardSuggestion from '../components/MotherboardSuggestion'
+import RAMSuggestion from '../components/RAMSuggestion'
+import SSDSuggestion from '../components/SSDSuggestion'
+import PSUSuggestion from '../components/PSUSuggestion'
 
 function Database() {
   const categoryList = Object.values(ProductEnum)
@@ -32,15 +34,19 @@ function Database() {
         )
       case ProductEnum.Motherboard:
         return (
-          <GPUSuggestion gpuList={dataState.gpuList} isLoading={dataState.isLoading} />
+          <MotherboardSuggestion motherboardList={dataState.motherboardList} isLoading={dataState.isLoading} />
         )
       case ProductEnum.RAM:
         return (
-          <GPUSuggestion gpuList={dataState.gpuList} isLoading={dataState.isLoading} />
+          <RAMSuggestion ramList={dataState.ramList} isLoading={dataState.isLoading} />
         )
       case ProductEnum.SSD:
         return (
-          <GPUSuggestion gpuList={dataState.gpuList} isLoading={dataState.isLoading} />
+          <SSDSuggestion ssdList={dataState.ssdList} isLoading={dataState.isLoading} />
+        )
+      case ProductEnum.PSU:
+        return (
+          <PSUSuggestion psuList={dataState.psuList} isLoading={dataState.isLoading} />
         )
       default:
         return ''

@@ -10,27 +10,27 @@ import {
   Typography,
 } from '@mui/material'
 
-import RAMType from '../../../constant/objectTypes/RAMType'
+import PSUType from '../../../constant/objectTypes/PSUType'
 import SelectElement from '../../common/components/SelectElement'
-import { generateRAMSelectElement } from '../../common/utils/generateSelectElements'
+import { generatePSUSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
-import { getRAMBrand } from '../../../utils/GroupCategoryHelper'
+import { getPSUBrand } from '../../../utils/GroupCategoryHelper'
 
-import { RAM_FILTER_INIT_DATA } from '../data/FilterInitData'
+import { PSU_FILTER_INIT_DATA } from '../data/FilterInitData'
 
-type RAMSuggestionProps = {
-  ramList: RAMType[]
+type PSUSuggestionProps = {
+  psuList: PSUType[]
   isLoading: boolean
 }
 
-const RAMSuggestion = ({
-  ramList,
+const PSUSuggestion = ({
+  psuList,
   isLoading,
-}: RAMSuggestionProps) => {
-  const [filterLogic, setfilterLogic] = useState(RAM_FILTER_INIT_DATA)
+}: PSUSuggestionProps) => {
+  const [filterLogic, setfilterLogic] = useState(PSU_FILTER_INIT_DATA)
 
-  let selectedItem: RAMType | null = null
-  const brandOptions = getRAMBrand(ramList)
+  let selectedItem: PSUType | null = null
+  const brandOptions = getPSUBrand(psuList)
 
   const updateSelectedItem = (item: any) => {
     selectedItem = item
@@ -40,7 +40,7 @@ const RAMSuggestion = ({
     setfilterLogic({ ...filterLogic, brand })
   }
 
-  const updatedList = ramList.filter((item) => {
+  const updatedList = psuList.filter((item) => {
     let isMatch = true
     if (!isEmpty(filterLogic.brand)) {
       isMatch = (item.brand === filterLogic.brand)
@@ -53,8 +53,8 @@ const RAMSuggestion = ({
       <Grid container>
         <Grid item xs={12}>
           <SelectElement
-            label={t('ram')}
-            options={generateRAMSelectElement(ramList)}
+            label={t('psu')}
+            options={generatePSUSelectElement(psuList)}
             selectChange={updateSelectedItem}
             isLoading={isLoading}
           />
@@ -92,4 +92,4 @@ const RAMSuggestion = ({
   )
 }
 
-export default RAMSuggestion
+export default PSUSuggestion

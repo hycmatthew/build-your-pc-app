@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { t } from 'i18next'
 import { isEmpty } from 'lodash'
-
 import {
   Button,
   CardActions,
@@ -10,10 +9,13 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
+
 import MotherboardType from '../../../constant/objectTypes/MotherboardType'
 import SelectElement from '../../common/components/SelectElement'
 import { generateMotherboardSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
+import { getMotherboardBrand } from '../../../utils/GroupCategoryHelper'
+
 import { MOTHERBOARD_FILTER_INIT_DATA } from '../data/FilterInitData'
 
 type MotherboardSuggestionProps = {
@@ -28,7 +30,7 @@ const MotherboardSuggestion = ({
   const [filterLogic, setfilterLogic] = useState(MOTHERBOARD_FILTER_INIT_DATA)
 
   let selectedItem: MotherboardType | null = null
-  const brandOptions = ['AMD', 'Intel']
+  const brandOptions = getMotherboardBrand(motherboardList)
 
   const updateSelectedItem = (item: any) => {
     selectedItem = item

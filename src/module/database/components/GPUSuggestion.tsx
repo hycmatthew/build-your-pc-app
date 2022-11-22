@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { t } from 'i18next'
 import { isEmpty } from 'lodash'
-
 import {
   Button,
   CardActions,
@@ -10,10 +9,13 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
+
 import GPUType from '../../../constant/objectTypes/GPUType'
 import SelectElement from '../../common/components/SelectElement'
 import { generateGPUSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
+import { getGPUBrand } from '../../../utils/GroupCategoryHelper'
+
 import { GPU_FILTER_INIT_DATA } from '../data/FilterInitData'
 
 type GPUSuggestionProps = {
@@ -28,7 +30,7 @@ const GPUSuggestion = ({
   const [filterLogic, setfilterLogic] = useState(GPU_FILTER_INIT_DATA)
 
   let selectedItem: GPUType | null = null
-  const brandOptions = ['AMD', 'NVIDIA']
+  const brandOptions = getGPUBrand(gpuList)
 
   const updateSelectedItem = (item: any) => {
     selectedItem = item
