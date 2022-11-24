@@ -8,22 +8,11 @@ import {
   Stack,
   TextField,
   Typography,
+  alpha,
 } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
 import { styled } from '@mui/material/styles'
 import { addCurrencySign } from '../../../utils/NumberHelper'
-
-const CustomAutocomplete = styled(Autocomplete)({
-  height: '60px',
-})
-
-const ValueTypography = styled(Typography)({
-  fontSize: '12px',
-  fontWeight: 'bold',
-  fontStyle: 'italic',
-  color: '#555',
-  marginLeft: 'auto',
-})
 
 interface OptionType {
   model: string
@@ -40,6 +29,38 @@ type SelectElementProps = SelectProps & {
   selectChange?: (value: string, type: string) => void
   isLoading?: boolean
 }
+
+const CustomAutocomplete = styled(Autocomplete)({
+  height: '60px',
+})
+
+const ValueTypography = styled(Typography)({
+  fontSize: '12px',
+  fontWeight: 'bold',
+  fontStyle: 'italic',
+  color: '#555',
+  marginLeft: 'auto',
+})
+
+const CustomTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiFilledInput-root': {
+    border: '1px solid #e2e2e1',
+    overflow: 'hidden',
+    borderRadius: 4,
+    backgroundColor: '#fff',
+    transition: theme.transitions.create([
+      'border-color',
+      'background-color',
+      'box-shadow',
+    ]),
+    '&:hover': {
+      backgroundColor: '#f2f2f2',
+    },
+    '&.Mui-focused': {
+      backgroundColor: '#fff',
+    },
+  },
+}));
 
 const GroupHeader = styled('div')(({ theme }) => ({
   position: 'sticky',
@@ -59,13 +80,11 @@ const SelectElement = ({
   options,
   selectChange,
 }: SelectElementProps) => {
-  // const [selectValue, setSelectValue] = useState('')
   const { t } = useTranslation()
 
   const handleChange = (event: any, newValue: any) => {
     if (selectChange) {
       selectChange(newValue ? newValue.model : '', label)
-      // setSelectValue(newValue.model)
     }
   }
 
@@ -75,7 +94,7 @@ const SelectElement = ({
         disabled
         renderInput={(params) => (
           /* eslint-disable react/jsx-props-no-spreading */
-          <TextField
+          <CustomTextField
             {...params}
             label={t(label)}
             InputProps={{
@@ -125,7 +144,7 @@ const SelectElement = ({
         </Box>
       )}
       /* eslint-disable react/jsx-props-no-spreading */
-      renderInput={(params) => <TextField {...params} label={t(label)} />}
+      renderInput={(params) => <CustomTextField {...params} label={t(label)} variant="filled" />}
     />
   )
 }

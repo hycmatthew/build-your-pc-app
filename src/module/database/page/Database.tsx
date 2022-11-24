@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
 import { Button, Stack, Box } from '@mui/material'
 
@@ -14,6 +15,7 @@ import SSDSuggestion from '../components/SSDSuggestion'
 import PSUSuggestion from '../components/PSUSuggestion'
 
 function Database() {
+  const { t } = useTranslation()
   const categoryList = Object.values(ProductEnum)
 
   const dataState = useSelector((state: any) => {
@@ -64,7 +66,7 @@ function Database() {
                   variant="contained"
                   onClick={() => setSelectedType(item)}
                 >
-                  {item}
+                  {t(item)}
                 </Button>
               </Box>
             </Grid>

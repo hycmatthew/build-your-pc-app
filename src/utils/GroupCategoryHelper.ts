@@ -15,8 +15,16 @@ export const getGPUBrand = (items: GPUType[]) => {
   return [...new Set(items.map((item: GPUType) => item.brand))]
 }
 
+export const getGPUManufacturer = (items: GPUType[]) => {
+  return [...new Set(items.map((item: GPUType) => item.manufacturer))]
+}
+
 export const getMotherboardBrand = (items: MotherboardType[]) => {
   return [...new Set(items.map((item: MotherboardType) => item.brand))]
+}
+
+export const getMotherboardChipset = (items: MotherboardType[]) => {
+  return [...new Set(items.map((item: MotherboardType) => item.chipset))]
 }
 
 export const getRAMBrand = (items: RAMType[]) => {
@@ -29,4 +37,8 @@ export const getSSDBrand = (items: SSDType[]) => {
 
 export const getPSUBrand = (items: PSUType[]) => {
   return [...new Set(items.map((item: PSUType) => item.brand))]
+}
+
+export const getSSDCapacity = (items: SSDType[]) => {
+  return [...new Set(items.map((item: SSDType) => item.capacity))]
 }

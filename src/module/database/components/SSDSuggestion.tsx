@@ -14,7 +14,7 @@ import SSDType from '../../../constant/objectTypes/SSDType'
 import SelectElement from '../../common/components/SelectElement'
 import { generateSSDSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
-import { getSSDBrand } from '../../../utils/GroupCategoryHelper'
+import { getSSDBrand, getSSDCapacity } from '../../../utils/GroupCategoryHelper'
 
 import { SSD_FILTER_INIT_DATA } from '../data/FilterInitData'
 
@@ -23,14 +23,12 @@ type SSDSuggestionProps = {
   isLoading: boolean
 }
 
-const SSDSuggestion = ({
-  ssdList,
-  isLoading,
-}: SSDSuggestionProps) => {
+const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
   const [filterLogic, setfilterLogic] = useState(SSD_FILTER_INIT_DATA)
 
   let selectedItem: SSDType | null = null
   const brandOptions = getSSDBrand(ssdList)
+  const capacityOptions = getSSDCapacity(ssdList)
 
   const updateSelectedItem = (item: any) => {
     selectedItem = item
@@ -40,17 +38,24 @@ const SSDSuggestion = ({
     setfilterLogic({ ...filterLogic, brand })
   }
 
+  const updateFilterCapacity = (capacity: string) => {
+    setfilterLogic({ ...filterLogic, capacity })
+  }
+
   const updatedList = ssdList.filter((item) => {
     let isMatch = true
     if (!isEmpty(filterLogic.brand)) {
-      isMatch = (item.brand === filterLogic.brand)
+      isMatch = item.brand === filterLogic.brand
+    }
+    if (!isEmpty(filterLogic.capacity) && isMatch) {
+      isMatch = item.capacity === filterLogic.capacity
     }
     return isMatch
   })
 
   return (
     <>
-      <Grid container>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           <SelectElement
             label={t('ssd')}
@@ -66,8 +71,15 @@ const SSDSuggestion = ({
             selectChange={updateFilterBrand}
           />
         </Grid>
+        <Grid item xs={6}>
+          <SelectFilter
+            label={t('capacity')}
+            options={capacityOptions}
+            selectChange={updateFilterCapacity}
+          />
+        </Grid>
       </Grid>
-      <Grid container>
+      <Grid sx={{ paddingTop: 10 }} container>
         {updatedList.map((item) => (
           <Grid key={item.model} item xs={3}>
             <CardMedia

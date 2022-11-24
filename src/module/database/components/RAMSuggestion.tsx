@@ -50,7 +50,7 @@ const RAMSuggestion = ({
 
   return (
     <>
-      <Grid container>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           <SelectElement
             label={t('ram')}
@@ -67,7 +67,7 @@ const RAMSuggestion = ({
           />
         </Grid>
       </Grid>
-      <Grid container>
+      <Grid sx={{ paddingTop: 10 }} container>
         {updatedList.map((item) => (
           <Grid key={item.model} item xs={3}>
             <CardMedia

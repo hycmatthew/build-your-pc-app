@@ -1,12 +1,32 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SelectProps, TextField } from '@mui/material'
+import { SelectProps, TextField, alpha } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
 import { styled } from '@mui/material/styles'
 
 const CustomAutocomplete = styled(Autocomplete)({
   height: '60px',
 })
+
+const CustomTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiFilledInput-root': {
+    border: '1px solid #e2e2e1',
+    overflow: 'hidden',
+    borderRadius: 4,
+    backgroundColor: '#fff',
+    transition: theme.transitions.create([
+      'border-color',
+      'background-color',
+      'box-shadow',
+    ]),
+    '&:hover': {
+      backgroundColor: '#f2f2f2',
+    },
+    '&.Mui-focused': {
+      backgroundColor: '#fff',
+    },
+  },
+}));
 
 type SelectFiltertProps = SelectProps & {
   label: string
@@ -32,7 +52,7 @@ const SelectFilter = ({ label, options, selectChange }: SelectFiltertProps) => {
       groupBy={(option: any) => option.brand}
       onChange={handleChange}
       /* eslint-disable react/jsx-props-no-spreading */
-      renderInput={(params) => <TextField {...params} label={t(label)} />}
+      renderInput={(params) => <CustomTextField {...params} label={t(label)} variant="filled" />}
     />
   )
 }

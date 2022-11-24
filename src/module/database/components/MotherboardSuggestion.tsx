@@ -12,9 +12,10 @@ import {
 
 import MotherboardType from '../../../constant/objectTypes/MotherboardType'
 import SelectElement from '../../common/components/SelectElement'
+import PriceSlider from '../../common/components/PriceSlider'
 import { generateMotherboardSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
-import { getMotherboardBrand } from '../../../utils/GroupCategoryHelper'
+import { getMotherboardBrand, getMotherboardChipset } from '../../../utils/GroupCategoryHelper'
 
 import { MOTHERBOARD_FILTER_INIT_DATA } from '../data/FilterInitData'
 
@@ -31,13 +32,22 @@ const MotherboardSuggestion = ({
 
   let selectedItem: MotherboardType | null = null
   const brandOptions = getMotherboardBrand(motherboardList)
+  const chipsetOptions = getMotherboardChipset(motherboardList)
 
   const updateSelectedItem = (item: any) => {
     selectedItem = item
   }
 
+  const updateMaxPrice = (price: number) => {
+    setfilterLogic({ ...filterLogic, price })
+  }
+
   const updateFilterBrand = (brand: string) => {
     setfilterLogic({ ...filterLogic, brand })
+  }
+
+  const updateFilterChipset = (chipset: string) => {
+    setfilterLogic({ ...filterLogic, chipset })
   }
 
   const updatedList = motherboardList.filter((item) => {
@@ -50,7 +60,7 @@ const MotherboardSuggestion = ({
 
   return (
     <>
-      <Grid container>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           <SelectElement
             label={t('motherboard')}
@@ -59,6 +69,9 @@ const MotherboardSuggestion = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={9}>
+          <PriceSlider selectChange={updateMaxPrice} />
+        </Grid>
         <Grid item xs={6}>
           <SelectFilter
             label={t('brand')}
@@ -66,8 +79,15 @@ const MotherboardSuggestion = ({
             selectChange={updateFilterBrand}
           />
         </Grid>
+        <Grid item xs={6}>
+          <SelectFilter
+            label={t('chipset')}
+            options={chipsetOptions}
+            selectChange={updateFilterChipset}
+          />
+        </Grid>
       </Grid>
-      <Grid container>
+      <Grid sx={{ paddingTop: 10 }} container>
         {updatedList.map((item) => (
           <Grid key={item.model} item xs={3}>
             <CardMedia

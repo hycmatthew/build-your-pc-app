@@ -116,7 +116,7 @@ function GPUBenchmarksTable() {
     let tempOptions: any[] = []
     tempOptions = dataState.gpuList.map((item: GPUType, index: number) => {
       return {
-        id: `${item.manufacturer} ${item.model}`,
+        id: `${item.brand} ${item.model}`,
         index,
         timespyScore: item.timespyScore,
         firestrikeScore: item.firestrikeScore,

@@ -61,7 +61,7 @@ const FooterGrid = styled(Grid)({
 })
 
 function AppLayout({ children, bgColor }: Props) {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
   const [langMenuOpen, setLangMenuOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const location = useLocation()
@@ -70,7 +70,7 @@ function AppLayout({ children, bgColor }: Props) {
     { label: 'pc-builder', link: '/' },
     { label: 'benchmarks', link: '/benchmarks' },
     { label: 'ai-list', link: '/ai-build' },
-    { label: 'database', link: '/database' }
+    { label: 'database', link: '/database' },
   ]
 
   useEffect(() => {
@@ -84,14 +84,14 @@ function AppLayout({ children, bgColor }: Props) {
   }
 
   const handleLangMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget)
     setLangMenuOpen(!langMenuOpen)
   }
 
   const handleClose = () => {
     setAnchorEl(null)
     setLangMenuOpen(false)
-  };
+  }
 
   const DesktopMenu = useMemo(
     () => (
@@ -101,7 +101,6 @@ function AppLayout({ children, bgColor }: Props) {
       >
         <Grid
           container
-          sx={{ height: '70px' }}
           justifyContent="space-between"
           alignItems="center"
           margin="auto"
@@ -112,13 +111,19 @@ function AppLayout({ children, bgColor }: Props) {
               noWrap
               sx={{
                 mr: 2,
+                fontSize: 0,
                 fontFamily: 'monospace',
                 fontWeight: 700,
                 letterSpacing: '.3rem',
                 textDecoration: 'none',
               }}
             >
-              LOGO
+              <img
+                className="app-icon"
+                alt="App Icon"
+                src="/assets/appIcon.png"
+                height={58}
+              />
             </CustomTypography>
           </Grid>
           <Grid className="header-link-grid" item xs={9}>
@@ -210,7 +215,11 @@ function AppLayout({ children, bgColor }: Props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box display="flex" sx={{ background: bgColor }} className="main_container">
+      <Box
+        display="flex"
+        sx={{ background: bgColor }}
+        className="main_container"
+      >
         <Container maxWidth="xl">
           <Grid container spacing={1}>
             <TopGrid item xs={12}>
@@ -234,7 +243,7 @@ function AppLayout({ children, bgColor }: Props) {
 }
 
 AppLayout.defaultProps = {
-  bgColor: '#ECF0F1'
+  bgColor: '#ECF0F1',
 }
 
 export default AppLayout

@@ -12,11 +12,13 @@ import {
 
 import CPUType from '../../../constant/objectTypes/CPUType'
 import SelectElement from '../../common/components/SelectElement'
+import PriceSlider from '../../common/components/PriceSlider'
 import { generateCPUSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
 import { getCPUBrand } from '../../../utils/GroupCategoryHelper'
 
 import { CPU_FILTER_INIT_DATA } from '../data/FilterInitData'
+import { getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
 
 type CPUSuggestionProps = {
   cpuList: CPUType[]
@@ -36,21 +38,28 @@ const CPUSuggestion = ({
     selectedItem = item
   }
 
+  const updateMaxPrice = (price: number) => {
+    setfilterLogic({ ...filterLogic, price })
+  }
+
   const updateFilterBrand = (brand: string) => {
     setfilterLogic({ ...filterLogic, brand })
   }
 
   const updatedList = cpuList.filter((item) => {
     let isMatch = true
-    if (!isEmpty(filterLogic.brand)) {
+    if (filterLogic.brand) {
       isMatch = (item.brand === filterLogic.brand)
+    }
+    if (filterLogic.price !== 0) {
+      isMatch = (stringToNumber(item[getSelectedCurrency()]) < filterLogic.price)
     }
     return isMatch
   })
 
   return (
     <>
-      <Grid container>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           <SelectElement
             label={t('cpu')}
@@ -58,6 +67,9 @@ const CPUSuggestion = ({
             selectChange={updateSelectedItem}
             isLoading={isLoading}
           />
+        </Grid>
+        <Grid item xs={9}>
+          <PriceSlider selectChange={updateMaxPrice} />
         </Grid>
         <Grid item xs={6}>
           <SelectFilter
@@ -67,7 +79,7 @@ const CPUSuggestion = ({
           />
         </Grid>
       </Grid>
-      <Grid container>
+      <Grid sx={{ paddingTop: 10 }} container>
         {updatedList.map((item) => (
           <Grid key={item.name} item xs={3}>
             <CardMedia
