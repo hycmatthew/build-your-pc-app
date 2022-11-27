@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { t } from 'i18next'
-import { isEmpty } from 'lodash'
 import {
   Button,
   CardActions,
@@ -19,6 +18,7 @@ import { getCPUBrand } from '../../../utils/GroupCategoryHelper'
 
 import { CPU_FILTER_INIT_DATA } from '../data/FilterInitData'
 import { getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
+import { generateItemName } from '../../../utils/LabelHelper'
 
 type CPUSuggestionProps = {
   cpuList: CPUType[]
@@ -90,16 +90,16 @@ const CPUSuggestion = ({
             />
             <CardContent>
               <Typography gutterBottom component="div">
-                {item.name}
+                {generateItemName(item.brand, item.name)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                {
+                  
+                }
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Share</Button>
-              <Button size="small">Learn More</Button>
+              <Button size="small">Compare</Button>
             </CardActions>
           </Grid>
         ))}

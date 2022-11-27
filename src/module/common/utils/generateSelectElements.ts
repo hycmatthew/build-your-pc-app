@@ -11,6 +11,7 @@ import {
   SSDType,
   AirCoolerType,
 } from '../../../constant/objectTypes'
+import { generateItemName } from '../../../utils/LabelHelper'
 import { getCurrentPrice } from '../../../utils/NumberHelper'
 import { SelectedItemType } from '../../store/rawDataReducer'
 import {
@@ -32,7 +33,7 @@ export const generateCPUSelectElement = (
       item.priceCN,
       i18n.language
     )
-    const itemLabel = `${t(item.brand)} ${item.name}`
+    const itemLabel = generateItemName(item.brand, item.name)
 
     return {
       model: item.name,
@@ -56,7 +57,7 @@ export const generateGPUSelectElement = (
       item.priceCN,
       i18n.language
     )
-    const itemLabel = `${t(item.brand)} ${item.model}`
+    const itemLabel = generateItemName(item.brand, item.model)
 
     return {
       model: item.model,
@@ -80,7 +81,7 @@ export const generateMotherboardSelectElement = (
       item.priceCN,
       i18n.language
     )
-    const itemLabel = `${t(item.brand)} ${item.model}`
+    const itemLabel = generateItemName(item.brand, item.model)
 
     return {
       model: item.model,
@@ -106,7 +107,7 @@ export const generateRAMSelectElement = (
       item.priceCN,
       i18n.language
     )
-    const itemLabel = `${item.brand} ${item.series} ${item.model}`
+    const itemLabel = generateItemName(item.brand, item.model)
 
     return {
       model: item.model,
@@ -130,7 +131,7 @@ export const generatePSUSelectElement = (
       item.priceCN,
       i18n.language
     )
-    const itemLabel = `${item.brand} ${item.model}`
+    const itemLabel = generateItemName(item.brand, item.model)
 
     return {
       model: item.model,
@@ -154,7 +155,7 @@ export const generateCaseSelectElement = (
       item.priceCN,
       i18n.language
     )
-    const itemLabel = `${item.brand} ${item.series} ${item.type}`
+    const itemLabel = generateItemName(item.brand, item.model)
     return {
       model: item.model,
       brand: item.brand,
@@ -224,7 +225,7 @@ export const generateAirCoolerSelectElement = (
       item.priceCN,
       i18n.language
     )
-    const itemLabel = `${item.brand} ${item.name}`
+    const itemLabel = generateItemName(item.brand, item.name)
 
     return {
       model: item.model,

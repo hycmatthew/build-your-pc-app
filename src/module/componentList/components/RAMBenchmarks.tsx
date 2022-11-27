@@ -7,8 +7,9 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 import { RAMType } from '../../../constant/objectTypes'
-import { getCurrentPriceWithSign } from '../../../utils/NumberHelper'
+import { addCurrencySign, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
 import { ramPerformanceLogic } from '../../../logic/performanceLogic'
+import { generateItemName } from '../../../utils/LabelHelper'
 
 function RAMBenchmarksTable() {
   const { t, i18n } = useTranslation()
@@ -22,6 +23,7 @@ function RAMBenchmarksTable() {
   useEffect(() => {
     AOS.init({
       duration: 2000,
+      mirror: false,
     })
   }, [])
 
@@ -97,6 +99,7 @@ function RAMBenchmarksTable() {
       width: 140,
       editable: false,
       disableColumnMenu: true,
+      renderCell: (params) => addCurrencySign(params.value)
     },
   ]
 
@@ -104,17 +107,12 @@ function RAMBenchmarksTable() {
     let tempOptions: any[] = []
     tempOptions = dataState.ramList.map((item: RAMType, index: number) => {
       return {
-        id: `${item.brand} ${item.model}`,
+        id: generateItemName(item.brand, item.model),
         index,
         speed: item.speed,
         performance: ramPerformanceLogic(item.speed, item.cl),
         cl: item.cl,
-        price: getCurrentPriceWithSign(
-          item.priceUS,
-          item.priceHK,
-          item.priceCN,
-          i18n.language
-        ),
+        price: stringToNumber(item[getSelectedCurrency()]),
       }
     })
     return tempOptions.sort((a, b) => b.performance - a.performance)
@@ -127,7 +125,7 @@ function RAMBenchmarksTable() {
   }
 
   return (
-    <Box sx={{ height: 1200, width: '100%', background: '#fff' }}>
+    <Box sx={{ height: 900, width: '100%', background: '#fff' }}>
       <DataGrid
         rows={createListOptions()}
         columns={columns}

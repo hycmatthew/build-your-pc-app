@@ -17,6 +17,7 @@ import SelectFilter from '../../common/components/SelectFilter'
 import { getRAMBrand } from '../../../utils/GroupCategoryHelper'
 
 import { RAM_FILTER_INIT_DATA } from '../data/FilterInitData'
+import { generateItemName } from '../../../utils/LabelHelper'
 
 type RAMSuggestionProps = {
   ramList: RAMType[]
@@ -78,7 +79,7 @@ const RAMSuggestion = ({
             />
             <CardContent>
               <Typography gutterBottom component="div">
-                {item.model}
+                {generateItemName(item.brand, item.model)}
               </Typography>
             </CardContent>
             <CardActions>

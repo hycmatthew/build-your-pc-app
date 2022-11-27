@@ -7,7 +7,8 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 import GPUType from '../../../constant/objectTypes/GPUType'
-import { getCurrentPriceWithSign } from '../../../utils/NumberHelper'
+import { addCurrencySign, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
+import { generateItemName } from '../../../utils/LabelHelper'
 
 function GPUBenchmarksTable() {
   const { t, i18n } = useTranslation()
@@ -109,6 +110,7 @@ function GPUBenchmarksTable() {
       width: 160,
       editable: false,
       disableColumnMenu: true,
+      renderCell: (params) => addCurrencySign(params.value)
     },
   ]
 
@@ -116,16 +118,11 @@ function GPUBenchmarksTable() {
     let tempOptions: any[] = []
     tempOptions = dataState.gpuList.map((item: GPUType, index: number) => {
       return {
-        id: `${item.brand} ${item.model}`,
+        id: generateItemName(item.brand, item.model),
         index,
         timespyScore: item.timespyScore,
         firestrikeScore: item.firestrikeScore,
-        price: getCurrentPriceWithSign(
-          item.priceUS,
-          item.priceHK,
-          item.priceCN,
-          i18n.language
-        ),
+        price: stringToNumber(item[getSelectedCurrency()]),
       }
     })
     return tempOptions.sort((a, b) => b.timespyScore - a.timespyScore)
@@ -138,7 +135,7 @@ function GPUBenchmarksTable() {
   }
 
   return (
-    <Box sx={{ height: 1200, width: '100%', background: '#fff' }}>
+    <Box sx={{ height: 900, width: '100%', background: '#fff' }}>
       <DataGrid
         rows={createListOptions()}
         columns={columns}

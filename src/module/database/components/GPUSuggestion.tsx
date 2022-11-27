@@ -19,6 +19,7 @@ import { getGPUBrand, getGPUManufacturer } from '../../../utils/GroupCategoryHel
 import { stringToNumber, getSelectedCurrency } from '../../../utils/NumberHelper'
 
 import { GPU_FILTER_INIT_DATA } from '../data/FilterInitData'
+import { generateItemName } from '../../../utils/LabelHelper'
 
 type GPUSuggestionProps = {
   gpuList: GPUType[]
@@ -105,7 +106,7 @@ const GPUSuggestion = ({
             />
             <CardContent>
               <Typography gutterBottom component="div">
-                {item.model}
+                {generateItemName(item.brand, item.model)}
               </Typography>
             </CardContent>
             <CardActions>

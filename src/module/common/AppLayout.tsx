@@ -233,7 +233,9 @@ function AppLayout({ children, bgColor }: Props) {
               {children}
             </ChildGrid>
             <FooterGrid item xs={12}>
-              <p>222</p>
+              <p>
+                {`©${new Date().getFullYear()} buildyourpc.com`}
+              </p>
             </FooterGrid>
           </Grid>
         </Container>

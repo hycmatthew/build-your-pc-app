@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Stack, Typography } from '@mui/material'
-import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 import CPUType from '../../../constant/objectTypes/CPUType'
 import {
-  getCurrentPriceWithSign,
+  addCurrencySign, getSelectedCurrency, stringToNumber,
 } from '../../../utils/NumberHelper'
+import { generateItemName } from '../../../utils/LabelHelper'
 
 function CPUBenchmarksTable() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [selectedField, setSelectedField] = useState('multiScore')
   const [showBar, setShowBar] = useState(false)
 
@@ -22,7 +23,7 @@ function CPUBenchmarksTable() {
 
   useEffect(() => {
     AOS.init({
-      duration: 2000,
+      duration: 1500
     })
   }, [])
 
@@ -38,20 +39,21 @@ function CPUBenchmarksTable() {
     ]
     const maxWidth = 500
     let setLength = 1
-    const dutation = index * 250 + 800
+    const dutation = index * 150
 
     switch (type) {
       case 'singleScore':
-        setLength = score / 2500
+        setLength = score / 3500
         break
       default:
-        setLength = score / 50000
+        setLength = score / 55000
         break
     }
     return (
       <Box
         data-aos="zoom-in-right"
-        data-aos-duration={dutation}
+        data-aos-once="true"
+        data-aos-delay={dutation}
         sx={{
           width: setLength * maxWidth,
           backgroundColor: colorList[index % 7],
@@ -67,14 +69,14 @@ function CPUBenchmarksTable() {
       field: 'id',
       headerName: t('name'),
       sortable: false,
-      width: 250,
+      width: 220,
       editable: false,
       disableColumnMenu: true,
     },
     {
       field: 'singleScore',
       headerName: t('single-core'),
-      width: selectedField === 'singleScore' ? 550 : 150,
+      width: selectedField === 'singleScore' ? 450 : 150,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
@@ -91,7 +93,7 @@ function CPUBenchmarksTable() {
     {
       field: 'multiScore',
       headerName: t('multi-core'),
-      width: selectedField === 'multiScore' ? 550 : 150,
+      width: selectedField === 'multiScore' ? 450 : 150,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
@@ -106,11 +108,20 @@ function CPUBenchmarksTable() {
       },
     },
     {
-      field: 'price',
-      headerName: t('price'),
-      width: 160,
+      field: 'pricePerformance',
+      headerName: t('price-performance'),
+      width: 150,
       editable: false,
       disableColumnMenu: true,
+      renderCell: (params) => Number(params.value).toFixed(2)
+    },
+    {
+      field: 'price',
+      headerName: t('price'),
+      width: 150,
+      editable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => addCurrencySign(params.value)
     },
   ]
 
@@ -118,19 +129,15 @@ function CPUBenchmarksTable() {
     let tempOptions: any[] = []
     tempOptions = dataState.cpuList.map((item: CPUType, index: number) => {
       return {
-        id: `${item.brand} ${item.name}`,
+        id: generateItemName(item.brand, item.name),
         index,
         singleScore: item.singleCoreScore,
         multiScore: item.multiCoreScore,
-        price: getCurrentPriceWithSign(
-          item.priceUS,
-          item.priceHK,
-          item.priceCN,
-          i18n.language
-        ),
+        pricePerformance: (item.multiCoreScore / stringToNumber(item[getSelectedCurrency()])),
+        price: stringToNumber(item[getSelectedCurrency()]),
       }
     })
-    return tempOptions.sort((a, b) => b.multiScore - a.multiScore)
+    return tempOptions.sort((a, b) => b.multiCoreScore - a.multiCoreScore)
   }
 
   const handleColumnHeaderClick = (fieldName: string) => {
@@ -140,7 +147,7 @@ function CPUBenchmarksTable() {
   }
 
   return (
-    <Box sx={{ height: 1200, width: '100%', background: '#fff' }}>
+    <Box sx={{ height: 900, width: '100%', background: '#fff' }}>
       <DataGrid
         rows={createListOptions()}
         columns={columns}

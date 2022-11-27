@@ -18,6 +18,7 @@ import SelectFilter from '../../common/components/SelectFilter'
 import { getMotherboardBrand, getMotherboardChipset } from '../../../utils/GroupCategoryHelper'
 
 import { MOTHERBOARD_FILTER_INIT_DATA } from '../data/FilterInitData'
+import { generateItemName } from '../../../utils/LabelHelper'
 
 type MotherboardSuggestionProps = {
   motherboardList: MotherboardType[]
@@ -98,7 +99,7 @@ const MotherboardSuggestion = ({
             />
             <CardContent>
               <Typography gutterBottom component="div">
-                {item.model}
+                {generateItemName(item.brand, item.model)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Lizards are a widespread group of squamate reptiles, with over
