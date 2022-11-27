@@ -32,12 +32,11 @@ const GPUSuggestion = ({
 }: GPUSuggestionProps) => {
   const [filterLogic, setfilterLogic] = useState(GPU_FILTER_INIT_DATA)
 
-  let selectedItem: GPUType | null = null
   const brandOptions = getGPUBrand(gpuList)
   const manufacturerOptions = getGPUManufacturer(gpuList)
 
   const updateSelectedItem = (item: any) => {
-    selectedItem = item
+    setfilterLogic({ ...filterLogic, model: item })
   }
 
   const updateMaxPrice = (price: number) => {
@@ -57,10 +56,10 @@ const GPUSuggestion = ({
     if (filterLogic.brand) {
       isMatch = (item.brand === filterLogic.brand)
     }
-    if (filterLogic.manufacturer) {
+    if (filterLogic.manufacturer && isMatch) {
       isMatch = (item.manufacturer === filterLogic.manufacturer)
     }
-    if (filterLogic.price !== 0) {
+    if (filterLogic.price !== 0 && isMatch) {
       isMatch = (stringToNumber(item[getSelectedCurrency()]) < filterLogic.price)
     }
     return isMatch

@@ -19,6 +19,7 @@ import { getMotherboardBrand, getMotherboardChipset } from '../../../utils/Group
 
 import { MOTHERBOARD_FILTER_INIT_DATA } from '../data/FilterInitData'
 import { generateItemName } from '../../../utils/LabelHelper'
+import { CPUType } from '../../../constant/objectTypes'
 
 type MotherboardSuggestionProps = {
   motherboardList: MotherboardType[]
@@ -53,7 +54,7 @@ const MotherboardSuggestion = ({
 
   const updatedList = motherboardList.filter((item) => {
     let isMatch = true
-    if (!isEmpty(filterLogic.brand)) {
+    if (filterLogic.brand) {
       isMatch = item.brand === filterLogic.brand
     }
     return isMatch

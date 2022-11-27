@@ -39,7 +39,6 @@ function CPUBenchmarksTable() {
     ]
     const maxWidth = 500
     let setLength = 1
-    const dutation = index * 150
 
     switch (type) {
       case 'singleScore':
@@ -53,7 +52,6 @@ function CPUBenchmarksTable() {
       <Box
         data-aos="zoom-in-right"
         data-aos-once="true"
-        data-aos-delay={dutation}
         sx={{
           width: setLength * maxWidth,
           backgroundColor: colorList[index % 7],
@@ -137,7 +135,7 @@ function CPUBenchmarksTable() {
         price: stringToNumber(item[getSelectedCurrency()]),
       }
     })
-    return tempOptions.sort((a, b) => b.multiCoreScore - a.multiCoreScore)
+    return tempOptions.sort((a, b) => b.multiScore - a.multiScore)
   }
 
   const handleColumnHeaderClick = (fieldName: string) => {

@@ -43,7 +43,7 @@ const RAMSuggestion = ({
 
   const updatedList = ramList.filter((item) => {
     let isMatch = true
-    if (!isEmpty(filterLogic.brand)) {
+    if (filterLogic.brand && isMatch) {
       isMatch = (item.brand === filterLogic.brand)
     }
     return isMatch

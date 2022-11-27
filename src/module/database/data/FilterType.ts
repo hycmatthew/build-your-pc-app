@@ -1,11 +1,13 @@
 export interface CPUFilterType {
     brand: string
+    model: string
     price: number
 }
 
 export interface GPUFilterType {
     brand: string
     manufacturer: string
+    model: string
     price: number
 }
 

@@ -30,12 +30,12 @@ const CPUSuggestion = ({
   isLoading,
 }: CPUSuggestionProps) => {
   const [filterLogic, setfilterLogic] = useState(CPU_FILTER_INIT_DATA)
+  const [selectedItems, setSelectedItems] = useState<CPUType[]>([])
 
-  let selectedItem: CPUType | null = null
   const brandOptions = getCPUBrand(cpuList)
 
   const updateSelectedItem = (item: any) => {
-    selectedItem = item
+    setfilterLogic({ ...filterLogic, model: item })
   }
 
   const updateMaxPrice = (price: number) => {
@@ -46,12 +46,19 @@ const CPUSuggestion = ({
     setfilterLogic({ ...filterLogic, brand })
   }
 
+  const addComparison = (item: CPUType) => {
+    setSelectedItems([...selectedItems, item])
+  }
+
   const updatedList = cpuList.filter((item) => {
     let isMatch = true
     if (filterLogic.brand) {
       isMatch = (item.brand === filterLogic.brand)
     }
-    if (filterLogic.price !== 0) {
+    if (filterLogic.model && isMatch) {
+      isMatch = (item.name === filterLogic.model)
+    }
+    if (filterLogic.price !== 0 && isMatch) {
       isMatch = (stringToNumber(item[getSelectedCurrency()]) < filterLogic.price)
     }
     return isMatch
@@ -94,12 +101,12 @@ const CPUSuggestion = ({
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {
-                  
+                  item.multiCoreScore
                 }
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Compare</Button>
+              <Button size="small" onClick={() => addComparison(item)}>Compare</Button>
             </CardActions>
           </Grid>
         ))}

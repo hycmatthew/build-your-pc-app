@@ -9,12 +9,14 @@ import {
 
 export const CPU_FILTER_INIT_DATA: CPUFilterType = {
   brand: '',
+  model: '',
   price: 0,
 }
 
 export const GPU_FILTER_INIT_DATA: GPUFilterType = {
   brand: '',
   manufacturer: '',
+  model: '',
   price: 0,
 }
 
