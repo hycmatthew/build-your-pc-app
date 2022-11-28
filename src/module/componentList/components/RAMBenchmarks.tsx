@@ -10,6 +10,7 @@ import { RAMType } from '../../../constant/objectTypes'
 import { addCurrencySign, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
 import { ramPerformanceLogic } from '../../../logic/performanceLogic'
 import { generateItemName } from '../../../utils/LabelHelper'
+import BarMotion from '../../../animation/BarMotion'
 
 function RAMBenchmarksTable() {
   const { t, i18n } = useTranslation()
@@ -42,16 +43,16 @@ function RAMBenchmarksTable() {
     const dutation = index * 250 + 800
 
     return (
-      <Box
-        data-aos="zoom-in-right"
-        data-aos-duration={dutation}
-        sx={{
-          width: setLength * maxWidth,
-          backgroundColor: colorList[index % 7],
-          borderRadius: 3,
-          height: 12,
-        }}
-      />
+      <BarMotion>
+        <Box
+          sx={{
+            width: setLength * maxWidth,
+            backgroundColor: colorList[index % 7],
+            borderRadius: 3,
+            height: 12,
+          }}
+        />
+      </BarMotion>
     )
   }
 

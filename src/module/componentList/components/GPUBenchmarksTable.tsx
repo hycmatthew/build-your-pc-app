@@ -9,6 +9,7 @@ import 'aos/dist/aos.css'
 import GPUType from '../../../constant/objectTypes/GPUType'
 import { addCurrencySign, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
 import { generateItemName } from '../../../utils/LabelHelper'
+import BarMotion from '../../../animation/BarMotion'
 
 function GPUBenchmarksTable() {
   const { t, i18n } = useTranslation()
@@ -48,16 +49,16 @@ function GPUBenchmarksTable() {
         break
     }
     return (
-      <Box
-        data-aos="zoom-in-right"
-        data-aos-duration={dutation}
-        sx={{
-          width: setLength * maxWidth,
-          backgroundColor: colorList[index % 7],
-          borderRadius: 3,
-          height: 12,
-        }}
-      />
+      <BarMotion>
+        <Box
+          sx={{
+            width: setLength * maxWidth,
+            backgroundColor: colorList[index % 7],
+            borderRadius: 3,
+            height: 12,
+          }}
+        />
+      </BarMotion>
     )
   }
 

@@ -1,31 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Stack, Typography } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import AOS from 'aos'
-import 'aos/dist/aos.css'
+import { motion, Variants } from 'framer-motion'
 
 import CPUType from '../../../constant/objectTypes/CPUType'
 import {
-  addCurrencySign, getSelectedCurrency, stringToNumber,
+  addCurrencySign,
+  getSelectedCurrency,
+  stringToNumber,
 } from '../../../utils/NumberHelper'
 import { generateItemName } from '../../../utils/LabelHelper'
+import BarMotion from '../../../animation/BarMotion'
 
 function CPUBenchmarksTable() {
   const { t } = useTranslation()
   const [selectedField, setSelectedField] = useState('multiScore')
-  const [showBar, setShowBar] = useState(false)
 
   const dataState = useSelector((state: any) => {
     return state.rawData
   })
-
-  useEffect(() => {
-    AOS.init({
-      duration: 1500
-    })
-  }, [])
 
   const benchmarksBarWidth = (type: string, score: number, index: number) => {
     const colorList = [
@@ -49,16 +44,16 @@ function CPUBenchmarksTable() {
         break
     }
     return (
-      <Box
-        data-aos="zoom-in-right"
-        data-aos-once="true"
-        sx={{
-          width: setLength * maxWidth,
-          backgroundColor: colorList[index % 7],
-          borderRadius: 3,
-          height: 12,
-        }}
-      />
+      <BarMotion>
+        <Box
+          sx={{
+            width: setLength * maxWidth,
+            backgroundColor: colorList[index % 7],
+            borderRadius: 3,
+            height: 12,
+          }}
+        />
+      </BarMotion>
     )
   }
 
@@ -111,7 +106,7 @@ function CPUBenchmarksTable() {
       width: 150,
       editable: false,
       disableColumnMenu: true,
-      renderCell: (params) => Number(params.value).toFixed(2)
+      renderCell: (params) => Number(params.value).toFixed(2),
     },
     {
       field: 'price',
@@ -119,7 +114,7 @@ function CPUBenchmarksTable() {
       width: 150,
       editable: false,
       disableColumnMenu: true,
-      renderCell: (params) => addCurrencySign(params.value)
+      renderCell: (params) => addCurrencySign(params.value),
     },
   ]
 
@@ -131,7 +126,8 @@ function CPUBenchmarksTable() {
         index,
         singleScore: item.singleCoreScore,
         multiScore: item.multiCoreScore,
-        pricePerformance: (item.multiCoreScore / stringToNumber(item[getSelectedCurrency()])),
+        pricePerformance:
+          item.multiCoreScore / stringToNumber(item[getSelectedCurrency()]),
         price: stringToNumber(item[getSelectedCurrency()]),
       }
     })
