@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { t } from 'i18next'
 import {
+  Badge,
   Button,
   CardActions,
   CardContent,
@@ -8,6 +9,9 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
+import { motion, Variants } from 'framer-motion'
+import { max, maxBy, sum } from 'lodash'
 
 import CPUType from '../../../constant/objectTypes/CPUType'
 import SelectElement from '../../common/components/SelectElement'
@@ -17,22 +21,34 @@ import SelectFilter from '../../common/components/SelectFilter'
 import { getCPUBrand } from '../../../utils/GroupCategoryHelper'
 
 import { CPU_FILTER_INIT_DATA } from '../data/FilterInitData'
-import { getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
+import {
+  getSelectedCurrency,
+  stringToNumber,
+} from '../../../utils/NumberHelper'
 import { generateItemName } from '../../../utils/LabelHelper'
+import ComparisonModal from './ComparisonModal'
+import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
 
 type CPUSuggestionProps = {
   cpuList: CPUType[]
   isLoading: boolean
 }
 
-const CPUSuggestion = ({
-  cpuList,
-  isLoading,
-}: CPUSuggestionProps) => {
+const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
   const [filterLogic, setfilterLogic] = useState(CPU_FILTER_INIT_DATA)
   const [selectedItems, setSelectedItems] = useState<CPUType[]>([])
+  const [openCompare, setOpenCompare] = useState(false)
 
   const brandOptions = getCPUBrand(cpuList)
+
+  const itemVariants: Variants = {
+    open: {
+      opacity: 1,
+      y: 0,
+      transition: { type: 'spring', stiffness: 300, damping: 24 },
+    },
+    closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
+  }
 
   const updateSelectedItem = (item: any) => {
     setfilterLogic({ ...filterLogic, model: item })
@@ -50,16 +66,60 @@ const CPUSuggestion = ({
     setSelectedItems([...selectedItems, item])
   }
 
+  const openCompareLogic = () => {
+    if (selectedItems.length > 0) {
+      setOpenCompare(true)
+    }
+  }
+
+  const handleClose = () => {
+    setOpenCompare(false)
+  }
+
+  const getCoresNumber = (coreStr: string) => {
+    const coreList = coreStr.split('/').map((item) => Number(item))
+    return sum(coreList)
+  }
+
+  const openComparison = () => {
+    let comparsionObjects: ComparisonObject[] = []
+    comparsionObjects = selectedItems.map((item) => {
+      const imgStr = item.img
+      const itemName = item.name
+      const cpuCores: ComparisonSubItem = {
+        label: 'cpu-core',
+        value: item.cores,
+        isHighlight:
+          getCoresNumber(item.cores) === max(selectedItems.map((element) => getCoresNumber(element.cores))),
+      }
+
+      const result: ComparisonObject = {
+        img: imgStr,
+        name: itemName,
+        items: [cpuCores],
+      }
+      return result
+    })
+
+    return (
+      <ComparisonModal
+        comparisonObjects={comparsionObjects}
+        isOpen={openCompare}
+        handleClose={handleClose}
+      />
+    )
+  }
+
   const updatedList = cpuList.filter((item) => {
     let isMatch = true
     if (filterLogic.brand) {
-      isMatch = (item.brand === filterLogic.brand)
+      isMatch = item.brand === filterLogic.brand
     }
     if (filterLogic.model && isMatch) {
-      isMatch = (item.name === filterLogic.model)
+      isMatch = item.name === filterLogic.model
     }
     if (filterLogic.price !== 0 && isMatch) {
-      isMatch = (stringToNumber(item[getSelectedCurrency()]) < filterLogic.price)
+      isMatch = stringToNumber(item[getSelectedCurrency()]) < filterLogic.price
     }
     return isMatch
   })
@@ -67,7 +127,7 @@ const CPUSuggestion = ({
   return (
     <>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid item xs={9}>
           <SelectElement
             label={t('cpu')}
             options={generateCPUSelectElement(cpuList)}
@@ -75,6 +135,18 @@ const CPUSuggestion = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={3}>
+          <Badge badgeContent={selectedItems.length} color="error">
+            <Button
+              startIcon={<CompareArrowsIcon />}
+              variant="contained"
+              onClick={() => openCompareLogic()}
+            >
+              Compare
+            </Button>
+          </Badge>
+        </Grid>
+        {openComparison()}
         <Grid item xs={9}>
           <PriceSlider selectChange={updateMaxPrice} />
         </Grid>
@@ -100,13 +172,13 @@ const CPUSuggestion = ({
                 {generateItemName(item.brand, item.name)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {
-                  item.multiCoreScore
-                }
+                {item.multiCoreScore}
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => addComparison(item)}>Compare</Button>
+              <Button size="small" onClick={() => addComparison(item)}>
+                Compare
+              </Button>
             </CardActions>
           </Grid>
         ))}
