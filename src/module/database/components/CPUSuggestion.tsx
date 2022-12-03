@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
 import { motion, Variants } from 'framer-motion'
-import { max, maxBy, sum } from 'lodash'
+import { max, sum } from 'lodash'
 
 import CPUType from '../../../constant/objectTypes/CPUType'
 import SelectElement from '../../common/components/SelectElement'
@@ -66,6 +66,11 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
     setSelectedItems([...selectedItems, item])
   }
 
+  const removeComparison = (name: string) => {
+    const updatedList: CPUType[] = selectedItems.filter((element: CPUType) => element.name !== name)
+    setSelectedItems([...updatedList])
+  }
+
   const openCompareLogic = () => {
     if (selectedItems.length > 0) {
       setOpenCompare(true)
@@ -93,11 +98,30 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
           getCoresNumber(item.cores) === max(selectedItems.map((element) => getCoresNumber(element.cores))),
       }
 
+      const cpuDisplay: ComparisonSubItem = {
+        label: 'cpu-gpu',
+        value: item.gpu,
+        isHighlight: item.gpu !== '',
+      }
+
+      const singleScore: ComparisonSubItem = {
+        label: 'cpu-singleScore',
+        value: item.singleCoreScore.toString(),
+        isHighlight: item.singleCoreScore === max(selectedItems.map((element) => element.singleCoreScore)),
+      }
+
+      const multiScore: ComparisonSubItem = {
+        label: 'cpu-singleScore',
+        value: item.singleCoreScore.toString(),
+        isHighlight: item.singleCoreScore === max(selectedItems.map((element) => element.singleCoreScore)),
+      }
+
       const result: ComparisonObject = {
         img: imgStr,
         name: itemName,
-        items: [cpuCores],
+        items: [cpuCores, cpuDisplay, singleScore, multiScore],
       }
+
       return result
     })
 
@@ -106,6 +130,7 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
         comparisonObjects={comparsionObjects}
         isOpen={openCompare}
         handleClose={handleClose}
+        handleRemove={removeComparison}
       />
     )
   }
