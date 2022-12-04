@@ -6,6 +6,7 @@ import {
   Grid,
   Typography
 } from '@mui/material'
+import { EMPTY_IMG_DATA } from '../../../constant/EmptyImage'
 
 const style = {
   textAlign: 'center'
@@ -20,7 +21,7 @@ type ItemCardProps = {
 const ItemCard = ({ itemLabel, imgSrc, addComparsion }: ItemCardProps) => {
   return (
     <Grid sx={style} key={itemLabel} item xs={3}>
-      <CardMedia component="img" image={imgSrc} alt={imgSrc} />
+      <CardMedia component="img" image={imgSrc || EMPTY_IMG_DATA} alt={itemLabel} />
       <CardContent>
         <Typography gutterBottom component="div">
           {itemLabel}

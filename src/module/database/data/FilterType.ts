@@ -21,6 +21,7 @@ export interface MotherboardFilterType {
 
 export interface RAMFilterType {
     brand: string
+    model: string
     price: number
     size: string
 }

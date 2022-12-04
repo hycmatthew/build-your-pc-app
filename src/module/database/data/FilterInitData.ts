@@ -30,6 +30,7 @@ export const MOTHERBOARD_FILTER_INIT_DATA: MotherboardFilterType = {
 
 export const RAM_FILTER_INIT_DATA: RAMFilterType = {
   brand: '',
+  model: '',
   price: 0,
   size: '',
 }

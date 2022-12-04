@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import ClearIcon from '@mui/icons-material/Clear';
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
+import { EMPTY_IMG_DATA } from '../../../constant/EmptyImage';
 
 type ComparisonModalProp = {
   comparisonObjects: ComparisonObject[]
@@ -43,7 +44,7 @@ const boxStyle = {
 }
 
 const nameTypographyStyle = {
-  fontSize: '15px',
+  fontSize: '14px',
   color: '#999',
   paddingTop: '4px'
 }
@@ -83,7 +84,7 @@ const comparisonGrid = (comparisonObject: ComparisonObject, handleRemove: (name:
     <Grid key={comparisonObject.name} item xs={3} height="100%">
       <CardMedia
         component="img"
-        image={comparisonObject.img}
+        image={comparisonObject.img || EMPTY_IMG_DATA}
         alt={comparisonObject.name}
       />
       <Box sx={{ height: '40px' }} justifyContent="center">
