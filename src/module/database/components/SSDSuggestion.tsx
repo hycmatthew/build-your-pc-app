@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { t } from 'i18next'
-import { isEmpty } from 'lodash'
+import { isEmpty, max } from 'lodash'
 import {
+  Badge,
   Button,
-  CardActions,
-  CardContent,
-  CardMedia,
   Grid,
-  Typography,
 } from '@mui/material'
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
 
 import SSDType from '../../../constant/objectTypes/SSDType'
 import SelectElement from '../../common/components/SelectElement'
@@ -17,6 +15,10 @@ import SelectFilter from '../../common/components/SelectFilter'
 import { getSSDBrand, getSSDCapacity } from '../../../utils/GroupCategoryHelper'
 
 import { SSD_FILTER_INIT_DATA } from '../data/FilterInitData'
+import { generateItemName } from '../../../utils/LabelHelper'
+import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
+import ComparisonModal from './ComparisonModal'
+import ItemCard from './ItemCard'
 
 type SSDSuggestionProps = {
   ssdList: SSDType[]
@@ -25,10 +27,16 @@ type SSDSuggestionProps = {
 
 const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
   const [filterLogic, setfilterLogic] = useState(SSD_FILTER_INIT_DATA)
+  const [selectedItems, setSelectedItems] = useState<SSDType[]>([])
+  const [openCompare, setOpenCompare] = useState(false)
 
   let selectedItem: SSDType | null = null
   const brandOptions = getSSDBrand(ssdList)
   const capacityOptions = getSSDCapacity(ssdList)
+
+  const addComparison = (item: SSDType) => {
+    setSelectedItems([...selectedItems, item])
+  }
 
   const updateSelectedItem = (item: any) => {
     selectedItem = item
@@ -40,6 +48,96 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
 
   const updateFilterCapacity = (capacity: string) => {
     setfilterLogic({ ...filterLogic, capacity })
+  }
+
+  const handleClose = () => {
+    setOpenCompare(false)
+  }
+
+  const removeComparison = (model: string) => {
+    const updatedList: SSDType[] = selectedItems.filter(
+      (element: SSDType) => element.model !== model
+    )
+    if (updatedList.length === 0) {
+      handleClose()
+    }
+    setSelectedItems([...updatedList])
+  }
+
+  const openCompareLogic = () => {
+    if (selectedItems.length > 0) {
+      setOpenCompare(true)
+    }
+  }
+
+  const openComparison = () => {
+    let comparsionObjects: ComparisonObject[] = []
+    comparsionObjects = selectedItems.map((item) => {
+      const imgStr = item.img
+      const itemModel = item.model
+      const itemName = generateItemName(item.brand, item.model)
+
+      const capacity: ComparisonSubItem = {
+        label: 'capacity',
+        value: item.capacity,
+        isHighlight: false,
+      }
+
+      const memoryType: ComparisonSubItem = {
+        label: 'memoryType',
+        value: item.memoryType,
+        isHighlight: false,
+      }
+
+      const ramInterface: ComparisonSubItem = {
+        label: 'interface',
+        value: item.interface,
+        isHighlight: false,
+      }
+
+      const sizeType: ComparisonSubItem = {
+        label: 'sizeType',
+        value: item.sizeType,
+        isHighlight: false,
+      }
+
+      const readSpeed: ComparisonSubItem = {
+        label: 'readSpeed',
+        value: item.readSpeed.toString(),
+        isHighlight: item.readSpeed === max(selectedItems.map((element) => element.readSpeed)),
+      }
+
+      const writeSpeed: ComparisonSubItem = {
+        label: 'writeSpeed',
+        value: item.writeSpeed.toString(),
+        isHighlight: item.writeSpeed === max(selectedItems.map((element) => element.writeSpeed)),
+      }
+
+      const result: ComparisonObject = {
+        img: imgStr,
+        name: itemName,
+        model: itemModel,
+        items: [
+          capacity,
+          memoryType,
+          ramInterface,
+          sizeType,
+          readSpeed,
+          writeSpeed,
+        ],
+      }
+
+      return result
+    })
+
+    return (
+      <ComparisonModal
+        comparisonObjects={comparsionObjects}
+        isOpen={openCompare}
+        handleClose={handleClose}
+        handleRemove={removeComparison}
+      />
+    )
   }
 
   const updatedList = ssdList.filter((item) => {
@@ -56,7 +154,7 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
   return (
     <>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid item xs={9}>
           <SelectElement
             label={t('ssd')}
             options={generateSSDSelectElement(ssdList)}
@@ -64,6 +162,19 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={3}>
+          <Badge badgeContent={selectedItems.length} color="error">
+            <Button
+              startIcon={<CompareArrowsIcon />}
+              variant="contained"
+              disabled={selectedItems.length === 0}
+              onClick={() => openCompareLogic()}
+            >
+              Compare
+            </Button>
+          </Badge>
+        </Grid>
+        {openComparison()}
         <Grid item xs={6}>
           <SelectFilter
             label={t('brand')}
@@ -81,23 +192,11 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
       </Grid>
       <Grid sx={{ paddingTop: 10 }} container>
         {updatedList.map((item) => (
-          <Grid key={item.model} item xs={3}>
-            <CardMedia
-              component="img"
-              height="140"
-              image={item.img}
-              alt={item.model}
-            />
-            <CardContent>
-              <Typography gutterBottom component="div">
-                {item.model}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Share</Button>
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </Grid>
+          <ItemCard
+            itemLabel={generateItemName(item.brand, item.model)}
+            imgSrc={item.img}
+            addComparsion={() => addComparison(item)}
+          />
         ))}
       </Grid>
     </>
