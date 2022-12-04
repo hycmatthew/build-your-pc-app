@@ -35,6 +35,17 @@ const theme = createTheme({
       xl: 1200,
     },
   },
+  typography: {
+    fontFamily: [
+      'Calibri',
+      'Tahoma',
+      '"Helvetica Neue"',
+      'Microsoft JhengHei',
+      '"Apple Color Emoji"',
+      'PingFang',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
 })
 
 const CustomAppLayout = styled(AppBar)({
@@ -233,9 +244,9 @@ function AppLayout({ children, bgColor }: Props) {
               {children}
             </ChildGrid>
             <FooterGrid item xs={12}>
-              <p>
+              <Typography>
                 {`©${new Date().getFullYear()} buildyourpc.com`}
-              </p>
+              </Typography>
             </FooterGrid>
           </Grid>
         </Container>

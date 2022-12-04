@@ -9,6 +9,7 @@ import {
   Box,
   Button,
 } from '@mui/material'
+import ClearIcon from '@mui/icons-material/Clear';
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
 
 type ComparisonModalProp = {
@@ -27,28 +28,35 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 800,
-  height: '65%',
   bgcolor: 'background.paper',
   boxShadow: 24,
-  p: 4,
+  textAlign: 'center',
+  borderRadius: 2,
+  p: 3,
+  width: 800
 }
 
 const boxStyle = {
-  textAlign: 'center',
   height: '60px',
   borderTop: 1,
   borderColor: '#d9d9d9'
 }
 
+const nameTypographyStyle = {
+  fontSize: '15px',
+  color: '#999',
+  paddingTop: '4px'
+}
+
 const topTypographyStyle = {
+  display: 'inline-block',
   fontSize: '9px',
   color: '#808080',
   verticalAlign: 'top',
   paddingTop: '4px'
 }
 
-const mainpTypographyStyle = {
+const mainTypographyStyle = {
   fontSize: '15px',
 }
 
@@ -60,7 +68,7 @@ function ComparisonTypography({ item }: ComparisonTypographyProps) {
       <Box sx={boxStyle}>
         <Typography sx={topTypographyStyle}>{t(label)}</Typography>
         <Typography
-          sx={mainpTypographyStyle}
+          sx={mainTypographyStyle}
           color={isHighlight ? '#00b359' : '#000'}
         >
           {value}
@@ -73,16 +81,16 @@ function ComparisonTypography({ item }: ComparisonTypographyProps) {
 const comparisonGrid = (comparisonObject: ComparisonObject, handleRemove: (name: string) => void) => {
   return (
     <Grid key={comparisonObject.name} item xs={3} height="100%">
-      <Button onClick={() => handleRemove(comparisonObject.name)}>Remove</Button>
       <CardMedia
         component="img"
-        height="140"
         image={comparisonObject.img}
         alt={comparisonObject.name}
       />
-      <Typography gutterBottom component="div">
-        {comparisonObject.name}
-      </Typography>
+      <Box sx={{ height: '40px' }} justifyContent="center">
+        <Typography sx={nameTypographyStyle}>
+          {comparisonObject.name}
+        </Typography>
+      </Box>
       <CardContent>
         <Grid container direction="row" spacing={2} alignItems="stretch">
           {comparisonObject.items.map((item) => (
@@ -90,6 +98,7 @@ const comparisonGrid = (comparisonObject: ComparisonObject, handleRemove: (name:
           ))}
         </Grid>
       </CardContent>
+      <Button startIcon={<ClearIcon />} color="error" variant="outlined" onClick={() => handleRemove(comparisonObject.model)}>Remove</Button>
     </Grid>
   )
 }
@@ -112,7 +121,7 @@ const ComparisonModal = ({
       }}
     >
       <Box sx={style}>
-        <Grid container justifyContent="center" spacing={2}>
+        <Grid container justifyContent="center" spacing={3}>
           {comparisonObjects.map((element) => comparisonGrid(element, handleRemove))}
         </Grid>
       </Box>

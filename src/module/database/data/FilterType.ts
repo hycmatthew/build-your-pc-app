@@ -13,6 +13,7 @@ export interface GPUFilterType {
 
 export interface MotherboardFilterType {
     brand: string
+    model: string
     price: number
     size: string
     chipset: string

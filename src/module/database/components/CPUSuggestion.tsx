@@ -3,15 +3,11 @@ import { t } from 'i18next'
 import {
   Badge,
   Button,
-  CardActions,
-  CardContent,
-  CardMedia,
   Grid,
-  Typography,
 } from '@mui/material'
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
 import { motion, Variants } from 'framer-motion'
-import { max, sum } from 'lodash'
+import { max, min, sum } from 'lodash'
 
 import CPUType from '../../../constant/objectTypes/CPUType'
 import SelectElement from '../../common/components/SelectElement'
@@ -19,6 +15,7 @@ import PriceSlider from '../../common/components/PriceSlider'
 import { generateCPUSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
 import { getCPUBrand } from '../../../utils/GroupCategoryHelper'
+import ItemCard from './ItemCard'
 
 import { CPU_FILTER_INIT_DATA } from '../data/FilterInitData'
 import {
@@ -41,16 +38,11 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
 
   const brandOptions = getCPUBrand(cpuList)
 
-  const itemVariants: Variants = {
-    open: {
-      opacity: 1,
-      y: 0,
-      transition: { type: 'spring', stiffness: 300, damping: 24 },
-    },
-    closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
+  const addComparison = (item: CPUType) => {
+    setSelectedItems([...selectedItems, item])
   }
 
-  const updateSelectedItem = (item: any) => {
+  const updateSelectedItem = (item: string) => {
     setfilterLogic({ ...filterLogic, model: item })
   }
 
@@ -62,12 +54,17 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
     setfilterLogic({ ...filterLogic, brand })
   }
 
-  const addComparison = (item: CPUType) => {
-    setSelectedItems([...selectedItems, item])
+  const handleClose = () => {
+    setOpenCompare(false)
   }
 
   const removeComparison = (name: string) => {
-    const updatedList: CPUType[] = selectedItems.filter((element: CPUType) => element.name !== name)
+    const updatedList: CPUType[] = selectedItems.filter(
+      (element: CPUType) => element.name !== name
+    )
+    if (updatedList.length === 0) {
+      handleClose()
+    }
     setSelectedItems([...updatedList])
   }
 
@@ -75,10 +72,6 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
     if (selectedItems.length > 0) {
       setOpenCompare(true)
     }
-  }
-
-  const handleClose = () => {
-    setOpenCompare(false)
   }
 
   const getCoresNumber = (coreStr: string) => {
@@ -90,7 +83,15 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
     let comparsionObjects: ComparisonObject[] = []
     comparsionObjects = selectedItems.map((item) => {
       const imgStr = item.img
-      const itemName = item.name
+      const itemModel = item.name
+      const itemName = generateItemName(item.brand, item.name)
+
+      const cpuSocket: ComparisonSubItem = {
+        label: 'cpu-socket',
+        value: item.socket,
+        isHighlight: false,
+      }
+
       const cpuCores: ComparisonSubItem = {
         label: 'cpu-core',
         value: item.cores,
@@ -100,26 +101,43 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
 
       const cpuDisplay: ComparisonSubItem = {
         label: 'cpu-gpu',
-        value: item.gpu,
+        value: item.gpu ? item.gpu : '-',
         isHighlight: item.gpu !== '',
       }
 
       const singleScore: ComparisonSubItem = {
         label: 'cpu-singleScore',
         value: item.singleCoreScore.toString(),
-        isHighlight: item.singleCoreScore === max(selectedItems.map((element) => element.singleCoreScore)),
+        isHighlight:
+          item.singleCoreScore === max(selectedItems.map((element) => element.singleCoreScore)),
       }
 
       const multiScore: ComparisonSubItem = {
-        label: 'cpu-singleScore',
-        value: item.singleCoreScore.toString(),
-        isHighlight: item.singleCoreScore === max(selectedItems.map((element) => element.singleCoreScore)),
+        label: 'cpu-multiScore',
+        value: item.multiCoreScore.toString(),
+        isHighlight:
+          item.multiCoreScore === max(selectedItems.map((element) => element.multiCoreScore)),
+      }
+
+      const power: ComparisonSubItem = {
+        label: 'power',
+        value: item.power.toString(),
+        isHighlight:
+          item.power === min(selectedItems.map((element) => element.power)),
       }
 
       const result: ComparisonObject = {
         img: imgStr,
         name: itemName,
-        items: [cpuCores, cpuDisplay, singleScore, multiScore],
+        model: itemModel,
+        items: [
+          cpuSocket,
+          cpuCores,
+          cpuDisplay,
+          singleScore,
+          multiScore,
+          power,
+        ],
       }
 
       return result
@@ -151,7 +169,7 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
 
   return (
     <>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} columns={{ xs: 6, md: 12 }}>
         <Grid item xs={9}>
           <SelectElement
             label={t('cpu')}
@@ -165,6 +183,7 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
             <Button
               startIcon={<CompareArrowsIcon />}
               variant="contained"
+              disabled={selectedItems.length === 0}
               onClick={() => openCompareLogic()}
             >
               Compare
@@ -183,29 +202,13 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
           />
         </Grid>
       </Grid>
-      <Grid sx={{ paddingTop: 10 }} container>
+      <Grid sx={{ paddingTop: 10 }} container columns={{ xs: 6, md: 12 }}>
         {updatedList.map((item) => (
-          <Grid key={item.name} item xs={3}>
-            <CardMedia
-              component="img"
-              height="140"
-              image={item.img}
-              alt={item.name}
-            />
-            <CardContent>
-              <Typography gutterBottom component="div">
-                {generateItemName(item.brand, item.name)}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {item.multiCoreScore}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" onClick={() => addComparison(item)}>
-                Compare
-              </Button>
-            </CardActions>
-          </Grid>
+          <ItemCard
+            itemLabel={generateItemName(item.brand, item.name)}
+            imgSrc={item.img}
+            addComparsion={() => addComparison(item)}
+          />
         ))}
       </Grid>
     </>

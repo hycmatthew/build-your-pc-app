@@ -19,7 +19,7 @@ function MainPage() {
         sx={{ flexGrow: 1 }}
         container
         spacing={6}
-        columns={{ sm: 6, md: 12 }}
+        columns={{ xs: 6, md: 12 }}
       >
         <Grid item xs={6}>
           <ComponentMenu dataState={dataState} />

@@ -1,6 +1,7 @@
 export interface ComparisonObject {
   img: string
   name: string
+  model: string
   items: ComparisonSubItem[]
 }
 

@@ -22,6 +22,7 @@ export const GPU_FILTER_INIT_DATA: GPUFilterType = {
 
 export const MOTHERBOARD_FILTER_INIT_DATA: MotherboardFilterType = {
   brand: '',
+  model: '',
   price: 0,
   size: '',
   chipset: '',

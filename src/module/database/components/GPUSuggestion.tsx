@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { t } from 'i18next'
-import { isEmpty } from 'lodash'
 import {
+  Badge,
   Button,
-  CardActions,
-  CardContent,
-  CardMedia,
   Grid,
-  Typography,
 } from '@mui/material'
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
+import { max, min } from 'lodash'
 
 import GPUType from '../../../constant/objectTypes/GPUType'
 import SelectElement from '../../common/components/SelectElement'
@@ -17,9 +15,12 @@ import { generateGPUSelectElement } from '../../common/utils/generateSelectEleme
 import SelectFilter from '../../common/components/SelectFilter'
 import { getGPUBrand, getGPUManufacturer } from '../../../utils/GroupCategoryHelper'
 import { stringToNumber, getSelectedCurrency } from '../../../utils/NumberHelper'
+import ItemCard from './ItemCard'
 
 import { GPU_FILTER_INIT_DATA } from '../data/FilterInitData'
 import { generateItemName } from '../../../utils/LabelHelper'
+import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
+import ComparisonModal from './ComparisonModal'
 
 type GPUSuggestionProps = {
   gpuList: GPUType[]
@@ -31,9 +32,15 @@ const GPUSuggestion = ({
   isLoading,
 }: GPUSuggestionProps) => {
   const [filterLogic, setfilterLogic] = useState(GPU_FILTER_INIT_DATA)
+  const [selectedItems, setSelectedItems] = useState<GPUType[]>([])
+  const [openCompare, setOpenCompare] = useState(false)
 
   const brandOptions = getGPUBrand(gpuList)
   const manufacturerOptions = getGPUManufacturer(gpuList)
+
+  const addComparison = (item: GPUType) => {
+    setSelectedItems([...selectedItems, item])
+  }
 
   const updateSelectedItem = (item: any) => {
     setfilterLogic({ ...filterLogic, model: item })
@@ -49,6 +56,115 @@ const GPUSuggestion = ({
 
   const updateFilterManufacturer = (manufacturer: string) => {
     setfilterLogic({ ...filterLogic, manufacturer })
+  }
+
+  const handleClose = () => {
+    setOpenCompare(false)
+  }
+
+  const removeComparison = (model: string) => {
+    const updatedList: GPUType[] = selectedItems.filter(
+      (element: GPUType) => element.model !== model
+    )
+    if (updatedList.length === 0) {
+      handleClose()
+    }
+    setSelectedItems([...updatedList])
+  }
+
+  const openCompareLogic = () => {
+    if (selectedItems.length > 0) {
+      setOpenCompare(true)
+    }
+  }
+
+  const getRamNumber = (numStr: string) => {
+    return numStr.split(' ')[0] || 0
+  }
+
+  const openComparison = () => {
+    let comparsionObjects: ComparisonObject[] = []
+    comparsionObjects = selectedItems.map((item) => {
+      const imgStr = item.img
+      const itemModel = item.model
+      const itemName = generateItemName(item.brand, item.model)
+
+      const gpuMemorySize: ComparisonSubItem = {
+        label: 'gpu-memory-size',
+        value: item.memorySize,
+        isHighlight: getRamNumber(item.memorySize) === max(selectedItems.map((element) => getRamNumber(element.memorySize))),
+      }
+
+      const gpuMemoryType: ComparisonSubItem = {
+        label: 'gpu-memory-type',
+        value: item.memoryType,
+        isHighlight: false
+      }
+
+      const gpuMemoryInterface: ComparisonSubItem = {
+        label: 'gpu-memory-interface',
+        value: item.memoryInterface,
+        isHighlight: getRamNumber(item.memoryInterface) === max(selectedItems.map((element) => getRamNumber(element.memoryInterface))),
+      }
+
+      const cudaCores: ComparisonSubItem = {
+        label: 'cudaCores',
+        value: item.cudaCores.toString(),
+        isHighlight: item.cudaCores === max(selectedItems.map((element) => element.cudaCores)),
+      }
+
+      const timespyScore: ComparisonSubItem = {
+        label: 'timespyScore',
+        value: item.timespyScore.toString(),
+        isHighlight:
+          item.timespyScore === max(selectedItems.map((element) => element.timespyScore)),
+      }
+
+      const firestrikeScore: ComparisonSubItem = {
+        label: 'firestrikeScore',
+        value: item.firestrikeScore.toString(),
+        isHighlight: item.firestrikeScore === max(selectedItems.map((element) => element.firestrikeScore)),
+      }
+
+      const power: ComparisonSubItem = {
+        label: 'power',
+        value: item.power.toString(),
+        isHighlight: item.power === min(selectedItems.map((element) => element.power)),
+      }
+
+      const gpuLength: ComparisonSubItem = {
+        label: 'gpu-length',
+        value: item.length.toString(),
+        isHighlight: item.length === max(selectedItems.map((element) => element.length)),
+      }
+
+      const result: ComparisonObject = {
+        img: imgStr,
+        name: itemName,
+        model: itemModel,
+        items: [
+          gpuMemorySize,
+          gpuMemoryType,
+          gpuMemoryInterface,
+          cudaCores,
+          timespyScore,
+          firestrikeScore,
+          power,
+          gpuLength,
+        ],
+      }
+
+      return result
+    })
+
+    return (
+      <ComparisonModal
+        comparisonObjects={comparsionObjects}
+        isOpen={openCompare}
+        handleClose={handleClose}
+        handleRemove={removeComparison}
+      />
+    )
   }
 
   const updatedList = gpuList.filter((item) => {
@@ -67,8 +183,8 @@ const GPUSuggestion = ({
 
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+      <Grid container spacing={3} columns={{ xs: 6, md: 12 }}>
+        <Grid item xs={9}>
           <SelectElement
             label={t('gpu')}
             options={generateGPUSelectElement(gpuList)}
@@ -76,6 +192,19 @@ const GPUSuggestion = ({
             isLoading={isLoading}
           />
         </Grid>
+        <Grid item xs={3}>
+          <Badge badgeContent={selectedItems.length} color="error">
+            <Button
+              startIcon={<CompareArrowsIcon />}
+              variant="contained"
+              disabled={selectedItems.length === 0}
+              onClick={() => openCompareLogic()}
+            >
+              Compare
+            </Button>
+          </Badge>
+        </Grid>
+        {openComparison()}
         <Grid item xs={9}>
           <PriceSlider selectChange={updateMaxPrice} />
         </Grid>
@@ -94,25 +223,13 @@ const GPUSuggestion = ({
           />
         </Grid>
       </Grid>
-      <Grid sx={{ paddingTop: 10 }} container>
+      <Grid sx={{ paddingTop: 10 }} container columns={{ xs: 6, md: 12 }}>
         {updatedList.map((item) => (
-          <Grid key={item.model} item xs={3}>
-            <CardMedia
-              component="img"
-              height="140"
-              image={item.img}
-              alt={item.model}
-            />
-            <CardContent>
-              <Typography gutterBottom component="div">
-                {generateItemName(item.brand, item.model)}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Share</Button>
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </Grid>
+          <ItemCard
+            itemLabel={generateItemName(item.brand, item.model)}
+            imgSrc={item.img}
+            addComparsion={() => addComparison(item)}
+          />
         ))}
       </Grid>
     </>
