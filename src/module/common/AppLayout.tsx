@@ -256,7 +256,7 @@ function AppLayout({ children, bgColor }: Props) {
 }
 
 AppLayout.defaultProps = {
-  bgColor: '#ECF0F1',
+  bgColor: '#e7ebf0',
 }
 
 export default AppLayout

@@ -41,29 +41,19 @@ export const stringToNumberWithDP = (str: string) => {
   return toNumber(str).toFixed(2)
 }
 
-export const getCurrentPrice = (
-  priceUS: string,
-  priceHK: string,
-  priceCN: string,
-  lang: string
-) => {
-  switch (lang) {
+export const getCurrentPrice = (item: any) => {
+  switch (i18n.language) {
     case 'zh-TW':
-      return stringToNumberWithDP(priceHK)
+      return stringToNumberWithDP(item.priceHK)
     case 'zh-CN':
-      return stringToNumberWithDP(priceCN)
+      return stringToNumberWithDP(item.priceCN)
     default:
-      return stringToNumberWithDP(priceUS)
+      return stringToNumberWithDP(item.priceUS)
   }
 }
 
-export const getCurrentPriceWithSign = (
-  priceUS: string,
-  priceHK: string,
-  priceCN: string,
-  lang: string
-) => {
-  return addCurrencySign(getCurrentPrice(priceUS, priceHK, priceCN, lang))
+export const getCurrentPriceWithSign = (item: any) => {
+  return addCurrencySign(getCurrentPrice(item))
 }
 
 export const getTotalPrice = (selectedItems: SelectedItemType) => {

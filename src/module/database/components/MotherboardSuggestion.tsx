@@ -19,6 +19,7 @@ import ItemCard from './ItemCard'
 import { MOTHERBOARD_FILTER_INIT_DATA } from '../data/FilterInitData'
 import { generateItemName } from '../../../utils/LabelHelper'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
+import { getCurrentPriceWithSign } from '../../../utils/NumberHelper'
 
 type MotherboardSuggestionProps = {
   motherboardList: MotherboardType[]
@@ -192,6 +193,7 @@ const MotherboardSuggestion = ({
         {updatedList.map((item) => (
           <ItemCard
             itemLabel={generateItemName(item.brand, item.model)}
+            priceLabel={getCurrentPriceWithSign(item)}
             imgSrc={item.img}
             addComparsion={() => addComparison(item)}
           />

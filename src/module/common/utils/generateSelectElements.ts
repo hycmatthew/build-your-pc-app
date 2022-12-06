@@ -27,12 +27,7 @@ export const generateCPUSelectElement = (
   selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: CPUType) => {
-    const price = getCurrentPrice(
-      item.priceUS,
-      item.priceHK,
-      item.priceCN,
-      i18n.language
-    )
+    const price = getCurrentPrice(item)
     const itemLabel = generateItemName(item.brand, item.name)
 
     return {
@@ -51,12 +46,7 @@ export const generateGPUSelectElement = (
   selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: GPUType) => {
-    const price = getCurrentPrice(
-      item.priceUS,
-      item.priceHK,
-      item.priceCN,
-      i18n.language
-    )
+    const price = getCurrentPrice(item)
     const itemLabel = generateItemName(item.brand, item.model)
 
     return {
@@ -75,12 +65,7 @@ export const generateMotherboardSelectElement = (
   selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: MotherboardType) => {
-    const price = getCurrentPrice(
-      item.priceUS,
-      item.priceHK,
-      item.priceCN,
-      i18n.language
-    )
+    const price = getCurrentPrice(item)
     const itemLabel = generateItemName(item.brand, item.model)
 
     return {
@@ -101,12 +86,7 @@ export const generateRAMSelectElement = (
   selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: RAMType) => {
-    const price = getCurrentPrice(
-      item.priceUS,
-      item.priceHK,
-      item.priceCN,
-      i18n.language
-    )
+    const price = getCurrentPrice(item)
     const itemLabel = generateItemName(item.brand, item.model)
 
     return {
@@ -125,12 +105,7 @@ export const generatePSUSelectElement = (
   selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: PSUType) => {
-    const price = getCurrentPrice(
-      item.priceUS,
-      item.priceHK,
-      item.priceCN,
-      i18n.language
-    )
+    const price = getCurrentPrice(item)
     const itemLabel = generateItemName(item.brand, item.model)
 
     return {
@@ -149,12 +124,7 @@ export const generateCaseSelectElement = (
   selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: CaseType) => {
-    const price = getCurrentPrice(
-      item.priceUS,
-      item.priceHK,
-      item.priceCN,
-      i18n.language
-    )
+    const price = getCurrentPrice(item)
     const itemLabel = generateItemName(item.brand, item.model)
     return {
       model: item.model,
@@ -172,12 +142,7 @@ export const generateAIOSelectElement = (
   selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: AIOType) => {
-    const price = getCurrentPrice(
-      item.priceUS,
-      item.priceHK,
-      item.priceCN,
-      i18n.language
-    )
+    const price = getCurrentPrice(item)
 
     return {
       model: item.model,
@@ -195,12 +160,7 @@ export const generateSSDSelectElement = (
   selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: SSDType) => {
-    const price = getCurrentPrice(
-      item.priceUS,
-      item.priceHK,
-      item.priceCN,
-      i18n.language
-    )
+    const price = getCurrentPrice(item)
     const itemLabel = `${item.brand} ${item.series} ${item.capacity}  ${item.sizeType}`
 
     return {
@@ -219,12 +179,7 @@ export const generateAirCoolerSelectElement = (
   selectedItems?: SelectedItemType
 ) => {
   const tempMap = list.map((item: AirCoolerType) => {
-    const price = getCurrentPrice(
-      item.priceUS,
-      item.priceHK,
-      item.priceCN,
-      i18n.language
-    )
+    const price = getCurrentPrice(item)
     const itemLabel = generateItemName(item.brand, item.name)
 
     return {

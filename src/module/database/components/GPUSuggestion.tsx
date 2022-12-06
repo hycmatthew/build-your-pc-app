@@ -14,7 +14,7 @@ import PriceSlider from '../../common/components/PriceSlider'
 import { generateGPUSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
 import { getGPUBrand, getGPUManufacturer } from '../../../utils/GroupCategoryHelper'
-import { stringToNumber, getSelectedCurrency } from '../../../utils/NumberHelper'
+import { stringToNumber, getSelectedCurrency, getCurrentPriceWithSign } from '../../../utils/NumberHelper'
 import ItemCard from './ItemCard'
 
 import { GPU_FILTER_INIT_DATA } from '../data/FilterInitData'
@@ -227,6 +227,7 @@ const GPUSuggestion = ({
         {updatedList.map((item) => (
           <ItemCard
             itemLabel={generateItemName(item.brand, item.model)}
+            priceLabel={getCurrentPriceWithSign(item)}
             imgSrc={item.img}
             addComparsion={() => addComparison(item)}
           />

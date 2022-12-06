@@ -56,7 +56,7 @@ function Database() {
   }
 
   return (
-    <AppLayout bgColor="#ffffff">
+    <AppLayout>
       <Grid justifyContent="center" container>
         <Grid container xs={12} md={8} justifyContent="center" spacing={2}>
           {categoryList.map((item) => (

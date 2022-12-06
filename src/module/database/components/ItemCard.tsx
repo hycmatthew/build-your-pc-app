@@ -1,35 +1,62 @@
 import React, { useState } from 'react'
 import {
-  Button,
-  CardContent,
+  Card,
+  CardActions,
+  CardHeader,
   CardMedia,
   Grid,
-  Typography
+  IconButton,
+  Typography,
 } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import { EMPTY_IMG_DATA } from '../../../constant/EmptyImage'
-
-const style = {
-  textAlign: 'center'
-}
 
 type ItemCardProps = {
   itemLabel: string
+  priceLabel: string
   imgSrc: string
   addComparsion: () => void
 }
 
-const ItemCard = ({ itemLabel, imgSrc, addComparsion }: ItemCardProps) => {
+const AddButton = styled(IconButton)({
+  marginLeft: 'auto',
+})
+
+const PriceTypography = styled(Typography)({
+  textAlign: 'left',
+  fontSize: '11px',
+  paddingLeft: 3,
+})
+
+const ItemCard = ({
+  itemLabel,
+  priceLabel,
+  imgSrc,
+  addComparsion,
+}: ItemCardProps) => {
   return (
-    <Grid sx={style} key={itemLabel} item xs={3}>
-      <CardMedia component="img" image={imgSrc || EMPTY_IMG_DATA} alt={itemLabel} />
-      <CardContent>
-        <Typography gutterBottom component="div">
-          {itemLabel}
-        </Typography>
-        <Button size="small" onClick={addComparsion}>
-          Compare
-        </Button>
-      </CardContent>
+    <Grid key={itemLabel} item xs={3} style={{ display: 'flex' }}>
+      <Card
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexDirection: 'column',
+        }}
+      >
+        <CardHeader subheader={itemLabel} />
+        <CardMedia
+          component="img"
+          image={imgSrc || EMPTY_IMG_DATA}
+          alt={itemLabel}
+        />
+        <CardActions>
+          <PriceTypography>{priceLabel}</PriceTypography>
+          <AddButton onClick={addComparsion}>
+            <AddRoundedIcon />
+          </AddButton>
+        </CardActions>
+      </Card>
     </Grid>
   )
 }

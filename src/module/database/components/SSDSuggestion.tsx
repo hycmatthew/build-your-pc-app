@@ -19,6 +19,7 @@ import { generateItemName } from '../../../utils/LabelHelper'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
 import ComparisonModal from './ComparisonModal'
 import ItemCard from './ItemCard'
+import { getCurrentPriceWithSign } from '../../../utils/NumberHelper'
 
 type SSDSuggestionProps = {
   ssdList: SSDType[]
@@ -194,6 +195,7 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
         {updatedList.map((item) => (
           <ItemCard
             itemLabel={generateItemName(item.brand, item.model)}
+            priceLabel={getCurrentPriceWithSign(item)}
             imgSrc={item.img}
             addComparsion={() => addComparison(item)}
           />

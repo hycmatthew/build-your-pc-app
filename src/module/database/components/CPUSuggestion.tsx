@@ -19,6 +19,7 @@ import ItemCard from './ItemCard'
 
 import { CPU_FILTER_INIT_DATA } from '../data/FilterInitData'
 import {
+  getCurrentPriceWithSign,
   getSelectedCurrency,
   stringToNumber,
 } from '../../../utils/NumberHelper'
@@ -202,10 +203,11 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
           />
         </Grid>
       </Grid>
-      <Grid sx={{ paddingTop: 10 }} container columns={{ xs: 6, md: 12 }}>
+      <Grid sx={{ paddingTop: 10 }} container spacing={2} columns={{ xs: 6, md: 12 }}>
         {updatedList.map((item) => (
           <ItemCard
             itemLabel={generateItemName(item.brand, item.name)}
+            priceLabel={getCurrentPriceWithSign(item)}
             imgSrc={item.img}
             addComparsion={() => addComparison(item)}
           />

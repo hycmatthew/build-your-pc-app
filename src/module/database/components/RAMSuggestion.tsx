@@ -19,6 +19,7 @@ import { generateItemName } from '../../../utils/LabelHelper'
 import ItemCard from './ItemCard'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
 import ComparisonModal from './ComparisonModal'
+import { getCurrentPriceWithSign } from '../../../utils/NumberHelper'
 
 type RAMSuggestionProps = {
   ramList: RAMType[]
@@ -181,6 +182,7 @@ const RAMSuggestion = ({
         {updatedList.map((item) => (
           <ItemCard
             itemLabel={generateItemName(item.brand, item.model)}
+            priceLabel={getCurrentPriceWithSign(item)}
             imgSrc={item.img}
             addComparsion={() => addComparison(item)}
           />
