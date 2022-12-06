@@ -209,7 +209,9 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
             itemLabel={generateItemName(item.brand, item.name)}
             priceLabel={getCurrentPriceWithSign(item)}
             imgSrc={item.img}
+            disable={selectedItems.includes(item)}
             addComparsion={() => addComparison(item)}
+            removeComparsion={() => removeComparison(item.name)}
           />
         ))}
       </Grid>

@@ -178,13 +178,15 @@ const RAMSuggestion = ({
           />
         </Grid>
       </Grid>
-      <Grid sx={{ paddingTop: 10 }} container>
+      <Grid sx={{ paddingTop: 10 }} container spacing={2} columns={{ xs: 6, md: 12 }}>
         {updatedList.map((item) => (
           <ItemCard
             itemLabel={generateItemName(item.brand, item.model)}
             priceLabel={getCurrentPriceWithSign(item)}
             imgSrc={item.img}
+            disable={selectedItems.includes(item)}
             addComparsion={() => addComparison(item)}
+            removeComparsion={() => removeComparison(item.model)}
           />
         ))}
       </Grid>
