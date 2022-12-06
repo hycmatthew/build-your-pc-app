@@ -7,6 +7,7 @@ export interface CPUFilterType {
 export interface GPUFilterType {
     brand: string
     manufacturer: string
+    gpu: string
     model: string
     price: number
 }

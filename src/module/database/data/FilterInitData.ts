@@ -16,6 +16,7 @@ export const CPU_FILTER_INIT_DATA: CPUFilterType = {
 export const GPU_FILTER_INIT_DATA: GPUFilterType = {
   brand: '',
   manufacturer: '',
+  gpu: '',
   model: '',
   price: 0,
 }

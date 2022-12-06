@@ -19,6 +19,10 @@ export const getGPUManufacturer = (items: GPUType[]) => {
   return [...new Set(items.map((item: GPUType) => item.manufacturer))]
 }
 
+export const getGPUType = (items: GPUType[]) => {
+  return [...new Set(items.map((item: GPUType) => item.gpu))]
+}
+
 export const getMotherboardBrand = (items: MotherboardType[]) => {
   return [...new Set(items.map((item: MotherboardType) => item.brand))]
 }

@@ -6,6 +6,7 @@ import {
   CardMedia,
   Grid,
   IconButton,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
@@ -68,13 +69,17 @@ const ItemCard = ({
         <CustomCardActions>
           <PriceTypography>{priceLabel}</PriceTypography>
           {disable ? (
-            <AddButton color="warning" onClick={removeComparsion}>
-              <RemoveRoundedIcon />
-            </AddButton>
+            <Tooltip title="Remove from Comparison">
+              <AddButton color="warning" onClick={removeComparsion}>
+                <RemoveRoundedIcon />
+              </AddButton>
+            </Tooltip>
           ) : (
-            <AddButton color="primary" onClick={addComparsion}>
-              <AddRoundedIcon />
-            </AddButton>
+            <Tooltip title="Add to Compare">
+              <AddButton color="primary" onClick={addComparsion}>
+                <AddRoundedIcon />
+              </AddButton>
+            </Tooltip>
           )}
         </CustomCardActions>
       </Card>

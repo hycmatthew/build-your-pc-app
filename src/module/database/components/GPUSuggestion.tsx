@@ -13,7 +13,7 @@ import SelectElement from '../../common/components/SelectElement'
 import PriceSlider from '../../common/components/PriceSlider'
 import { generateGPUSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
-import { getGPUBrand, getGPUManufacturer } from '../../../utils/GroupCategoryHelper'
+import { getGPUBrand, getGPUManufacturer, getGPUType } from '../../../utils/GroupCategoryHelper'
 import { stringToNumber, getSelectedCurrency, getCurrentPriceWithSign } from '../../../utils/NumberHelper'
 import ItemCard from './ItemCard'
 
@@ -37,6 +37,7 @@ const GPUSuggestion = ({
 
   const brandOptions = getGPUBrand(gpuList)
   const manufacturerOptions = getGPUManufacturer(gpuList)
+  const gpuOptions = getGPUType(gpuList)
 
   const addComparison = (item: GPUType) => {
     setSelectedItems([...selectedItems, item])
@@ -56,6 +57,10 @@ const GPUSuggestion = ({
 
   const updateFilterManufacturer = (manufacturer: string) => {
     setfilterLogic({ ...filterLogic, manufacturer })
+  }
+
+  const updateGPUType = (gpu: string) => {
+    setfilterLogic({ ...filterLogic, gpu })
   }
 
   const handleClose = () => {
@@ -169,11 +174,17 @@ const GPUSuggestion = ({
 
   const updatedList = gpuList.filter((item) => {
     let isMatch = true
-    if (filterLogic.brand) {
+    if (filterLogic.model) {
+      isMatch = item.model === filterLogic.model
+    }
+    if (filterLogic.brand && isMatch) {
       isMatch = (item.brand === filterLogic.brand)
     }
     if (filterLogic.manufacturer && isMatch) {
       isMatch = (item.manufacturer === filterLogic.manufacturer)
+    }
+    if (filterLogic.gpu && isMatch) {
+      isMatch = (item.gpu === filterLogic.gpu)
     }
     if (filterLogic.price !== 0 && isMatch) {
       isMatch = (stringToNumber(item[getSelectedCurrency()]) < filterLogic.price)
@@ -220,6 +231,13 @@ const GPUSuggestion = ({
             label={t('manufacturer')}
             options={manufacturerOptions}
             selectChange={updateFilterManufacturer}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <SelectFilter
+            label={t('graphic-engine')}
+            options={gpuOptions}
+            selectChange={updateGPUType}
           />
         </Grid>
       </Grid>

@@ -19,7 +19,7 @@ import ItemCard from './ItemCard'
 import { MOTHERBOARD_FILTER_INIT_DATA } from '../data/FilterInitData'
 import { generateItemName } from '../../../utils/LabelHelper'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
-import { getCurrentPriceWithSign } from '../../../utils/NumberHelper'
+import { getCurrentPriceWithSign, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
 
 type MotherboardSuggestionProps = {
   motherboardList: MotherboardType[]
@@ -141,8 +141,17 @@ const MotherboardSuggestion = ({
 
   const updatedList = motherboardList.filter((item) => {
     let isMatch = true
-    if (filterLogic.brand) {
+    if (filterLogic.model) {
+      isMatch = item.model === filterLogic.model
+    }
+    if (filterLogic.brand && isMatch) {
       isMatch = item.brand === filterLogic.brand
+    }
+    if (filterLogic.chipset && isMatch) {
+      isMatch = item.chipset === filterLogic.chipset
+    }
+    if (filterLogic.price !== 0 && isMatch) {
+      isMatch = stringToNumber(item[getSelectedCurrency()]) < filterLogic.price
     }
     return isMatch
   })

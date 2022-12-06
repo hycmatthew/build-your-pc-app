@@ -40,7 +40,9 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
   const brandOptions = getCPUBrand(cpuList)
 
   const addComparison = (item: CPUType) => {
-    setSelectedItems([...selectedItems, item])
+    if (selectedItems.length < 4) {
+      setSelectedItems([...selectedItems, item])
+    }
   }
 
   const updateSelectedItem = (item: string) => {
@@ -156,11 +158,11 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
 
   const updatedList = cpuList.filter((item) => {
     let isMatch = true
-    if (filterLogic.brand) {
-      isMatch = item.brand === filterLogic.brand
-    }
-    if (filterLogic.model && isMatch) {
+    if (filterLogic.model) {
       isMatch = item.name === filterLogic.model
+    }
+    if (filterLogic.brand && isMatch) {
+      isMatch = item.brand === filterLogic.brand
     }
     if (filterLogic.price !== 0 && isMatch) {
       isMatch = stringToNumber(item[getSelectedCurrency()]) < filterLogic.price
