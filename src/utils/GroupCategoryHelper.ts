@@ -35,6 +35,10 @@ export const getRAMBrand = (items: RAMType[]) => {
   return [...new Set(items.map((item: RAMType) => item.brand))]
 }
 
+export const getRAMGeneration = (items: RAMType[]) => {
+  return [...new Set(items.map((item: RAMType) => item.type))]
+}
+
 export const getSSDBrand = (items: SSDType[]) => {
   return [...new Set(items.map((item: SSDType) => item.brand))]
 }

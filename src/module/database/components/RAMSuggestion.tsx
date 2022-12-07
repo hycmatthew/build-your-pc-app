@@ -12,7 +12,7 @@ import RAMType from '../../../constant/objectTypes/RAMType'
 import SelectElement from '../../common/components/SelectElement'
 import { generateRAMSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
-import { getRAMBrand } from '../../../utils/GroupCategoryHelper'
+import { getRAMBrand, getRAMGeneration } from '../../../utils/GroupCategoryHelper'
 
 import { RAM_FILTER_INIT_DATA } from '../data/FilterInitData'
 import { generateItemName } from '../../../utils/LabelHelper'
@@ -35,6 +35,7 @@ const RAMSuggestion = ({
   const [openCompare, setOpenCompare] = useState(false)
 
   const brandOptions = getRAMBrand(ramList)
+  const generationOptions = getRAMGeneration(ramList)
 
   const addComparison = (item: RAMType) => {
     setSelectedItems([...selectedItems, item])
@@ -46,6 +47,10 @@ const RAMSuggestion = ({
 
   const updateFilterBrand = (brand: string) => {
     setfilterLogic({ ...filterLogic, brand })
+  }
+
+  const updateFilterGeneration = (generation: string) => {
+    setfilterLogic({ ...filterLogic, generation })
   }
 
   const handleClose = () => {
@@ -88,19 +93,19 @@ const RAMSuggestion = ({
       }
 
       const speed: ComparisonSubItem = {
-        label: 'firestrikeScore',
+        label: 'speed',
         value: item.speed.toString(),
         isHighlight: item.speed === max(selectedItems.map((element) => element.speed)),
       }
 
       const cl: ComparisonSubItem = {
-        label: 'firestrikeScore',
+        label: 'cl',
         value: item.cl.toString(),
         isHighlight: item.cl === min(selectedItems.map((element) => element.cl)),
       }
 
       const timing: ComparisonSubItem = {
-        label: 'motherboard-ram-type',
+        label: 'timing',
         value: item.timing || '-',
         isHighlight: item.cl === min(selectedItems.map((element) => element.cl)),
       }
@@ -140,8 +145,14 @@ const RAMSuggestion = ({
 
   const updatedList = ramList.filter((item) => {
     let isMatch = true
+    if (filterLogic.model) {
+      isMatch = item.model === filterLogic.model
+    }
     if (filterLogic.brand && isMatch) {
       isMatch = (item.brand === filterLogic.brand)
+    }
+    if (filterLogic.generation && isMatch) {
+      isMatch = (item.type === filterLogic.generation)
     }
     return isMatch
   })
@@ -175,6 +186,13 @@ const RAMSuggestion = ({
             label={t('brand')}
             options={brandOptions}
             selectChange={updateFilterBrand}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <SelectFilter
+            label={t('generations')}
+            options={generationOptions}
+            selectChange={updateFilterGeneration}
           />
         </Grid>
       </Grid>

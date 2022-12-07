@@ -23,6 +23,7 @@ export interface MotherboardFilterType {
 export interface RAMFilterType {
     brand: string
     model: string
+    generation: string
     price: number
     size: string
 }
@@ -35,6 +36,9 @@ export interface SSDFilterType {
 
 export interface PSUFilterType {
     brand: string
+    model: string
+    efficiency: string
+    power: number
     price: number
     size: string
 }

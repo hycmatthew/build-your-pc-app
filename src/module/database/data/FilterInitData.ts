@@ -32,6 +32,7 @@ export const MOTHERBOARD_FILTER_INIT_DATA: MotherboardFilterType = {
 export const RAM_FILTER_INIT_DATA: RAMFilterType = {
   brand: '',
   model: '',
+  generation: '',
   price: 0,
   size: '',
 }
@@ -44,6 +45,9 @@ export const SSD_FILTER_INIT_DATA: SSDFilterType = {
 
 export const PSU_FILTER_INIT_DATA: PSUFilterType = {
   brand: '',
+  model: '',
+  power: 0,
+  efficiency: '',
   price: 0,
   size: '',
 }
