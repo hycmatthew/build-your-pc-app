@@ -1,4 +1,4 @@
-import i18n from '../../config/i18n'
+import i18n from '../../../config/i18n'
 
 export const getBudgetPriceList = () => {
   const priceList = [2000, 3000, 4500, 6000, 9000, 12000, 15000]

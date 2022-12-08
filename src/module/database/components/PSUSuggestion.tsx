@@ -16,10 +16,11 @@ import { getPSUBrand } from '../../../utils/GroupCategoryHelper'
 
 import { PSU_FILTER_INIT_DATA } from '../data/FilterInitData'
 import { generateItemName } from '../../../utils/LabelHelper'
-import { getCurrentPriceWithSign } from '../../../utils/NumberHelper'
+import { getCurrentPrice, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
 import ItemCard from './ItemCard'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
 import ComparisonModal from './ComparisonModal'
+import PriceSlider from '../../common/components/PriceSlider'
 
 type PSUSuggestionProps = {
   psuList: PSUType[]
@@ -37,11 +38,17 @@ const PSUSuggestion = ({
   const brandOptions = getPSUBrand(psuList)
 
   const addComparison = (item: PSUType) => {
-    setSelectedItems([...selectedItems, item])
+    if (selectedItems.length < 4) {
+      setSelectedItems([...selectedItems, item])
+    }
   }
 
   const updateSelectedItem = (item: any) => {
     setfilterLogic({ ...filterLogic, model: item })
+  }
+
+  const updateMaxPrice = (price: number) => {
+    setfilterLogic({ ...filterLogic, price })
   }
 
   const updateFilterBrand = (brand: string) => {
@@ -146,6 +153,9 @@ const PSUSuggestion = ({
     if (!isEmpty(filterLogic.brand)) {
       isMatch = (item.brand === filterLogic.brand)
     }
+    if (filterLogic.price !== 0 && isMatch) {
+      isMatch = stringToNumber(item[getSelectedCurrency()]) < filterLogic.price
+    }
     return isMatch
   })
 
@@ -173,6 +183,9 @@ const PSUSuggestion = ({
           </Badge>
         </Grid>
         {openComparison()}
+        <Grid item xs={9}>
+          <PriceSlider selectChange={updateMaxPrice} />
+        </Grid>
         <Grid item xs={6}>
           <SelectFilter
             label={t('brand')}
@@ -185,7 +198,7 @@ const PSUSuggestion = ({
         {updatedList.map((item) => (
           <ItemCard
             itemLabel={generateItemName(item.brand, item.model)}
-            priceLabel={getCurrentPriceWithSign(item)}
+            priceLabel={getCurrentPrice(item)}
             imgSrc={item.img}
             disable={selectedItems.includes(item)}
             addComparsion={() => addComparison(item)}

@@ -2,7 +2,7 @@ import { toNumber } from 'lodash'
 import { CPUType } from '../../constant/objectTypes'
 import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReducer'
 import { getSelectedCurrency } from '../../utils/NumberHelper'
-import { getBudgetPriceList } from '../LogicUtil/pricingLogic'
+import { getBudgetPriceList } from '../../module/aiComponentList/logic/pricingLogic'
 
 const getItemCPUCoolerBudget = (budget: number) => {
   const ratioList = [0.4, 0.35, 0.3, 0.25]

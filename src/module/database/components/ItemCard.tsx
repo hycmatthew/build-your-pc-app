@@ -13,6 +13,7 @@ import { styled } from '@mui/material/styles'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded'
 import { EMPTY_IMG_DATA } from '../../../constant/EmptyImage'
+import { addCurrencySign } from '../../../utils/NumberHelper'
 
 type ItemCardProps = {
   itemLabel: string
@@ -67,7 +68,7 @@ const ItemCard = ({
           alt={itemLabel}
         />
         <CustomCardActions>
-          <PriceTypography>{priceLabel}</PriceTypography>
+          <PriceTypography>{priceLabel === '0.00' ? '-' : addCurrencySign(priceLabel)}</PriceTypography>
           {disable ? (
             <Tooltip title="Remove from Comparison">
               <AddButton color="warning" onClick={removeComparsion}>

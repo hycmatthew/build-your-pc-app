@@ -3,7 +3,7 @@ import { RAMType } from '../../constant/objectTypes'
 import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReducer'
 import { ramIncompatible } from '../../module/common/utils/compatibleLogic'
 import { getSelectedCurrency } from '../../utils/NumberHelper'
-import { getBudgetPriceList } from '../LogicUtil/pricingLogic'
+import { getBudgetPriceList } from '../../module/aiComponentList/logic/pricingLogic'
 import { ramPerformanceLogic } from '../performanceLogic'
 
 const getItemRAMBudget = (budget: number) => {

@@ -19,7 +19,8 @@ import { generateItemName } from '../../../utils/LabelHelper'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
 import ComparisonModal from './ComparisonModal'
 import ItemCard from './ItemCard'
-import { getCurrentPriceWithSign } from '../../../utils/NumberHelper'
+import { getCurrentPrice, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
+import PriceSlider from '../../common/components/PriceSlider'
 
 type SSDSuggestionProps = {
   ssdList: SSDType[]
@@ -36,11 +37,17 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
   const capacityOptions = getSSDCapacity(ssdList)
 
   const addComparison = (item: SSDType) => {
-    setSelectedItems([...selectedItems, item])
+    if (selectedItems.length < 4) {
+      setSelectedItems([...selectedItems, item])
+    }
   }
 
   const updateSelectedItem = (item: any) => {
     selectedItem = item
+  }
+
+  const updateMaxPrice = (price: number) => {
+    setfilterLogic({ ...filterLogic, price })
   }
 
   const updateFilterBrand = (brand: string) => {
@@ -149,6 +156,9 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
     if (!isEmpty(filterLogic.capacity) && isMatch) {
       isMatch = item.capacity === filterLogic.capacity
     }
+    if (filterLogic.price !== 0 && isMatch) {
+      isMatch = stringToNumber(item[getSelectedCurrency()]) < filterLogic.price
+    }
     return isMatch
   })
 
@@ -176,6 +186,9 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
           </Badge>
         </Grid>
         {openComparison()}
+        <Grid item xs={9}>
+          <PriceSlider selectChange={updateMaxPrice} />
+        </Grid>
         <Grid item xs={6}>
           <SelectFilter
             label={t('brand')}
@@ -195,7 +208,7 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
         {updatedList.map((item) => (
           <ItemCard
             itemLabel={generateItemName(item.brand, item.model)}
-            priceLabel={getCurrentPriceWithSign(item)}
+            priceLabel={getCurrentPrice(item)}
             imgSrc={item.img}
             disable={selectedItems.includes(item)}
             addComparsion={() => addComparison(item)}

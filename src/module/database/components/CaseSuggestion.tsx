@@ -1,44 +1,41 @@
 import React, { useState } from 'react'
 import { t } from 'i18next'
-import { isEmpty, max, min } from 'lodash'
-import {
-  Badge,
-  Button,
-  Grid,
-} from '@mui/material'
+import { max, min } from 'lodash'
+import { Badge, Button, Grid } from '@mui/material'
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
 
-import RAMType from '../../../constant/objectTypes/RAMType'
-import SelectElement from '../../common/components/SelectElement'
-import { generateRAMSelectElement } from '../../common/utils/generateSelectElements'
-import SelectFilter from '../../common/components/SelectFilter'
-import { getRAMBrand, getRAMGeneration } from '../../../utils/GroupCategoryHelper'
-
-import { RAM_FILTER_INIT_DATA } from '../data/FilterInitData'
-import { generateItemName } from '../../../utils/LabelHelper'
+import PriceSlider from '../../common/components/PriceSlider'
 import ItemCard from './ItemCard'
+import CaseType from '../../../constant/objectTypes/CaseType'
+import SelectElement from '../../common/components/SelectElement'
+import { generateCaseSelectElement } from '../../common/utils/generateSelectElements'
+import SelectFilter from '../../common/components/SelectFilter'
+
+import { CASE_FILTER_INIT_DATA } from '../data/FilterInitData'
+import { generateItemName } from '../../../utils/LabelHelper'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
 import ComparisonModal from './ComparisonModal'
-import { getCurrentPrice, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
-import PriceSlider from '../../common/components/PriceSlider'
+import {
+  getCurrentPrice,
+  getSelectedCurrency,
+  stringToNumber,
+} from '../../../utils/NumberHelper'
+import { getCaseBrand, getCaseSize } from '../../../utils/GroupCategoryHelper'
 
-type RAMSuggestionProps = {
-  ramList: RAMType[]
+type CaseSuggestionProps = {
+  caseList: CaseType[]
   isLoading: boolean
 }
 
-const RAMSuggestion = ({
-  ramList,
-  isLoading,
-}: RAMSuggestionProps) => {
-  const [filterLogic, setfilterLogic] = useState(RAM_FILTER_INIT_DATA)
-  const [selectedItems, setSelectedItems] = useState<RAMType[]>([])
+const CaseSuggestion = ({ caseList, isLoading }: CaseSuggestionProps) => {
+  const [filterLogic, setfilterLogic] = useState(CASE_FILTER_INIT_DATA)
+  const [selectedItems, setSelectedItems] = useState<CaseType[]>([])
   const [openCompare, setOpenCompare] = useState(false)
 
-  const brandOptions = getRAMBrand(ramList)
-  const generationOptions = getRAMGeneration(ramList)
+  const brandOptions = getCaseBrand(caseList)
+  const typeOptions = getCaseSize(caseList)
 
-  const addComparison = (item: RAMType) => {
+  const addComparison = (item: CaseType) => {
     if (selectedItems.length < 4) {
       setSelectedItems([...selectedItems, item])
     }
@@ -56,8 +53,8 @@ const RAMSuggestion = ({
     setfilterLogic({ ...filterLogic, brand })
   }
 
-  const updateFilterGeneration = (generation: string) => {
-    setfilterLogic({ ...filterLogic, generation })
+  const updateFilterSize = (size: string) => {
+    setfilterLogic({ ...filterLogic, size })
   }
 
   const handleClose = () => {
@@ -65,8 +62,8 @@ const RAMSuggestion = ({
   }
 
   const removeComparison = (model: string) => {
-    const updatedList: RAMType[] = selectedItems.filter(
-      (element: RAMType) => element.model !== model
+    const updatedList: CaseType[] = selectedItems.filter(
+      (element: CaseType) => element.model !== model
     )
     if (updatedList.length === 0) {
       handleClose()
@@ -87,40 +84,45 @@ const RAMSuggestion = ({
       const itemModel = item.model
       const itemName = generateItemName(item.brand, item.model)
 
-      const ramChipset: ComparisonSubItem = {
-        label: 'chipset',
-        value: item.chipset,
+      const size: ComparisonSubItem = {
+        label: 'size',
+        value:
+          item.size.length > 2
+            ? `${item.size[0]} * ${item.size[1]} * ${item.size[2]}`
+            : '',
         isHighlight: false,
       }
 
-      const capacity: ComparisonSubItem = {
-        label: 'capacity',
-        value: item.capacity,
-        isHighlight: item.capacityNum === max(selectedItems.map((element) => element.capacityNum)),
-      }
-
-      const speed: ComparisonSubItem = {
-        label: 'speed',
-        value: item.speed.toString(),
-        isHighlight: item.speed === max(selectedItems.map((element) => element.speed)),
-      }
-
-      const cl: ComparisonSubItem = {
-        label: 'cl',
-        value: item.cl.toString(),
-        isHighlight: item.cl === min(selectedItems.map((element) => element.cl)),
-      }
-
-      const timing: ComparisonSubItem = {
-        label: 'timing',
-        value: item.timing || '-',
-        isHighlight: item.cl === min(selectedItems.map((element) => element.cl)),
-      }
-
-      const rgb: ComparisonSubItem = {
-        label: 'is-rgb',
-        value: item.rgb ? 'RGB' : '-',
+      const weight: ComparisonSubItem = {
+        label: 'weight',
+        value: item.weight,
         isHighlight: false,
+      }
+
+      const color: ComparisonSubItem = {
+        label: 'color',
+        value: item.color,
+        isHighlight: false,
+      }
+
+      const maxGPULength: ComparisonSubItem = {
+        label: 'maxGPULength',
+        value: item.maxGPULength.toString(),
+        isHighlight:
+          item.maxGPULength === max(selectedItems.map((element) => element.maxGPULength)),
+      }
+
+      const maxPSULength: ComparisonSubItem = {
+        label: 'maxPSULength',
+        value: item.maxPSULength.toString(),
+        isHighlight: item.maxPSULength === max(selectedItems.map((element) => element.maxPSULength)),
+      }
+
+      const motherboardCompatibility: ComparisonSubItem = {
+        label: 'motherboardCompatibility',
+        value: item.motherboardCompatibility.toString() || '-',
+        isHighlight:
+          item.motherboardCompatibility.length === max(selectedItems.map((element) => element.motherboardCompatibility.length)),
       }
 
       const result: ComparisonObject = {
@@ -128,12 +130,12 @@ const RAMSuggestion = ({
         name: itemName,
         model: itemModel,
         items: [
-          ramChipset,
-          capacity,
-          speed,
-          cl,
-          timing,
-          rgb
+          size,
+          weight,
+          color,
+          maxGPULength,
+          maxPSULength,
+          motherboardCompatibility,
         ],
       }
 
@@ -150,16 +152,16 @@ const RAMSuggestion = ({
     )
   }
 
-  const updatedList = ramList.filter((item) => {
+  const updatedList = caseList.filter((item) => {
     let isMatch = true
     if (filterLogic.model) {
       isMatch = item.model === filterLogic.model
     }
     if (filterLogic.brand && isMatch) {
-      isMatch = (item.brand === filterLogic.brand)
+      isMatch = item.brand === filterLogic.brand
     }
-    if (filterLogic.generation && isMatch) {
-      isMatch = (item.type === filterLogic.generation)
+    if (filterLogic.size && isMatch) {
+      isMatch = item.type === filterLogic.size
     }
     if (filterLogic.price !== 0 && isMatch) {
       isMatch = stringToNumber(item[getSelectedCurrency()]) < filterLogic.price
@@ -172,8 +174,8 @@ const RAMSuggestion = ({
       <Grid container spacing={3}>
         <Grid item xs={9}>
           <SelectElement
-            label={t('ram')}
-            options={generateRAMSelectElement(ramList)}
+            label={t('case')}
+            options={generateCaseSelectElement(caseList)}
             selectChange={updateSelectedItem}
             isLoading={isLoading}
           />
@@ -203,13 +205,18 @@ const RAMSuggestion = ({
         </Grid>
         <Grid item xs={6}>
           <SelectFilter
-            label={t('generations')}
-            options={generationOptions}
-            selectChange={updateFilterGeneration}
+            label={t('size')}
+            options={typeOptions}
+            selectChange={updateFilterSize}
           />
         </Grid>
       </Grid>
-      <Grid sx={{ paddingTop: 10 }} container spacing={2} columns={{ xs: 6, md: 12 }}>
+      <Grid
+        sx={{ paddingTop: 10 }}
+        container
+        spacing={2}
+        columns={{ xs: 6, md: 12 }}
+      >
         {updatedList.map((item) => (
           <ItemCard
             itemLabel={generateItemName(item.brand, item.model)}
@@ -225,4 +232,4 @@ const RAMSuggestion = ({
   )
 }
 
-export default RAMSuggestion
+export default CaseSuggestion

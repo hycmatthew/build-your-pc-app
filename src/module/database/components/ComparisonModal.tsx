@@ -65,7 +65,7 @@ function ComparisonTypography({ item }: ComparisonTypographyProps) {
   const { t } = useTranslation()
   const { label, value, isHighlight } = item
   return (
-    <Grid item xs={12}>
+    <Grid item key={item.label} xs={12}>
       <Box sx={boxStyle}>
         <Typography sx={topTypographyStyle}>{t(label)}</Typography>
         <Typography

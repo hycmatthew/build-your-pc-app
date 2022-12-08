@@ -13,10 +13,13 @@ import MotherboardSuggestion from '../components/MotherboardSuggestion'
 import RAMSuggestion from '../components/RAMSuggestion'
 import SSDSuggestion from '../components/SSDSuggestion'
 import PSUSuggestion from '../components/PSUSuggestion'
+import CaseSuggestion from '../components/CaseSuggestion'
+import AIOSuggestion from '../components/AIOSuggestion'
+import AirCoolerSuggestion from '../components/AirCoolerSuggestion'
 
 function Database() {
   const { t } = useTranslation()
-  const categoryList = Object.values(ProductEnum)
+  const categoryList = Object.values(ProductEnum).filter((item) => item !== ProductEnum.AirCooler)
 
   const dataState = useSelector((state: any) => {
     return state.rawData
@@ -28,27 +31,66 @@ function Database() {
     switch (type) {
       case ProductEnum.CPU:
         return (
-          <CPUSuggestion cpuList={dataState.cpuList} isLoading={dataState.isLoading} />
+          <CPUSuggestion
+            cpuList={dataState.cpuList}
+            isLoading={dataState.isLoading}
+          />
         )
       case ProductEnum.GPU:
         return (
-          <GPUSuggestion gpuList={dataState.gpuList} isLoading={dataState.isLoading} />
+          <GPUSuggestion
+            gpuList={dataState.gpuList}
+            isLoading={dataState.isLoading}
+          />
         )
       case ProductEnum.Motherboard:
         return (
-          <MotherboardSuggestion motherboardList={dataState.motherboardList} isLoading={dataState.isLoading} />
+          <MotherboardSuggestion
+            motherboardList={dataState.motherboardList}
+            isLoading={dataState.isLoading}
+          />
         )
       case ProductEnum.RAM:
         return (
-          <RAMSuggestion ramList={dataState.ramList} isLoading={dataState.isLoading} />
+          <RAMSuggestion
+            ramList={dataState.ramList}
+            isLoading={dataState.isLoading}
+          />
         )
       case ProductEnum.SSD:
         return (
-          <SSDSuggestion ssdList={dataState.ssdList} isLoading={dataState.isLoading} />
+          <SSDSuggestion
+            ssdList={dataState.ssdList}
+            isLoading={dataState.isLoading}
+          />
         )
       case ProductEnum.PSU:
         return (
-          <PSUSuggestion psuList={dataState.psuList} isLoading={dataState.isLoading} />
+          <PSUSuggestion
+            psuList={dataState.psuList}
+            isLoading={dataState.isLoading}
+          />
+        )
+      case ProductEnum.ComputerCase:
+        return (
+          <CaseSuggestion
+            caseList={dataState.caseList}
+            isLoading={dataState.isLoading}
+          />
+        )
+      case ProductEnum.AIO:
+        return (
+          <AIOSuggestion
+            aioList={dataState.aioList}
+            isLoading={dataState.isLoading}
+          />
+        )
+      case ProductEnum.AirCooler:
+        return (
+          <AirCoolerSuggestion
+            airCoolerList={dataState.airCoolerList}
+            isLoading={dataState.isLoading}
+          />
         )
       default:
         return ''

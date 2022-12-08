@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardContent,
-  Typography,
   CardActions,
   TextField,
   Button,
   InputAdornment,
 } from '@mui/material'
-import { current } from '@reduxjs/toolkit'
 import { useAppDispatch } from '../../store/store'
 import { aiLogicSlice } from '../store/aiLogicReducer'
 import { addCurrencySign } from '../../../utils/NumberHelper'

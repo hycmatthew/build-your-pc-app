@@ -14,7 +14,7 @@ import PriceSlider from '../../common/components/PriceSlider'
 import { generateGPUSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
 import { getGPUBrand, getGPUManufacturer, getGPUType } from '../../../utils/GroupCategoryHelper'
-import { stringToNumber, getSelectedCurrency, getCurrentPriceWithSign } from '../../../utils/NumberHelper'
+import { stringToNumber, getSelectedCurrency, getCurrentPrice } from '../../../utils/NumberHelper'
 import ItemCard from './ItemCard'
 
 import { GPU_FILTER_INIT_DATA } from '../data/FilterInitData'
@@ -40,7 +40,9 @@ const GPUSuggestion = ({
   const gpuOptions = getGPUType(gpuList)
 
   const addComparison = (item: GPUType) => {
-    setSelectedItems([...selectedItems, item])
+    if (selectedItems.length < 4) {
+      setSelectedItems([...selectedItems, item])
+    }
   }
 
   const updateSelectedItem = (item: any) => {
@@ -245,7 +247,7 @@ const GPUSuggestion = ({
         {updatedList.map((item) => (
           <ItemCard
             itemLabel={generateItemName(item.brand, item.model)}
-            priceLabel={getCurrentPriceWithSign(item)}
+            priceLabel={getCurrentPrice(item)}
             imgSrc={item.img}
             disable={selectedItems.includes(item)}
             addComparsion={() => addComparison(item)}

@@ -2,7 +2,7 @@ import { toNumber } from 'lodash'
 import { CPUType } from '../../constant/objectTypes'
 import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReducer'
 import { getSelectedCurrency } from '../../utils/NumberHelper'
-import { getBudgetPriceList } from '../LogicUtil/pricingLogic'
+import { getBudgetPriceList } from '../../module/aiComponentList/logic/pricingLogic'
 import { cpuShouldHaveInternalGPU } from '../suggestionLogic'
 
 const getItemCPUBudget = (budget: number) => {

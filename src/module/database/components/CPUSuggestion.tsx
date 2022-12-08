@@ -19,7 +19,7 @@ import ItemCard from './ItemCard'
 
 import { CPU_FILTER_INIT_DATA } from '../data/FilterInitData'
 import {
-  getCurrentPriceWithSign,
+  getCurrentPrice,
   getSelectedCurrency,
   stringToNumber,
 } from '../../../utils/NumberHelper'
@@ -209,7 +209,7 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
         {updatedList.map((item) => (
           <ItemCard
             itemLabel={generateItemName(item.brand, item.name)}
-            priceLabel={getCurrentPriceWithSign(item)}
+            priceLabel={getCurrentPrice(item)}
             imgSrc={item.img}
             disable={selectedItems.includes(item)}
             addComparsion={() => addComparison(item)}

@@ -8,13 +8,13 @@ import {
 } from '@mui/material'
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
 
-import RAMType from '../../../constant/objectTypes/RAMType'
+import AIOType from '../../../constant/objectTypes/AIOType'
 import SelectElement from '../../common/components/SelectElement'
-import { generateRAMSelectElement } from '../../common/utils/generateSelectElements'
+import { generateAIOSelectElement } from '../../common/utils/generateSelectElements'
 import SelectFilter from '../../common/components/SelectFilter'
-import { getRAMBrand, getRAMGeneration } from '../../../utils/GroupCategoryHelper'
+import { getAIOBrand, getAIOSize } from '../../../utils/GroupCategoryHelper'
 
-import { RAM_FILTER_INIT_DATA } from '../data/FilterInitData'
+import { AIO_FILTER_INIT_DATA } from '../data/FilterInitData'
 import { generateItemName } from '../../../utils/LabelHelper'
 import ItemCard from './ItemCard'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
@@ -22,23 +22,23 @@ import ComparisonModal from './ComparisonModal'
 import { getCurrentPrice, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
 import PriceSlider from '../../common/components/PriceSlider'
 
-type RAMSuggestionProps = {
-  ramList: RAMType[]
+type AIOSuggestionProps = {
+  aioList: AIOType[]
   isLoading: boolean
 }
 
-const RAMSuggestion = ({
-  ramList,
+const AIOSuggestion = ({
+  aioList,
   isLoading,
-}: RAMSuggestionProps) => {
-  const [filterLogic, setfilterLogic] = useState(RAM_FILTER_INIT_DATA)
-  const [selectedItems, setSelectedItems] = useState<RAMType[]>([])
+}: AIOSuggestionProps) => {
+  const [filterLogic, setfilterLogic] = useState(AIO_FILTER_INIT_DATA)
+  const [selectedItems, setSelectedItems] = useState<AIOType[]>([])
   const [openCompare, setOpenCompare] = useState(false)
 
-  const brandOptions = getRAMBrand(ramList)
-  const generationOptions = getRAMGeneration(ramList)
+  const brandOptions = getAIOBrand(aioList)
+  const sizeOptions = getAIOSize(aioList)
 
-  const addComparison = (item: RAMType) => {
+  const addComparison = (item: AIOType) => {
     if (selectedItems.length < 4) {
       setSelectedItems([...selectedItems, item])
     }
@@ -56,8 +56,8 @@ const RAMSuggestion = ({
     setfilterLogic({ ...filterLogic, brand })
   }
 
-  const updateFilterGeneration = (generation: string) => {
-    setfilterLogic({ ...filterLogic, generation })
+  const updateFilterSize = (size: string) => {
+    setfilterLogic({ ...filterLogic, size: Number(size) })
   }
 
   const handleClose = () => {
@@ -65,8 +65,8 @@ const RAMSuggestion = ({
   }
 
   const removeComparison = (model: string) => {
-    const updatedList: RAMType[] = selectedItems.filter(
-      (element: RAMType) => element.model !== model
+    const updatedList: AIOType[] = selectedItems.filter(
+      (element: AIOType) => element.model !== model
     )
     if (updatedList.length === 0) {
       handleClose()
@@ -87,39 +87,33 @@ const RAMSuggestion = ({
       const itemModel = item.model
       const itemName = generateItemName(item.brand, item.model)
 
-      const ramChipset: ComparisonSubItem = {
-        label: 'chipset',
-        value: item.chipset,
-        isHighlight: false,
+      const fanSize: ComparisonSubItem = {
+        label: 'fanSize',
+        value: item.fanSize.toString(),
+        isHighlight: item.fanSize === max(selectedItems.map((element) => element.fanSize)),
       }
 
-      const capacity: ComparisonSubItem = {
-        label: 'capacity',
-        value: item.capacity,
-        isHighlight: item.capacityNum === max(selectedItems.map((element) => element.capacityNum)),
+      const fanAirflow: ComparisonSubItem = {
+        label: 'fanAirflow',
+        value: item.fanAirflow,
+        isHighlight: item.fanAirflow === max(selectedItems.map((element) => element.fanAirflow)),
       }
 
-      const speed: ComparisonSubItem = {
-        label: 'speed',
-        value: item.speed.toString(),
-        isHighlight: item.speed === max(selectedItems.map((element) => element.speed)),
+      const fanNoise: ComparisonSubItem = {
+        label: 'fanNoise',
+        value: item.fanNoise.toString(),
+        isHighlight: item.fanNoise === min(selectedItems.map((element) => element.fanNoise)),
       }
 
-      const cl: ComparisonSubItem = {
-        label: 'cl',
-        value: item.cl.toString(),
-        isHighlight: item.cl === min(selectedItems.map((element) => element.cl)),
+      const fanSpeed: ComparisonSubItem = {
+        label: 'fanSpeed',
+        value: item.fanSpeed,
+        isHighlight: item.fanSpeed === max(selectedItems.map((element) => element.fanSpeed)),
       }
 
-      const timing: ComparisonSubItem = {
-        label: 'timing',
-        value: item.timing || '-',
-        isHighlight: item.cl === min(selectedItems.map((element) => element.cl)),
-      }
-
-      const rgb: ComparisonSubItem = {
-        label: 'is-rgb',
-        value: item.rgb ? 'RGB' : '-',
+      const led: ComparisonSubItem = {
+        label: 'led',
+        value: item.led || '-',
         isHighlight: false,
       }
 
@@ -128,12 +122,11 @@ const RAMSuggestion = ({
         name: itemName,
         model: itemModel,
         items: [
-          ramChipset,
-          capacity,
-          speed,
-          cl,
-          timing,
-          rgb
+          fanSize,
+          fanAirflow,
+          fanNoise,
+          fanSpeed,
+          led,
         ],
       }
 
@@ -150,7 +143,7 @@ const RAMSuggestion = ({
     )
   }
 
-  const updatedList = ramList.filter((item) => {
+  const updatedList = aioList.filter((item) => {
     let isMatch = true
     if (filterLogic.model) {
       isMatch = item.model === filterLogic.model
@@ -158,8 +151,8 @@ const RAMSuggestion = ({
     if (filterLogic.brand && isMatch) {
       isMatch = (item.brand === filterLogic.brand)
     }
-    if (filterLogic.generation && isMatch) {
-      isMatch = (item.type === filterLogic.generation)
+    if (filterLogic.size && isMatch) {
+      isMatch = (item.fanSize === filterLogic.size)
     }
     if (filterLogic.price !== 0 && isMatch) {
       isMatch = stringToNumber(item[getSelectedCurrency()]) < filterLogic.price
@@ -172,8 +165,8 @@ const RAMSuggestion = ({
       <Grid container spacing={3}>
         <Grid item xs={9}>
           <SelectElement
-            label={t('ram')}
-            options={generateRAMSelectElement(ramList)}
+            label={t('aio')}
+            options={generateAIOSelectElement(aioList)}
             selectChange={updateSelectedItem}
             isLoading={isLoading}
           />
@@ -203,9 +196,9 @@ const RAMSuggestion = ({
         </Grid>
         <Grid item xs={6}>
           <SelectFilter
-            label={t('generations')}
-            options={generationOptions}
-            selectChange={updateFilterGeneration}
+            label={t('size')}
+            options={sizeOptions}
+            selectChange={updateFilterSize}
           />
         </Grid>
       </Grid>
@@ -225,4 +218,4 @@ const RAMSuggestion = ({
   )
 }
 
-export default RAMSuggestion
+export default AIOSuggestion

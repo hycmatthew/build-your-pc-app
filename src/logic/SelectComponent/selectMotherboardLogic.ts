@@ -3,7 +3,7 @@ import { MotherboardType } from '../../constant/objectTypes'
 import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReducer'
 import { motherboardIncompatible } from '../../module/common/utils/compatibleLogic'
 import { getSelectedCurrency } from '../../utils/NumberHelper'
-import { getBudgetPriceList, getPriceFactor } from '../LogicUtil/pricingLogic'
+import { getBudgetPriceList, getPriceFactor } from '../../module/aiComponentList/logic/pricingLogic'
 import { motherboardChipsetSuggestion, motherboardOverclockSuggestion } from '../suggestionLogic'
 
 const getItemMotherboardScore = (motherboard: MotherboardType, budget: number) => {

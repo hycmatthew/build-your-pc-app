@@ -30,6 +30,7 @@ export interface RAMFilterType {
 
 export interface SSDFilterType {
     brand: string
+    model: string
     price: number
     capacity: string
 }
@@ -41,4 +42,24 @@ export interface PSUFilterType {
     power: number
     price: number
     size: string
+}
+
+export interface CaseFilterType {
+    brand: string
+    model: string
+    price: number
+    size: string
+}
+
+export interface AIOFilterType {
+    brand: string
+    model: string
+    price: number
+    size: number
+}
+
+export interface AirCoolerFilterType {
+    brand: string
+    model: string
+    price: number
 }
