@@ -1,24 +1,18 @@
-import { toNumber } from 'lodash'
 import { CPUType } from '../../constant/objectTypes'
 import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReducer'
 import { getSelectedCurrency } from '../../utils/NumberHelper'
-import { getBudgetPriceList } from '../../module/aiComponentList/logic/pricingLogic'
+import { getBudgetByPricingFactor, isEnoughBudget } from '../../module/aiComponentList/logic/pricingLogic'
 import { cpuShouldHaveInternalGPU } from '../suggestionLogic'
+import buildConfig from '../../module/aiComponentList/data/buildConfig'
 
 const getItemCPUBudget = (budget: number) => {
-  const ratioList = [0.4, 0.35, 0.3, 0.25]
-  const priceList = getBudgetPriceList()
+  return getBudgetByPricingFactor(budget, buildConfig.cpuFactor.CPUBudgetGFactor)
+}
 
-  let cpuBudget = 0
-  priceList.forEach((element, index) => {
-    if (budget < element) {
-      const setRatio = ratioList[index]
-        ? ratioList[index]
-        : ratioList[ratioList.length - 1]
-      cpuBudget = budget * setRatio
-    }
-  })
-  return cpuBudget
+const countCPUScore = (item: CPUType) => {
+  const singleScore = item.singleCoreScore * buildConfig.cpuFactor.singleCoreMultiply
+  const multiScore = item.multiCoreScore * buildConfig.cpuFactor.multiCoreMultiply
+  return singleScore + multiScore
 }
 
 const selectCPULogic = (buildLogic: BuildLogicState, cpuList: CPUType[]) => {
@@ -26,10 +20,10 @@ const selectCPULogic = (buildLogic: BuildLogicState, cpuList: CPUType[]) => {
   let selectedCPU: CPUType | null = null
   let currentScore = 0
   cpuList.forEach((item: CPUType) => {
-    if (cpuShouldHaveInternalGPU(item) && cpuBudget > toNumber(item[getSelectedCurrency()])) {
-      if (item.multiCoreScore + item.singleCoreScore > currentScore) {
+    if (cpuShouldHaveInternalGPU(item) && isEnoughBudget(cpuBudget, item[getSelectedCurrency()])) {
+      if (countCPUScore(item) > currentScore) {
         selectedCPU = item
-        currentScore = item.multiCoreScore + item.singleCoreScore
+        currentScore = countCPUScore(item)
       }
     }
   })

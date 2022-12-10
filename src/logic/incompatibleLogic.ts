@@ -17,16 +17,18 @@ export const motherboardIncompatibleWithCPU = (
 }
 
 export const ramIncompatibleWithCPU = (ram: RAMType, cpu: CPUType | null) => {
-  return cpu ? !ram.chipset.includes(cpu.brand) : false
+  return cpu && ram ? !ram.chipset.includes(cpu.brand) : false
 }
 
 export const ramIncompatibleWithMotherboard = (
   ram: RAMType,
   motherboard: MotherboardType | null
 ) => {
-  return motherboard
-    ? !motherboard.supportedRam.includes(ram.speed.toString())
-    : false
+  let result = false
+  if (ram && motherboard) {
+    result = (!motherboard.supportedRam.includes(ram.speed.toString()) || !motherboard.ramType.includes(ram.type))
+  }
+  return result
 }
 
 export const psuPowerNotEnough = (psuPower: number, totalPower: number) => {
@@ -44,7 +46,7 @@ export const caseIncompatibleWithMotherboard = (
   pcCase: CaseType,
   motherboard: MotherboardType | null
 ) => {
-  return motherboard
+  return motherboard && pcCase
     ? !pcCase.motherboardCompatibility.includes(motherboard.sizeType)
     : false
 }
@@ -53,12 +55,12 @@ export const caseIncompatibleWithAIO = (
   pcCase: CaseType,
   aio: AIOType | null
 ) => {
-  return aio ? !flatten(pcCase.radiatorOptions).includes(aio.fanSize) : false
+  return aio && pcCase ? !flatten(pcCase.radiatorOptions).includes(aio.fanSize) : false
 }
 
 export const airCoolerIncompatibleWithCase = (
   airCooler: AirCoolerType,
   pcCase: CaseType | null
 ) => {
-  return pcCase ? airCooler.maxCoolerHeight > pcCase.maxCPUCoolerLength : false
+  return airCooler && pcCase ? airCooler.maxCoolerHeight > pcCase.maxCPUCoolerLength : false
 }

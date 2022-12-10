@@ -19,7 +19,7 @@ const getItemMotherboardScore = (motherboard: MotherboardType, budget: number) =
     }
   })
 
-  const score = 10000 - (toNumber(motherboard[getSelectedCurrency()]) * getPriceFactor())
+  const score = 10000 - (getPriceFactor(toNumber(motherboard[getSelectedCurrency()])))
   return score
 }
 

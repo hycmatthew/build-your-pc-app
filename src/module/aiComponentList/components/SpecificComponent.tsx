@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   Card,
   CardContent,
-  Typography,
   CardActions,
-  TextField,
   Button,
   Grid,
 } from '@mui/material'
@@ -71,7 +69,7 @@ function SpecificComponent({
     switch (type) {
       case ProductEnum.CPU: {
         const selectedItem = searchCPUItem(cpuList, value)
-        dispatch(sliceActions.updatePreSelectedCPU)
+        dispatch(sliceActions.updatePreSelectedCPU(selectedItem))
         break
       }
       case ProductEnum.Motherboard: {
@@ -123,15 +121,15 @@ function SpecificComponent({
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid item xs={9}>
             <SelectElement
               label={ProductEnum.CPU}
-              options={generateCPUSelectElement(cpuList)}
+              options={generateCPUSelectElement(cpuList, selectedItems)}
               selectChange={changeSelectItem}
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={9}>
             <SelectElement
               label={ProductEnum.GPU}
               options={generateGPUSelectElement(gpuList)}
@@ -139,7 +137,7 @@ function SpecificComponent({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={9}>
             <SelectElement
               label={ProductEnum.Motherboard}
               options={generateMotherboardSelectElement(
@@ -150,7 +148,7 @@ function SpecificComponent({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={9}>
             <SelectElement
               label={ProductEnum.RAM}
               options={generateRAMSelectElement(ramList, selectedItems)}
@@ -158,7 +156,7 @@ function SpecificComponent({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={9}>
             <SelectElement
               label={ProductEnum.SSD}
               options={generateSSDSelectElement(ssdList)}
@@ -166,7 +164,7 @@ function SpecificComponent({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={9}>
             <SelectElement
               label={ProductEnum.PSU}
               options={generatePSUSelectElement(psuList, selectedItems)}
@@ -174,7 +172,7 @@ function SpecificComponent({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={9}>
             <SelectElement
               label={ProductEnum.ComputerCase}
               options={generateCaseSelectElement(caseList, selectedItems)}
@@ -182,7 +180,7 @@ function SpecificComponent({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={9}>
             <SelectElement
               label={ProductEnum.AIO}
               options={generateAIOSelectElement(aioList)}
@@ -190,7 +188,7 @@ function SpecificComponent({
               isLoading={isLoading}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={9}>
             <SelectElement
               label={ProductEnum.AirCooler}
               options={generateAirCoolerSelectElement(

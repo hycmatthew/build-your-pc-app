@@ -1,5 +1,3 @@
-import { t } from 'i18next'
-import i18n from '../../../config/i18n'
 import {
   CPUType,
   GPUType,
@@ -17,6 +15,7 @@ import { SelectedItemType } from '../../store/rawDataReducer'
 import {
   airCoolerIncompatible,
   caseIncompatible,
+  cpuIncompatible,
   motherboardIncompatible,
   psuIncompatible,
   ramIncompatible,
@@ -35,7 +34,7 @@ export const generateCPUSelectElement = (
       brand: item.brand,
       label: itemLabel,
       value: price,
-      disabled: false,
+      disabled: selectedItems ? cpuIncompatible(item, selectedItems) : false,
     }
   })
   return tempMap.filter((item: any) => item.price !== '0.00')
@@ -97,7 +96,9 @@ export const generateRAMSelectElement = (
       disabled: selectedItems ? ramIncompatible(item, selectedItems) : false,
     }
   })
-  return tempMap.filter((item: any) => item.value !== '0.00').sort((a, b) => a.brand.localeCompare(b.brand))
+  return tempMap
+    .filter((item: any) => item.value !== '0.00')
+    .sort((a, b) => a.brand.localeCompare(b.brand))
 }
 
 export const generatePSUSelectElement = (

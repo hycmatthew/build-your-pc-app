@@ -5,17 +5,13 @@ import {
   CardHeader,
   CardMedia,
   Grid,
-  IconButton,
-  Tooltip,
   Typography,
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import AddRoundedIcon from '@mui/icons-material/AddRounded'
-import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded'
 import { EMPTY_IMG_DATA } from '../../../constant/EmptyImage'
 import { addCurrencySign } from '../../../utils/NumberHelper'
 
-type ItemCardProps = {
+type ResultCardProps = {
   itemLabel: string
   priceLabel: string
   imgSrc: string
@@ -33,24 +29,17 @@ const CustomCardActions = styled(CardActions)({
   padding: '3px',
 })
 
-const AddButton = styled(IconButton)({
-  marginLeft: 'auto',
-})
-
 const PriceTypography = styled(Typography)({
   textAlign: 'left',
   fontSize: '12px',
   paddingLeft: 8,
 })
 
-const ItemCard = ({
+const ResultCard = ({
   itemLabel,
   priceLabel,
-  imgSrc,
-  disable,
-  addComparsion,
-  removeComparsion,
-}: ItemCardProps) => {
+  imgSrc
+}: ResultCardProps) => {
   return (
     <Grid key={itemLabel} item xs={3} style={{ display: 'flex' }}>
       <Card
@@ -69,23 +58,10 @@ const ItemCard = ({
         />
         <CustomCardActions>
           <PriceTypography>{priceLabel === '0.00' ? '-' : addCurrencySign(priceLabel)}</PriceTypography>
-          {disable ? (
-            <Tooltip title="Remove from Comparison">
-              <AddButton color="warning" onClick={removeComparsion}>
-                <RemoveRoundedIcon />
-              </AddButton>
-            </Tooltip>
-          ) : (
-            <Tooltip title="Add to Compare">
-              <AddButton color="primary" onClick={addComparsion}>
-                <AddRoundedIcon />
-              </AddButton>
-            </Tooltip>
-          )}
         </CustomCardActions>
       </Card>
     </Grid>
   )
 }
 
-export default ItemCard
+export default ResultCard

@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
 
 import SelectElement from '../../common/components/SelectElement'
@@ -107,7 +106,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label={ProductEnum.CPU}
-          options={generateCPUSelectElement(cpuList)}
+          options={generateCPUSelectElement(cpuList, selectedItems)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -115,7 +114,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label={ProductEnum.GPU}
-          options={generateGPUSelectElement(gpuList)}
+          options={generateGPUSelectElement(gpuList, selectedItems)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -142,7 +141,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label={ProductEnum.SSD}
-          options={generateSSDSelectElement(ssdList)}
+          options={generateSSDSelectElement(ssdList, selectedItems)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />
@@ -166,7 +165,7 @@ const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
       <Grid item xs={12}>
         <SelectElement
           label={ProductEnum.AIO}
-          options={generateAIOSelectElement(aioList)}
+          options={generateAIOSelectElement(aioList, selectedItems)}
           selectChange={changeSelectItem}
           isLoading={isLoading}
         />

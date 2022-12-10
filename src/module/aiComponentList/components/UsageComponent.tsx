@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardContent,
-  Typography,
   CardActions,
-  TextField,
   Button,
 } from '@mui/material'
 import { useAppDispatch } from '../../store/store'
@@ -30,11 +28,11 @@ function UsageComponent({ currectStep, updateStep }: UsageComponentProps) {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
-        <Button size="small">Learn More</Button>
-        <Button size="small">Learn More</Button>
+        <Button size="small">Gaming</Button>
+        <Button size="small">Normal</Button>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={submitButtonOnClick}>Learn More</Button>
+        <Button size="small" onClick={submitButtonOnClick}>Submit</Button>
       </CardActions>
     </Card>
   )

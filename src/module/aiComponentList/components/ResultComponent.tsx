@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import {
   Card,
-  CardContent,
-  Typography,
-  CardActions,
-  TextField,
-  Button,
   Grid,
 } from '@mui/material'
 import { useAppDispatch } from '../../store/store'
 import {
-  aiLogicSlice,
   sliceActions,
   BuildLogicState,
 } from '../store/aiLogicReducer'
