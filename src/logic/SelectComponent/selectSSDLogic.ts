@@ -2,43 +2,45 @@ import { toNumber } from 'lodash'
 import { SSDType } from '../../constant/objectTypes'
 import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReducer'
 import { getSelectedCurrency } from '../../utils/NumberHelper'
-import { getBudgetPriceList } from '../../module/aiComponentList/logic/pricingLogic'
+import { convertCurrency, getPricingFactor, isEnoughBudget } from '../../module/aiComponentList/logic/pricingLogic'
+import buildConfig from '../../module/aiComponentList/data/buildConfig'
 
-const getItemSSDScore = (budget: number) => {
-  const ratioList = [0.3, 0.3, 0.25, 0.2]
-  const priceList = getBudgetPriceList()
+const getItemSSDScore = (item: SSDType, budget: number) => {
+  const ratioList = buildConfig.ssdFactor.SSDPriceFactor
+  const priceFactor = getPricingFactor(budget, ratioList)
+  const pricingScore = convertCurrency(toNumber(item[getSelectedCurrency()])) * priceFactor
 
-  let ssdBudget = 0
-  priceList.forEach((element, index) => {
-    if (budget < element) {
-      const setRatio = ratioList[index]
-        ? ratioList[index]
-        : ratioList[ratioList.length - 1]
-      ssdBudget = budget * setRatio
-    }
-  })
-  return ssdBudget
+  return item.score + pricingScore
 }
 
-export const ssdSuggestion = (ssd: SSDType, budget: number) => {
-  return true
+const ssdFilterLogic = (
+  item: SSDType,
+  buildLogic: BuildLogicState
+) => {
+  const capacityFilter = item.capacity.toUpperCase().includes('1TB')
+  const enoughBudget = isEnoughBudget(
+    buildLogic.budget,
+    item[getSelectedCurrency()]
+  )
+  return capacityFilter && enoughBudget
 }
 
 const selectSSDLogic = (buildLogic: BuildLogicState, ssdist: SSDType[]) => {
-  let selectedRAM: SSDType | null = null
-  const currentScore = 0
-  const ssdBudget = getItemSSDScore(buildLogic.budget)
+  let selectedSSD: SSDType | null = null
+  let currentScore = 0
 
   const filteredSSDList = ssdist.filter((item) => {
-    return (item.capacity.toUpperCase().includes('1TB'))
+    return ssdFilterLogic(item, buildLogic)
   })
 
   filteredSSDList.forEach((item: SSDType) => {
-    if (ssdBudget > toNumber(item[getSelectedCurrency()])) {
-      selectedRAM = item
+    const tempScore = getItemSSDScore(item, buildLogic.budget)
+    if (tempScore > currentScore) {
+      selectedSSD = item
+      currentScore = tempScore
     }
   })
-  return selectedRAM
+  return selectedSSD
 }
 
 export default selectSSDLogic

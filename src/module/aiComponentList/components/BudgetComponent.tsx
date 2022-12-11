@@ -11,7 +11,7 @@ import { useAppDispatch } from '../../store/store'
 import { aiLogicSlice } from '../store/aiLogicReducer'
 import { addCurrencySign } from '../../../utils/NumberHelper'
 import buildConfig from '../data/buildConfig'
-import { getPriceFactor } from '../logic/pricingLogic'
+import { convertCurrency } from '../logic/pricingLogic'
 
 type BudgetComponentProps = {
   currectStep: number
@@ -23,7 +23,7 @@ function BudgetComponent({ currectStep, updateStep }: BudgetComponentProps) {
   const [budget, setBudget] = useState(0)
 
   const submitButtonOnClick = () => {
-    if (getPriceFactor(budget) > buildConfig.minPrice) {
+    if (convertCurrency(budget) > buildConfig.minPrice) {
       dispatch(aiLogicSlice.actions.updateBudget(budget))
       if (currectStep === 0) {
         updateStep(1)

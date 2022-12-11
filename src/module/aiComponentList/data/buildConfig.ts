@@ -14,10 +14,10 @@ const buildConfig = {
     RAMBudgetFactor: [0.3, 0.3, 0.25, 0.2],
   },
   ssdFactor: {
-    SSDBudgetFactor: [0.01, 0.01, 0.008, 0.007, 0.005],
+    SSDPriceFactor: [0.01, 0.01, 0.008, 0.007, 0.005],
   },
   psuFactor: {
-    SSDBudgetFactor: [0.01, 0.01, 0.008, 0.007, 0.005],
+    PSUBudgetFactor: [0.01, 0.01, 0.008, 0.007, 0.005],
   }
 }
 

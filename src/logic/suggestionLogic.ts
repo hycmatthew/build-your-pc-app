@@ -79,10 +79,3 @@ export const ramProfileIsNotMatchCPU = (
   }
   return false
 }
-
-export const cpuShouldHaveInternalGPU = (cpu: CPUType) => {
-  if (cpu) {
-    return cpu.gpu === ''
-  }
-  return false
-}

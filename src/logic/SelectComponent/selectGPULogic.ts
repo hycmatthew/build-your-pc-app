@@ -1,42 +1,40 @@
 import { toNumber } from 'lodash'
 import i18n from '../../config/i18n'
 import { GPUType } from '../../constant/objectTypes'
+import { isEnoughBudget } from '../../module/aiComponentList/logic/pricingLogic'
 import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReducer'
 import { gpuIncompatible } from '../../module/common/utils/compatibleLogic'
 import { getSelectedCurrency } from '../../utils/NumberHelper'
 
-const getGPUBudget = (budget: number) => {
-  const ratioList = [0, 0.25, 0.3, 0.4, 0.5]
-  const priceList = () => {
-    switch (i18n.language) {
-      case 'zh-TW':
-        return [2000, 4000, 6500, 9000, 15000]
-      case 'zh-CN':
-        return [2000, 4000, 6500, 9000, 15000]
-      default:
-        return [300, 500, 900, 1400, 2000]
-    }
-  }
+const countGPUScore = (item: GPUType, buildLogic: BuildLogicState) => {
+  return item.firestrikeScore + item.timespyScore
+}
 
-  let gpuBudget = 0
-  priceList().forEach((element, index) => {
-    if (budget < element) {
-      gpuBudget = budget * ratioList[index]
-    }
-  })
-  return gpuBudget
+const gpuFilterLogic = (
+  item: GPUType,
+  buildLogic: BuildLogicState
+) => {
+  const compatible = !gpuIncompatible(item, buildLogic.preSelectedItem)
+  const enoughBudget = isEnoughBudget(
+    buildLogic.budget,
+    item[getSelectedCurrency()]
+  )
+  return compatible && enoughBudget
 }
 
 const selectGPULogic = (buildLogic: BuildLogicState, gpuList: GPUType[]) => {
   let selectedGPU: GPUType | null = null
   let currentScore = 0
-  gpuList.forEach((item: GPUType) => {
-    const gpuValid = gpuIncompatible(item, buildLogic.preSelectedItem)
-    if (
-      !gpuValid && buildLogic.budget > toNumber(item[getSelectedCurrency()])
-    ) {
+
+  const filteredList = gpuList.filter((item) => {
+    return gpuFilterLogic(item, buildLogic)
+  })
+
+  filteredList.forEach((item: GPUType) => {
+    const tempScore = countGPUScore(item, buildLogic)
+    if (tempScore > currentScore) {
       selectedGPU = item
-      currentScore = 100
+      currentScore = tempScore
     }
   })
   return selectedGPU

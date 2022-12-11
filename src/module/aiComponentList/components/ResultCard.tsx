@@ -12,12 +12,9 @@ import { EMPTY_IMG_DATA } from '../../../constant/EmptyImage'
 import { addCurrencySign } from '../../../utils/NumberHelper'
 
 type ResultCardProps = {
-  itemLabel: string
+  nameLabel: string
   priceLabel: string
   imgSrc: string
-  disable: boolean
-  addComparsion: () => void
-  removeComparsion: () => void
 }
 
 const CustomCardHeader = styled(CardHeader)({
@@ -36,12 +33,12 @@ const PriceTypography = styled(Typography)({
 })
 
 const ResultCard = ({
-  itemLabel,
+  nameLabel,
   priceLabel,
   imgSrc
 }: ResultCardProps) => {
   return (
-    <Grid key={itemLabel} item xs={3} style={{ display: 'flex' }}>
+    <Grid key={nameLabel} item xs={3} style={{ display: 'flex' }}>
       <Card
         style={{
           display: 'flex',
@@ -50,11 +47,11 @@ const ResultCard = ({
           padding: '5px'
         }}
       >
-        <CustomCardHeader titleTypographyProps={{ fontSize: '14px' }} title={itemLabel} />
+        <CustomCardHeader titleTypographyProps={{ fontSize: '14px' }} title={nameLabel} />
         <CardMedia
           component="img"
           image={imgSrc || EMPTY_IMG_DATA}
-          alt={itemLabel}
+          alt={nameLabel}
         />
         <CustomCardActions>
           <PriceTypography>{priceLabel === '0.00' ? '-' : addCurrencySign(priceLabel)}</PriceTypography>

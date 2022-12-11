@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Card,
-  Grid,
-} from '@mui/material'
+import { Box, Card, Grid } from '@mui/material'
 import { useAppDispatch } from '../../store/store'
-import {
-  sliceActions,
-  BuildLogicState,
-} from '../store/aiLogicReducer'
-import { DataState } from '../../store/rawDataReducer'
-import SelectedItemCard from './SelectedItemCard'
+import { sliceActions, BuildLogicState } from '../store/aiLogicReducer'
+import { DataState, SelectedItemType } from '../../store/rawDataReducer'
+import ResultCard from './ResultCard'
 import {
   selectCPULogic,
+  selectGPULogic,
   selectMotherboardLogic,
   selectRAMLogic,
+  selectSSDLogic,
+  selectPSULogic
 } from '../../../logic/SelectComponent'
-import selectSSDLogic from '../../../logic/SelectComponent/selectSSDLogic'
-import selectPSULogic from '../../../logic/SelectComponent/selectPSULogic'
 
 type ResultComponentProps = {
   logicState: BuildLogicState
@@ -25,21 +20,32 @@ type ResultComponentProps = {
 
 function ResultComponent({ logicState, rawData }: ResultComponentProps) {
   const dispatch = useAppDispatch()
+  const [result, setResult] = useState<SelectedItemType>(
+    logicState.preSelectedItem
+  )
 
   const getResult = () => {
-    const selectCPU = selectCPULogic(logicState, rawData.cpuList)
+    const selectCPU = logicState.preSelectedItem.cpu || selectCPULogic(logicState, rawData.cpuList)
     dispatch(sliceActions.updatePreSelectedCPU(selectCPU))
-    const selectMotherboard = selectMotherboardLogic(
-      logicState,
-      rawData.motherboardList
-    )
+    const selectMotherboard = logicState.preSelectedItem.motherboard || selectMotherboardLogic(logicState, rawData.motherboardList)
     dispatch(sliceActions.updatePreSelectedMotherboard(selectMotherboard))
-    const selectRAM = selectRAMLogic(logicState, rawData.ramList)
+    const selectRAM = logicState.preSelectedItem.ram || selectRAMLogic(logicState, rawData.ramList)
     dispatch(sliceActions.updatePreSelectedRAM(selectRAM))
-    const selectSSD = selectSSDLogic(logicState, rawData.ssdList)
+    const selectSSD = logicState.preSelectedItem.ssd || selectSSDLogic(logicState, rawData.ssdList)
     dispatch(sliceActions.updatePreSelectedSSD(selectSSD))
-    const selectPSU = selectPSULogic(logicState, rawData.psuList)
-    dispatch(sliceActions.updatePreSelectedSSD(selectPSU))
+    const selectPSU = logicState.preSelectedItem.psu || selectPSULogic(logicState, rawData.psuList)
+    dispatch(sliceActions.updatePreSelectedPSU(selectPSU))
+    const selectGPU = logicState.preSelectedItem.gpu || selectGPULogic(logicState, rawData.gpuList)
+    dispatch(sliceActions.updatePreSelectedGPU(selectGPU))
+    setResult({
+      ...result,
+      cpu: selectCPU,
+      motherboard: selectMotherboard,
+      ram: selectRAM,
+      ssd: selectSSD,
+      psu: selectPSU,
+      gpu: selectGPU
+    })
   }
 
   useEffect(() => {
@@ -47,45 +53,52 @@ function ResultComponent({ logicState, rawData }: ResultComponentProps) {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Card sx={{ minWidth: 275, padding: 2 }}>
-      <Grid container spacing={1}>
-        {logicState.preSelectedItem.cpu && (
-          <SelectedItemCard
-            name={logicState.preSelectedItem.cpu?.name}
-            price={logicState.preSelectedItem.cpu?.priceHK.toString()}
-            img={logicState.preSelectedItem.cpu?.img}
+    <Box sx={{ paddingTop: 5 }}>
+      <Grid container spacing={2} columns={{ xs: 6, md: 12 }}>
+        {result.cpu && (
+          <ResultCard
+            nameLabel={result.cpu.name}
+            priceLabel={result.cpu.priceHK.toString()}
+            imgSrc={result.cpu.img}
           />
         )}
-        {logicState.preSelectedItem.motherboard && (
-          <SelectedItemCard
-            name={logicState.preSelectedItem.motherboard?.model}
-            price={logicState.preSelectedItem.motherboard?.priceHK.toString()}
-            img={logicState.preSelectedItem.motherboard?.img}
+        {result.motherboard && (
+          <ResultCard
+            nameLabel={result.motherboard.model}
+            priceLabel={result.motherboard.priceHK.toString()}
+            imgSrc={result.motherboard.img}
           />
         )}
-        {logicState.preSelectedItem.ram && (
-          <SelectedItemCard
-            name={logicState.preSelectedItem.ram?.model}
-            price={logicState.preSelectedItem.ram?.priceHK.toString()}
-            img={logicState.preSelectedItem.ram?.img}
+        {result.gpu && (
+          <ResultCard
+            nameLabel={result.gpu.model}
+            priceLabel={result.gpu.priceHK.toString()}
+            imgSrc={result.gpu.img}
           />
         )}
-        {logicState.preSelectedItem.ssd && (
-          <SelectedItemCard
-            name={logicState.preSelectedItem.ssd?.model}
-            price={logicState.preSelectedItem.ssd?.priceHK.toString()}
-            img={logicState.preSelectedItem.ssd?.img}
+        {result.ram && (
+          <ResultCard
+            nameLabel={result.ram.model}
+            priceLabel={result.ram.priceHK.toString()}
+            imgSrc={result.ram.img}
           />
         )}
-        {logicState.preSelectedItem.psu && (
-          <SelectedItemCard
-            name={logicState.preSelectedItem.psu?.model}
-            price={logicState.preSelectedItem.psu?.priceHK.toString()}
-            img={logicState.preSelectedItem.psu?.img}
+        {result.ssd && (
+          <ResultCard
+            nameLabel={result.ssd.model}
+            priceLabel={result.ssd.priceHK.toString()}
+            imgSrc={result.ssd.img}
+          />
+        )}
+        {result.psu && (
+          <ResultCard
+            nameLabel={result.psu.model}
+            priceLabel={result.psu.priceHK.toString()}
+            imgSrc={result.psu.img}
           />
         )}
       </Grid>
-    </Card>
+    </Box>
   )
 }
 
