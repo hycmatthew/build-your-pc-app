@@ -1,18 +1,23 @@
+import { toNumber } from 'lodash'
 import { CPUType } from '../../constant/objectTypes'
 import { BuildLogicState } from '../../module/aiComponentList/store/aiLogicReducer'
 import { getSelectedCurrency } from '../../utils/NumberHelper'
-import { getBudgetByPricingFactor, isEnoughBudget } from '../../module/aiComponentList/logic/pricingLogic'
+import { convertCurrency, getPricingFactor, isEnoughBudget } from '../../module/aiComponentList/logic/pricingLogic'
 import buildConfig from '../../module/aiComponentList/data/buildConfig'
+import { cpuIncompatible } from '../../module/common/utils/compatibleLogic'
+import { motherboardChipsetSuggestion, motherboardOverclockSuggestion } from '../suggestionLogic'
 
-const getItemCPUBudget = (budget: number) => {
-  return getBudgetByPricingFactor(budget, buildConfig.cpuFactor.CPUBudgetGFactor)
-}
-
-export const cpuHaveInternalGPU = (cpu: CPUType) => {
+const cpuHaveInternalGPU = (cpu: CPUType) => {
   if (cpu) {
     return cpu.gpu !== ''
   }
   return false
+}
+
+const cpuPricingLogic = (item: CPUType, budget: number) => {
+  const ratioList = buildConfig.cpuFactor.CPUBudgetGFactor
+  const priceFactor = getPricingFactor(budget, ratioList)
+  return (budget * priceFactor) > convertCurrency(toNumber(item[getSelectedCurrency()]))
 }
 
 const countCPUScore = (item: CPUType) => {
@@ -22,16 +27,42 @@ const countCPUScore = (item: CPUType) => {
   return singleScore + multiScore + internalScore
 }
 
+const cpuFilterLogic = (
+  item: CPUType,
+  buildLogic: BuildLogicState
+) => {
+  const compatible = !cpuIncompatible(item, buildLogic.preSelectedItem)
+  const chipsetSuggestion = !motherboardChipsetSuggestion(
+    buildLogic.preSelectedItem.motherboard,
+    item
+  )
+  const overclockSuggestion = !motherboardOverclockSuggestion(
+    buildLogic.preSelectedItem.motherboard,
+    item
+  )
+  const enoughBudget = isEnoughBudget(
+    buildLogic.budget,
+    buildLogic.preSelectedItem,
+    item[getSelectedCurrency()]
+  )
+
+  const cpuBudget = cpuPricingLogic(item, buildLogic.budget)
+
+  return compatible && chipsetSuggestion && overclockSuggestion && enoughBudget && cpuBudget
+}
+
 const selectCPULogic = (buildLogic: BuildLogicState, cpuList: CPUType[]) => {
-  const cpuBudget = getItemCPUBudget(buildLogic.budget)
   let selectedCPU: CPUType | null = null
   let currentScore = 0
-  cpuList.forEach((item: CPUType) => {
-    if (isEnoughBudget(cpuBudget, item[getSelectedCurrency()])) {
-      if (countCPUScore(item) > currentScore) {
-        selectedCPU = item
-        currentScore = countCPUScore(item)
-      }
+
+  const filteredList = cpuList.filter((item) => {
+    return cpuFilterLogic(item, buildLogic)
+  })
+
+  filteredList.forEach((item: CPUType) => {
+    if (countCPUScore(item) > currentScore) {
+      selectedCPU = item
+      currentScore = countCPUScore(item)
     }
   })
   return selectedCPU

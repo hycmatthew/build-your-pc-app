@@ -20,6 +20,7 @@ const ssdFilterLogic = (
   const capacityFilter = item.capacity.toUpperCase().includes('1TB')
   const enoughBudget = isEnoughBudget(
     buildLogic.budget,
+    buildLogic.preSelectedItem,
     item[getSelectedCurrency()]
   )
   return capacityFilter && enoughBudget

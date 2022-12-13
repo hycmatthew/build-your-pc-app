@@ -25,18 +25,33 @@ function ResultComponent({ logicState, rawData }: ResultComponentProps) {
   )
 
   const getResult = () => {
+    let updatedState = logicState
+    let updatedItem = logicState.preSelectedItem
+
     const selectCPU = logicState.preSelectedItem.cpu || selectCPULogic(logicState, rawData.cpuList)
-    dispatch(sliceActions.updatePreSelectedCPU(selectCPU))
-    const selectMotherboard = logicState.preSelectedItem.motherboard || selectMotherboardLogic(logicState, rawData.motherboardList)
-    dispatch(sliceActions.updatePreSelectedMotherboard(selectMotherboard))
-    const selectRAM = logicState.preSelectedItem.ram || selectRAMLogic(logicState, rawData.ramList)
-    dispatch(sliceActions.updatePreSelectedRAM(selectRAM))
-    const selectSSD = logicState.preSelectedItem.ssd || selectSSDLogic(logicState, rawData.ssdList)
-    dispatch(sliceActions.updatePreSelectedSSD(selectSSD))
-    const selectPSU = logicState.preSelectedItem.psu || selectPSULogic(logicState, rawData.psuList)
-    dispatch(sliceActions.updatePreSelectedPSU(selectPSU))
-    const selectGPU = logicState.preSelectedItem.gpu || selectGPULogic(logicState, rawData.gpuList)
-    dispatch(sliceActions.updatePreSelectedGPU(selectGPU))
+    updatedItem = { ...updatedItem, cpu: selectCPU }
+    updatedState = { ...updatedState, preSelectedItem: updatedItem }
+
+    const selectMotherboard = logicState.preSelectedItem.motherboard || selectMotherboardLogic(updatedState, rawData.motherboardList)
+    updatedItem = { ...updatedItem, motherboard: selectMotherboard }
+    updatedState = { ...updatedState, preSelectedItem: updatedItem }
+
+    const selectRAM = logicState.preSelectedItem.ram || selectRAMLogic(updatedState, rawData.ramList)
+    updatedItem = { ...updatedItem, ram: selectRAM }
+    updatedState = { ...updatedState, preSelectedItem: updatedItem }
+
+    const selectSSD = logicState.preSelectedItem.ssd || selectSSDLogic(updatedState, rawData.ssdList)
+    updatedItem = { ...updatedItem, ssd: selectSSD }
+    updatedState = { ...updatedState, preSelectedItem: updatedItem }
+
+    const selectPSU = logicState.preSelectedItem.psu || selectPSULogic(updatedState, rawData.psuList)
+    updatedItem = { ...updatedItem, psu: selectPSU }
+    updatedState = { ...updatedState, preSelectedItem: updatedItem }
+
+    const selectGPU = logicState.preSelectedItem.gpu || selectGPULogic(updatedState, rawData.gpuList)
+    updatedItem = { ...updatedItem, gpu: selectGPU }
+    updatedState = { ...updatedState, preSelectedItem: updatedItem }
+
     setResult({
       ...result,
       cpu: selectCPU,

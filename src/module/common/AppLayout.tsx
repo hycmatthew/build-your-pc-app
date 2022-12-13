@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react'
+import { t } from 'i18next'
 import { createTheme, styled, ThemeProvider } from '@mui/material/styles'
 import { Link, useLocation } from 'react-router-dom'
 import ReactGA from 'react-ga4'
@@ -78,10 +79,10 @@ function AppLayout({ children, bgColor }: Props) {
   const location = useLocation()
 
   const pages = [
-    { label: 'pc-builder', link: '/' },
-    { label: 'benchmarks', link: '/benchmarks' },
-    { label: 'ai-list', link: '/ai-build' },
-    { label: 'database', link: '/database' },
+    { label: t('pc-builder'), link: '/' },
+    { label: t('benchmark'), link: '/benchmarks' },
+    { label: t('ai-list'), link: '/ai-build' },
+    { label: t('database'), link: '/database' },
   ]
 
   useEffect(() => {

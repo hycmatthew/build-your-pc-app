@@ -237,7 +237,7 @@ const GPUSuggestion = ({
         </Grid>
         <Grid item xs={6}>
           <SelectFilter
-            label={t('graphic-engine')}
+            label={t('graphics-processing-unit')}
             options={gpuOptions}
             selectChange={updateGPUType}
           />

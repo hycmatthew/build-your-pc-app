@@ -36,6 +36,7 @@ const motherboardFilterLogic = (
   )
   const enoughBudget = isEnoughBudget(
     buildLogic.budget,
+    buildLogic.preSelectedItem,
     item[getSelectedCurrency()]
   )
   return compatible && chipsetSuggestion && overclockSuggestion && enoughBudget
@@ -45,6 +46,7 @@ const selectMotherboardLogic = (
   buildLogic: BuildLogicState,
   motherboardList: MotherboardType[]
 ) => {
+  console.log(buildLogic)
   let selectedMotherboard: MotherboardType | null = null
   let currentScore = 0
 

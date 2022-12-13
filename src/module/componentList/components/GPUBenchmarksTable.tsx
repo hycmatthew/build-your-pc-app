@@ -65,7 +65,7 @@ function GPUBenchmarksTable() {
   const columns: GridColDef[] = [
     {
       field: 'id',
-      headerName: 'Name',
+      headerName: t('name'),
       sortable: false,
       width: 250,
       editable: false,
@@ -107,7 +107,7 @@ function GPUBenchmarksTable() {
     },
     {
       field: 'price',
-      headerName: 'Price',
+      headerName: t('price'),
       width: 160,
       editable: false,
       disableColumnMenu: true,

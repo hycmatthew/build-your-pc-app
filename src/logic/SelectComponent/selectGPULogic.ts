@@ -17,6 +17,7 @@ const gpuFilterLogic = (
   const compatible = !gpuIncompatible(item, buildLogic.preSelectedItem)
   const enoughBudget = isEnoughBudget(
     buildLogic.budget,
+    buildLogic.preSelectedItem,
     item[getSelectedCurrency()]
   )
   return compatible && enoughBudget

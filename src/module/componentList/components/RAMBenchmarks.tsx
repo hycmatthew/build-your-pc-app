@@ -59,7 +59,7 @@ function RAMBenchmarksTable() {
   const columns: GridColDef[] = [
     {
       field: 'id',
-      headerName: 'Name',
+      headerName: t('name'),
       sortable: false,
       width: 300,
       editable: false,
@@ -67,21 +67,21 @@ function RAMBenchmarksTable() {
     },
     {
       field: 'speed',
-      headerName: 'Speed',
+      headerName: t('ram-frequency'),
       width: 90,
       editable: false,
       disableColumnMenu: true,
     },
     {
       field: 'cl',
-      headerName: 'Latency (Lower is better)',
+      headerName: t('ram-latency'),
       width: 150,
       editable: false,
       disableColumnMenu: true,
     },
     {
       field: 'performance',
-      headerName: 'Overall Performance',
+      headerName: t('overall-performance'),
       width: 450,
       editable: false,
       disableColumnMenu: true,
@@ -96,7 +96,7 @@ function RAMBenchmarksTable() {
     },
     {
       field: 'price',
-      headerName: 'Price',
+      headerName: t('price'),
       width: 140,
       editable: false,
       disableColumnMenu: true,
