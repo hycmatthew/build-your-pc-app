@@ -8,11 +8,11 @@ import {
   Stack,
   TextField,
   Typography,
-  alpha,
 } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
 import { styled } from '@mui/material/styles'
 import { addCurrencySign } from '../../../utils/NumberHelper'
+import { brandTranslationKey } from '../../../utils/LabelHelper'
 
 interface OptionType {
   model: string
@@ -122,7 +122,7 @@ const SelectElement = ({
       getOptionDisabled={(option: any) => option.disabled === true}
       renderGroup={(params) => (
         <li>
-          <GroupHeader>{t(params.group)}</GroupHeader>
+          <GroupHeader>{t(brandTranslationKey(params.group))}</GroupHeader>
           <GroupItems>{params.children}</GroupItems>
         </li>
       )}

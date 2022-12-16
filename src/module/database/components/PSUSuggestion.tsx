@@ -106,13 +106,13 @@ const PSUSuggestion = ({
       }
 
       const moduleType: ComparisonSubItem = {
-        label: 'module',
+        label: 'modular-design',
         value: item.module,
         isHighlight: item.module.includes('Full'),
       }
 
       const fans: ComparisonSubItem = {
-        label: 'fans',
+        label: 'fan-size',
         value: item.fans || '-',
         isHighlight: false,
       }

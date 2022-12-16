@@ -7,8 +7,8 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 import GPUType from '../../../constant/objectTypes/GPUType'
-import { addCurrencySign, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
-import { generateItemName } from '../../../utils/LabelHelper'
+import { getSelectedCurrency, stringToNumber, stringToNumberWithDP } from '../../../utils/NumberHelper'
+import { generateItemName, priceLabelHandler } from '../../../utils/LabelHelper'
 import BarMotion from '../../../animation/BarMotion'
 
 function GPUBenchmarksTable() {
@@ -111,7 +111,7 @@ function GPUBenchmarksTable() {
       width: 160,
       editable: false,
       disableColumnMenu: true,
-      renderCell: (params) => addCurrencySign(params.value)
+      renderCell: (params) => priceLabelHandler(params.value)
     },
   ]
 
@@ -123,7 +123,7 @@ function GPUBenchmarksTable() {
         index,
         timespyScore: item.timespyScore,
         firestrikeScore: item.firestrikeScore,
-        price: stringToNumber(item[getSelectedCurrency()]),
+        price: stringToNumberWithDP(item[getSelectedCurrency()]),
       }
     })
     return tempOptions.sort((a, b) => b.timespyScore - a.timespyScore)

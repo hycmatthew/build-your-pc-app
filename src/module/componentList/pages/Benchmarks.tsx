@@ -41,7 +41,7 @@ function Benchmarks() {
               {t('cpu')}
             </CustomToggleButton>
             <CustomToggleButton sx={{ width: 100 }} value={ProductEnum.GPU}>
-              {t('gpu')}
+              {t('graphic-card')}
             </CustomToggleButton>
             <CustomToggleButton sx={{ width: 100 }} value={ProductEnum.RAM}>
               {t('ram')}

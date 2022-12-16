@@ -200,7 +200,7 @@ const GPUSuggestion = ({
       <Grid container spacing={3} columns={{ xs: 6, md: 12 }}>
         <Grid item xs={9}>
           <SelectElement
-            label={t('gpu')}
+            label={t('graphic-card')}
             options={generateGPUSelectElement(gpuList)}
             selectChange={updateSelectedItem}
             isLoading={isLoading}

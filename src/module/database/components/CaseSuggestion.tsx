@@ -107,20 +107,20 @@ const CaseSuggestion = ({ caseList, isLoading }: CaseSuggestionProps) => {
       }
 
       const maxGPULength: ComparisonSubItem = {
-        label: 'maxGPULength',
+        label: 'max-gpu-length',
         value: item.maxGPULength.toString(),
         isHighlight:
           item.maxGPULength === max(selectedItems.map((element) => element.maxGPULength)),
       }
 
       const maxPSULength: ComparisonSubItem = {
-        label: 'maxPSULength',
+        label: 'max-psu-length',
         value: item.maxPSULength.toString(),
         isHighlight: item.maxPSULength === max(selectedItems.map((element) => element.maxPSULength)),
       }
 
       const motherboardCompatibility: ComparisonSubItem = {
-        label: 'motherboardCompatibility',
+        label: 'motherboard-compatibility',
         value: item.motherboardCompatibility.toString() || '-',
         isHighlight:
           item.motherboardCompatibility.length === max(selectedItems.map((element) => element.motherboardCompatibility.length)),

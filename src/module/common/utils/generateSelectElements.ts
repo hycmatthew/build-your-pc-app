@@ -144,11 +144,11 @@ export const generateAIOSelectElement = (
 ) => {
   const tempMap = list.map((item: AIOType) => {
     const price = getCurrentPrice(item)
-
+    const itemLabel = generateItemName(item.brand, item.name)
     return {
       model: item.model,
       brand: item.brand,
-      label: item.name,
+      label: itemLabel,
       value: price,
       disabled: false,
     }

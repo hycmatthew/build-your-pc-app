@@ -104,7 +104,7 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
       }
 
       const sizeType: ComparisonSubItem = {
-        label: 'sizeType',
+        label: 'type',
         value: item.sizeType,
         isHighlight: false,
       }

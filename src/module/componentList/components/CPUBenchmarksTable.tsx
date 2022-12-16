@@ -3,15 +3,13 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Stack, Typography } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { motion, Variants } from 'framer-motion'
-
 import CPUType from '../../../constant/objectTypes/CPUType'
 import {
-  addCurrencySign,
   getSelectedCurrency,
   stringToNumber,
+  stringToNumberWithDP,
 } from '../../../utils/NumberHelper'
-import { generateItemName } from '../../../utils/LabelHelper'
+import { generateItemName, priceLabelHandler } from '../../../utils/LabelHelper'
 import BarMotion from '../../../animation/BarMotion'
 
 function CPUBenchmarksTable() {
@@ -114,7 +112,7 @@ function CPUBenchmarksTable() {
       width: 150,
       editable: false,
       disableColumnMenu: true,
-      renderCell: (params) => addCurrencySign(params.value),
+      renderCell: (params) => priceLabelHandler(params.value),
     },
   ]
 
@@ -128,7 +126,7 @@ function CPUBenchmarksTable() {
         multiScore: item.multiCoreScore,
         pricePerformance:
           item.multiCoreScore / stringToNumber(item[getSelectedCurrency()]),
-        price: stringToNumber(item[getSelectedCurrency()]),
+        price: stringToNumberWithDP(item[getSelectedCurrency()]),
       }
     })
     return tempOptions.sort((a, b) => b.multiScore - a.multiScore)

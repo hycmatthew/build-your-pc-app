@@ -1,5 +1,17 @@
 import { t } from 'i18next'
+import i18n from '../config/i18n'
+import { addCurrencySign } from './NumberHelper'
+
+export const brandTranslationKey = (brand: string) => {
+  const brandKey = brand.toLowerCase().replace('.', '').replace(' ', '-')
+  return i18n.exists(brandKey) ? brandKey : brand
+}
 
 export const generateItemName = (brand: string, name: string) => {
-  return `${t(brand)} ${name}`
+  const brandKey = brandTranslationKey(brand)
+  return `${t(brandKey)} ${name}`
+}
+
+export const priceLabelHandler = (price: string) => {
+  return Number(price) === 0 ? '-' : addCurrencySign(price)
 }

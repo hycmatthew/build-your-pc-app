@@ -7,9 +7,9 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 import { RAMType } from '../../../constant/objectTypes'
-import { addCurrencySign, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
+import { getSelectedCurrency, stringToNumberWithDP } from '../../../utils/NumberHelper'
 import { ramPerformanceLogic } from '../../../logic/performanceLogic'
-import { generateItemName } from '../../../utils/LabelHelper'
+import { generateItemName, priceLabelHandler } from '../../../utils/LabelHelper'
 import BarMotion from '../../../animation/BarMotion'
 
 function RAMBenchmarksTable() {
@@ -100,7 +100,7 @@ function RAMBenchmarksTable() {
       width: 140,
       editable: false,
       disableColumnMenu: true,
-      renderCell: (params) => addCurrencySign(params.value)
+      renderCell: (params) => priceLabelHandler(params.value)
     },
   ]
 
@@ -113,7 +113,7 @@ function RAMBenchmarksTable() {
         speed: item.speed,
         performance: ramPerformanceLogic(item.speed, item.cl),
         cl: item.cl,
-        price: stringToNumber(item[getSelectedCurrency()]),
+        price: stringToNumberWithDP(item[getSelectedCurrency()]),
       }
     })
     return tempOptions.sort((a, b) => b.performance - a.performance)

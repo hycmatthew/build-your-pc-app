@@ -89,31 +89,31 @@ const AIOSuggestion = ({
       const itemName = generateItemName(item.brand, item.model)
 
       const fanSize: ComparisonSubItem = {
-        label: 'fanSize',
+        label: 'fan-size',
         value: item.fanSize.toString(),
         isHighlight: item.fanSize === max(selectedItems.map((element) => element.fanSize)),
       }
 
       const fanAirflow: ComparisonSubItem = {
-        label: 'fanAirflow',
+        label: 'airflow',
         value: item.fanAirflow,
         isHighlight: item.fanAirflow === max(selectedItems.map((element) => element.fanAirflow)),
       }
 
       const fanNoise: ComparisonSubItem = {
-        label: 'fanNoise',
+        label: 'noise',
         value: item.fanNoise.toString(),
         isHighlight: item.fanNoise === min(selectedItems.map((element) => element.fanNoise)),
       }
 
       const fanSpeed: ComparisonSubItem = {
-        label: 'fanSpeed',
+        label: 'fan-speed',
         value: item.fanSpeed,
         isHighlight: item.fanSpeed === max(selectedItems.map((element) => element.fanSpeed)),
       }
 
       const led: ComparisonSubItem = {
-        label: 'led',
+        label: 'is-rgb',
         value: item.led || '-',
         isHighlight: false,
       }
