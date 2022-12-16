@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 import { isEmpty, max } from 'lodash'
 import {
   Badge,
@@ -28,11 +28,11 @@ type SSDSuggestionProps = {
 }
 
 const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
+  const { t } = useTranslation()
   const [filterLogic, setfilterLogic] = useState(SSD_FILTER_INIT_DATA)
   const [selectedItems, setSelectedItems] = useState<SSDType[]>([])
   const [openCompare, setOpenCompare] = useState(false)
 
-  let selectedItem: SSDType | null = null
   const brandOptions = getSSDBrand(ssdList)
   const capacityOptions = getSSDCapacity(ssdList)
 
@@ -42,8 +42,8 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
     }
   }
 
-  const updateSelectedItem = (item: any) => {
-    selectedItem = item
+  const updateSelectedItem = (item: string) => {
+    setfilterLogic({ ...filterLogic, model: item })
   }
 
   const updateMaxPrice = (price: number) => {
@@ -92,7 +92,7 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
       }
 
       const memoryType: ComparisonSubItem = {
-        label: 'memoryType',
+        label: 'memory-type',
         value: item.memoryType,
         isHighlight: false,
       }
@@ -110,13 +110,13 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
       }
 
       const readSpeed: ComparisonSubItem = {
-        label: 'readSpeed',
+        label: 'read-speed',
         value: item.readSpeed.toString(),
         isHighlight: item.readSpeed === max(selectedItems.map((element) => element.readSpeed)),
       }
 
       const writeSpeed: ComparisonSubItem = {
-        label: 'writeSpeed',
+        label: 'write-speed',
         value: item.writeSpeed.toString(),
         isHighlight: item.writeSpeed === max(selectedItems.map((element) => element.writeSpeed)),
       }
@@ -150,7 +150,10 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
 
   const updatedList = ssdList.filter((item) => {
     let isMatch = true
-    if (!isEmpty(filterLogic.brand)) {
+    if (filterLogic.model) {
+      isMatch = item.model === filterLogic.model
+    }
+    if (!isEmpty(filterLogic.brand) && isMatch) {
       isMatch = item.brand === filterLogic.brand
     }
     if (!isEmpty(filterLogic.capacity) && isMatch) {
@@ -181,7 +184,7 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
               disabled={selectedItems.length === 0}
               onClick={() => openCompareLogic()}
             >
-              Compare
+              {t('compare')}
             </Button>
           </Badge>
         </Grid>

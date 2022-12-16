@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 import { max, min } from 'lodash'
 import { Badge, Button, Grid } from '@mui/material'
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
@@ -28,6 +28,7 @@ type CaseSuggestionProps = {
 }
 
 const CaseSuggestion = ({ caseList, isLoading }: CaseSuggestionProps) => {
+  const { t } = useTranslation()
   const [filterLogic, setfilterLogic] = useState(CASE_FILTER_INIT_DATA)
   const [selectedItems, setSelectedItems] = useState<CaseType[]>([])
   const [openCompare, setOpenCompare] = useState(false)
@@ -188,7 +189,7 @@ const CaseSuggestion = ({ caseList, isLoading }: CaseSuggestionProps) => {
               disabled={selectedItems.length === 0}
               onClick={() => openCompareLogic()}
             >
-              Compare
+              {t('compare')}
             </Button>
           </Badge>
         </Grid>

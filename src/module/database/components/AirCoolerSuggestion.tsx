@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { t } from 'i18next'
-import { isEmpty, max, min } from 'lodash'
+import { useTranslation } from 'react-i18next'
+import { max, min } from 'lodash'
 import { Badge, Button, Grid } from '@mui/material'
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
 
@@ -31,6 +31,7 @@ const AirCoolerSuggestion = ({
   airCoolerList,
   isLoading,
 }: AirCoolerSuggestionProps) => {
+  const { t } = useTranslation()
   const [filterLogic, setfilterLogic] = useState(AIR_COOLER_FILTER_INIT_DATA)
   const [selectedItems, setSelectedItems] = useState<AirCoolerType[]>([])
   const [openCompare, setOpenCompare] = useState(false)
@@ -169,7 +170,7 @@ const AirCoolerSuggestion = ({
               disabled={selectedItems.length === 0}
               onClick={() => openCompareLogic()}
             >
-              Compare
+              {t('compare')}
             </Button>
           </Badge>
         </Grid>

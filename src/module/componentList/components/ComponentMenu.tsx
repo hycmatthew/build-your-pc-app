@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 
 import SelectElement from '../../common/components/SelectElement'
@@ -34,6 +34,10 @@ type ComponentMenuProps = {
 
 const ComponentMenu = ({ dataState }: ComponentMenuProps) => {
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(sliceActions.clearSelectedItem())
+  }, [dispatch])
 
   const {
     selectedItems,

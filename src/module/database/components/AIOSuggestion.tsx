@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { t } from 'i18next'
-import { isEmpty, max, min } from 'lodash'
+import { useTranslation } from 'react-i18next'
+import { max, min } from 'lodash'
 import {
   Badge,
   Button,
@@ -31,6 +31,7 @@ const AIOSuggestion = ({
   aioList,
   isLoading,
 }: AIOSuggestionProps) => {
+  const { t } = useTranslation()
   const [filterLogic, setfilterLogic] = useState(AIO_FILTER_INIT_DATA)
   const [selectedItems, setSelectedItems] = useState<AIOType[]>([])
   const [openCompare, setOpenCompare] = useState(false)
@@ -179,7 +180,7 @@ const AIOSuggestion = ({
               disabled={selectedItems.length === 0}
               onClick={() => openCompareLogic()}
             >
-              Compare
+              {t('compare')}
             </Button>
           </Badge>
         </Grid>

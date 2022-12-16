@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 import { isEmpty, max, min } from 'lodash'
 import {
   Badge,
@@ -31,6 +31,7 @@ const RAMSuggestion = ({
   ramList,
   isLoading,
 }: RAMSuggestionProps) => {
+  const { t } = useTranslation()
   const [filterLogic, setfilterLogic] = useState(RAM_FILTER_INIT_DATA)
   const [selectedItems, setSelectedItems] = useState<RAMType[]>([])
   const [openCompare, setOpenCompare] = useState(false)
@@ -100,19 +101,19 @@ const RAMSuggestion = ({
       }
 
       const speed: ComparisonSubItem = {
-        label: 'speed',
+        label: 'ram-frequency',
         value: item.speed.toString(),
         isHighlight: item.speed === max(selectedItems.map((element) => element.speed)),
       }
 
       const cl: ComparisonSubItem = {
-        label: 'cl',
+        label: 'latency',
         value: item.cl.toString(),
         isHighlight: item.cl === min(selectedItems.map((element) => element.cl)),
       }
 
       const timing: ComparisonSubItem = {
-        label: 'timing',
+        label: 'ram-timing',
         value: item.timing || '-',
         isHighlight: item.cl === min(selectedItems.map((element) => element.cl)),
       }
@@ -186,7 +187,7 @@ const RAMSuggestion = ({
               disabled={selectedItems.length === 0}
               onClick={() => openCompareLogic()}
             >
-              Compare
+              {t('compare')}
             </Button>
           </Badge>
         </Grid>

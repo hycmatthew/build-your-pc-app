@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 import {
   Badge,
   Button,
@@ -31,6 +31,7 @@ const GPUSuggestion = ({
   gpuList,
   isLoading,
 }: GPUSuggestionProps) => {
+  const { t } = useTranslation()
   const [filterLogic, setfilterLogic] = useState(GPU_FILTER_INIT_DATA)
   const [selectedItems, setSelectedItems] = useState<GPUType[]>([])
   const [openCompare, setOpenCompare] = useState(false)
@@ -115,20 +116,20 @@ const GPUSuggestion = ({
       }
 
       const cudaCores: ComparisonSubItem = {
-        label: 'cudaCores',
+        label: 'cuda-cores',
         value: item.cudaCores.toString(),
         isHighlight: item.cudaCores === max(selectedItems.map((element) => element.cudaCores)),
       }
 
       const timespyScore: ComparisonSubItem = {
-        label: 'timespyScore',
+        label: 'TimeSpy Score',
         value: item.timespyScore.toString(),
         isHighlight:
           item.timespyScore === max(selectedItems.map((element) => element.timespyScore)),
       }
 
       const firestrikeScore: ComparisonSubItem = {
-        label: 'firestrikeScore',
+        label: 'FireStrike Score',
         value: item.firestrikeScore.toString(),
         isHighlight: item.firestrikeScore === max(selectedItems.map((element) => element.firestrikeScore)),
       }
@@ -213,7 +214,7 @@ const GPUSuggestion = ({
               disabled={selectedItems.length === 0}
               onClick={() => openCompareLogic()}
             >
-              Compare
+              {t('compare')}
             </Button>
           </Badge>
         </Grid>

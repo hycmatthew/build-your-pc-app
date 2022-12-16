@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 import {
   Badge,
   Button,
@@ -33,6 +33,7 @@ type CPUSuggestionProps = {
 }
 
 const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
+  const { t } = useTranslation()
   const [filterLogic, setfilterLogic] = useState(CPU_FILTER_INIT_DATA)
   const [selectedItems, setSelectedItems] = useState<CPUType[]>([])
   const [openCompare, setOpenCompare] = useState(false)
@@ -96,27 +97,27 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
       }
 
       const cpuCores: ComparisonSubItem = {
-        label: 'cpu-core',
+        label: 'cpu-cores',
         value: item.cores,
         isHighlight:
           getCoresNumber(item.cores) === max(selectedItems.map((element) => getCoresNumber(element.cores))),
       }
 
       const cpuDisplay: ComparisonSubItem = {
-        label: 'cpu-gpu',
+        label: 'integrated-graphics',
         value: item.gpu ? item.gpu : '-',
         isHighlight: item.gpu !== '',
       }
 
       const singleScore: ComparisonSubItem = {
-        label: 'cpu-singleScore',
+        label: 'single-core',
         value: item.singleCoreScore.toString(),
         isHighlight:
           item.singleCoreScore === max(selectedItems.map((element) => element.singleCoreScore)),
       }
 
       const multiScore: ComparisonSubItem = {
-        label: 'cpu-multiScore',
+        label: 'multi-core',
         value: item.multiCoreScore.toString(),
         isHighlight:
           item.multiCoreScore === max(selectedItems.map((element) => element.multiCoreScore)),
@@ -189,7 +190,7 @@ const CPUSuggestion = ({ cpuList, isLoading }: CPUSuggestionProps) => {
               disabled={selectedItems.length === 0}
               onClick={() => openCompareLogic()}
             >
-              Compare
+              {t('compare')}
             </Button>
           </Badge>
         </Grid>

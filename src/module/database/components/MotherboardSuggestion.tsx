@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 import {
   Badge,
   Button,
@@ -30,6 +30,7 @@ const MotherboardSuggestion = ({
   motherboardList,
   isLoading,
 }: MotherboardSuggestionProps) => {
+  const { t } = useTranslation()
   const [filterLogic, setfilterLogic] = useState(MOTHERBOARD_FILTER_INIT_DATA)
   const [selectedItems, setSelectedItems] = useState<MotherboardType[]>([])
   const [openCompare, setOpenCompare] = useState(false)
@@ -85,19 +86,19 @@ const MotherboardSuggestion = ({
       const itemName = generateItemName(item.brand, item.model)
 
       const motherboardSocket: ComparisonSubItem = {
-        label: 'motherboard-socket',
+        label: 'cpu-socket',
         value: item.socket,
         isHighlight: false,
       }
 
       const motherboardChipset: ComparisonSubItem = {
-        label: 'motherboard-chipset',
+        label: 'chipset',
         value: item.chipset,
         isHighlight: false,
       }
 
       const motherboardRamType: ComparisonSubItem = {
-        label: 'motherboard-ram-type',
+        label: 'memory-type',
         value: item.ramType,
         isHighlight: false,
       }
@@ -109,7 +110,7 @@ const MotherboardSuggestion = ({
       }
       */
       const sizeType: ComparisonSubItem = {
-        label: 'size-type',
+        label: 'form-factor',
         value: item.sizeType,
         isHighlight: false,
       }
@@ -175,7 +176,7 @@ const MotherboardSuggestion = ({
               disabled={selectedItems.length === 0}
               onClick={() => openCompareLogic()}
             >
-              Compare
+              {t('compare')}
             </Button>
           </Badge>
         </Grid>

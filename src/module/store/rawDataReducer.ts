@@ -167,6 +167,9 @@ export const counterSlice = createSlice({
     updateSelectedAirCooler: (state, action) => {
       state.selectedItems.airCooler = action.payload
     },
+    clearSelectedItem: (state) => {
+      state.selectedItems = initialState.selectedItems
+    },
   },
   extraReducers: (builder) => {
     // GET CPU

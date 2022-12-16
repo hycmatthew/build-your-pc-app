@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 import { isEmpty, max, min } from 'lodash'
 import {
   Badge,
@@ -31,6 +31,7 @@ const PSUSuggestion = ({
   psuList,
   isLoading,
 }: PSUSuggestionProps) => {
+  const { t } = useTranslation()
   const [filterLogic, setfilterLogic] = useState(PSU_FILTER_INIT_DATA)
   const [selectedItems, setSelectedItems] = useState<PSUType[]>([])
   const [openCompare, setOpenCompare] = useState(false)
@@ -150,7 +151,10 @@ const PSUSuggestion = ({
 
   const updatedList = psuList.filter((item) => {
     let isMatch = true
-    if (!isEmpty(filterLogic.brand)) {
+    if (filterLogic.model) {
+      isMatch = item.model === filterLogic.model
+    }
+    if (!isEmpty(filterLogic.brand) && isMatch) {
       isMatch = (item.brand === filterLogic.brand)
     }
     if (filterLogic.price !== 0 && isMatch) {
@@ -178,7 +182,7 @@ const PSUSuggestion = ({
               disabled={selectedItems.length === 0}
               onClick={() => openCompareLogic()}
             >
-              Compare
+              {t('compare')}
             </Button>
           </Badge>
         </Grid>
