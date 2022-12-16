@@ -18,7 +18,7 @@ import { stringToNumber, getSelectedCurrency, getCurrentPrice } from '../../../u
 import ItemCard from './ItemCard'
 
 import { GPU_FILTER_INIT_DATA } from '../data/FilterInitData'
-import { generateItemName } from '../../../utils/LabelHelper'
+import { generateItemName, lengthLabelHandler } from '../../../utils/LabelHelper'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
 import ComparisonModal from './ComparisonModal'
 
@@ -142,7 +142,7 @@ const GPUSuggestion = ({
 
       const gpuLength: ComparisonSubItem = {
         label: 'gpu-length',
-        value: item.length.toString(),
+        value: lengthLabelHandler(item.length),
         isHighlight: item.length === max(selectedItems.map((element) => element.length)),
       }
 

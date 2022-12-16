@@ -28,10 +28,15 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
+interface OptionsType {
+  label: string,
+  value: string
+}
+
 type SelectFiltertProps = SelectProps & {
   label: string
   placeholder?: string
-  options: string[]
+  options: OptionsType[]
   selectChange?: (value: string) => void
 }
 
@@ -40,7 +45,7 @@ const SelectFilter = ({ label, options, selectChange }: SelectFiltertProps) => {
 
   const handleChange = (event: any, newValue: any) => {
     if (selectChange) {
-      selectChange(newValue)
+      selectChange(newValue.value)
     }
   }
 
@@ -49,10 +54,10 @@ const SelectFilter = ({ label, options, selectChange }: SelectFiltertProps) => {
       disablePortal
       id={label}
       options={options}
-      groupBy={(option: any) => option.brand}
       onChange={handleChange}
       /* eslint-disable react/jsx-props-no-spreading */
       renderInput={(params) => <CustomTextField {...params} label={t(label)} variant="filled" />}
+      getOptionLabel={(option: any) => t(option.label)}
     />
   )
 }

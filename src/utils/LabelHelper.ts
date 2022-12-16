@@ -15,3 +15,7 @@ export const generateItemName = (brand: string, name: string) => {
 export const priceLabelHandler = (price: string) => {
   return Number(price) === 0 ? '-' : addCurrencySign(price)
 }
+
+export const lengthLabelHandler = (length: number) => {
+  return `${length} mm`
+}

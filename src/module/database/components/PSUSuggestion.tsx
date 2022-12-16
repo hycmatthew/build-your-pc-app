@@ -15,7 +15,7 @@ import SelectFilter from '../../common/components/SelectFilter'
 import { getPSUBrand } from '../../../utils/GroupCategoryHelper'
 
 import { PSU_FILTER_INIT_DATA } from '../data/FilterInitData'
-import { generateItemName } from '../../../utils/LabelHelper'
+import { generateItemName, lengthLabelHandler } from '../../../utils/LabelHelper'
 import { getCurrentPrice, getSelectedCurrency, stringToNumber } from '../../../utils/NumberHelper'
 import ItemCard from './ItemCard'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
@@ -119,7 +119,7 @@ const PSUSuggestion = ({
 
       const length: ComparisonSubItem = {
         label: 'length',
-        value: item.length.toString(),
+        value: lengthLabelHandler(item.length),
         isHighlight: item.length === min(selectedItems.map((element) => element.length)),
       }
 

@@ -9,67 +9,196 @@ import {
   RAMType,
   SSDType,
 } from '../constant/objectTypes'
+import { brandTranslationKey } from './LabelHelper'
 
 export const getCPUBrand = (items: CPUType[]) => {
-  return [...new Set(items.map((item: CPUType) => item.brand))]
+  const options = [...new Set(items.map((item: CPUType) => item.brand))].map(
+    (item) => {
+      return {
+        label: brandTranslationKey(item),
+        value: item,
+      }
+    }
+  )
+  return options
 }
 
 export const getGPUBrand = (items: GPUType[]) => {
-  return [...new Set(items.map((item: GPUType) => item.brand))]
+  const options = [...new Set(items.map((item: GPUType) => item.brand))].map(
+    (item) => {
+      return {
+        label: brandTranslationKey(item),
+        value: item,
+      }
+    }
+  )
+  return options
 }
 
 export const getGPUManufacturer = (items: GPUType[]) => {
-  return [...new Set(items.map((item: GPUType) => item.manufacturer))]
+  const options = [
+    ...new Set(items.map((item: GPUType) => item.manufacturer)),
+  ].map((item) => {
+    return {
+      label: brandTranslationKey(item),
+      value: item,
+    }
+  })
+  return options
 }
 
 export const getGPUType = (items: GPUType[]) => {
-  return [...new Set(items.map((item: GPUType) => item.gpu))]
+  const options = [...new Set(items.map((item: GPUType) => item.gpu))].map(
+    (item) => {
+      return {
+        label: item,
+        value: item,
+      }
+    }
+  )
+  return options
 }
 
 export const getMotherboardBrand = (items: MotherboardType[]) => {
-  return [...new Set(items.map((item: MotherboardType) => item.brand))]
+  const options = [
+    ...new Set(items.map((item: MotherboardType) => item.brand)),
+  ].map((item) => {
+    return {
+      label: brandTranslationKey(item),
+      value: item,
+    }
+  })
+  return options
 }
 
 export const getMotherboardChipset = (items: MotherboardType[]) => {
-  return [...new Set(items.map((item: MotherboardType) => item.chipset))]
+  const options = [
+    ...new Set(items.map((item: MotherboardType) => item.chipset)),
+  ].map((item) => {
+    return {
+      label: item,
+      value: item,
+    }
+  })
+  return options
 }
 
 export const getRAMBrand = (items: RAMType[]) => {
-  return [...new Set(items.map((item: RAMType) => item.brand))]
+  const options = [...new Set(items.map((item: RAMType) => item.brand))].map(
+    (item) => {
+      return {
+        label: brandTranslationKey(item),
+        value: item,
+      }
+    }
+  )
+  return options
 }
 
 export const getRAMGeneration = (items: RAMType[]) => {
-  return [...new Set(items.map((item: RAMType) => item.type))]
+  const options = [...new Set(items.map((item: RAMType) => item.type))].map(
+    (item) => {
+      return {
+        label: item,
+        value: item,
+      }
+    }
+  )
+  return options
 }
 
 export const getSSDBrand = (items: SSDType[]) => {
-  return [...new Set(items.map((item: SSDType) => item.brand))]
+  const options = [...new Set(items.map((item: SSDType) => item.brand))].map(
+    (item) => {
+      return {
+        label: brandTranslationKey(item),
+        value: item,
+      }
+    }
+  )
+  return options
 }
 
 export const getPSUBrand = (items: PSUType[]) => {
-  return [...new Set(items.map((item: PSUType) => item.brand))]
+  const options = [...new Set(items.map((item: PSUType) => item.brand))].map(
+    (item) => {
+      return {
+        label: brandTranslationKey(item),
+        value: item,
+      }
+    }
+  )
+  return options
 }
 
 export const getSSDCapacity = (items: SSDType[]) => {
-  return [...new Set(items.map((item: SSDType) => item.capacity))]
+  const options = [...new Set(items.map((item: SSDType) => item.capacity))].map(
+    (item) => {
+      return {
+        label: item,
+        value: item,
+      }
+    }
+  )
+  return options
 }
 
 export const getCaseBrand = (items: CaseType[]) => {
-  return [...new Set(items.map((item: CaseType) => item.brand))]
+  const options = [...new Set(items.map((item: CaseType) => item.brand))].map(
+    (item) => {
+      return {
+        label: brandTranslationKey(item),
+        value: item,
+      }
+    }
+  )
+  return options
 }
 
 export const getCaseSize = (items: CaseType[]) => {
-  return [...new Set(items.map((item: CaseType) => item.type))]
+  const options = [...new Set(items.map((item: CaseType) => item.type))].map(
+    (item) => {
+      return {
+        label: item,
+        value: item,
+      }
+    }
+  )
+  return options
 }
 
 export const getAIOBrand = (items: AIOType[]) => {
-  return [...new Set(items.map((item: AIOType) => item.brand))]
+  const options = [...new Set(items.map((item: AIOType) => item.brand))].map(
+    (item) => {
+      return {
+        label: brandTranslationKey(item),
+        value: item,
+      }
+    }
+  )
+  return options
 }
 
 export const getAIOSize = (items: AIOType[]) => {
-  return [...new Set(items.map((item: AIOType) => item.fanSize.toString()))]
+  const options = [...new Set(items.map((item: AIOType) => item.fanSize))].map(
+    (item) => {
+      return {
+        label: item.toString(),
+        value: item.toString(),
+      }
+    }
+  )
+  return options
 }
 
 export const getAirCoolerBrand = (items: AirCoolerType[]) => {
-  return [...new Set(items.map((item: AirCoolerType) => item.brand))]
+  const options = [
+    ...new Set(items.map((item: AirCoolerType) => item.brand)),
+  ].map((item) => {
+    return {
+      label: brandTranslationKey(item),
+      value: item,
+    }
+  })
+  return options
 }
