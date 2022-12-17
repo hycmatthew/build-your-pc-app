@@ -15,7 +15,7 @@ import SelectFilter from '../../common/components/SelectFilter'
 import { getSSDBrand, getSSDCapacity } from '../../../utils/GroupCategoryHelper'
 
 import { SSD_FILTER_INIT_DATA } from '../data/FilterInitData'
-import { generateItemName } from '../../../utils/LabelHelper'
+import { generateItemName, generateSSDName } from '../../../utils/LabelHelper'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
 import ComparisonModal from './ComparisonModal'
 import ItemCard from './ItemCard'
@@ -83,7 +83,7 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
     comparsionObjects = selectedItems.map((item) => {
       const imgStr = item.img
       const itemModel = item.model
-      const itemName = generateItemName(item.brand, item.model)
+      const itemName = generateSSDName(item)
 
       const capacity: ComparisonSubItem = {
         label: 'capacity',
@@ -210,7 +210,7 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
       <Grid sx={{ paddingTop: 10 }} container spacing={2} columns={{ xs: 6, md: 12 }}>
         {updatedList.map((item) => (
           <ItemCard
-            itemLabel={generateItemName(item.brand, item.model)}
+            itemLabel={generateSSDName(item)}
             priceLabel={getCurrentPrice(item)}
             imgSrc={item.img}
             disable={selectedItems.includes(item)}

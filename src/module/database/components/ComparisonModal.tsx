@@ -106,7 +106,7 @@ const ComparisonModal = ({
                 image={comparisonObject.img || EMPTY_IMG_DATA}
                 alt={comparisonObject.name}
               />
-              <Box sx={{ height: '40px' }} justifyContent="center">
+              <Box sx={{ height: '60px' }} justifyContent="center">
                 <Typography sx={nameTypographyStyle}>
                   {comparisonObject.name}
                 </Typography>

@@ -9,7 +9,7 @@ import 'aos/dist/aos.css'
 import { RAMType } from '../../../constant/objectTypes'
 import { getSelectedCurrency, stringToNumberWithDP } from '../../../utils/NumberHelper'
 import { ramPerformanceLogic } from '../../../logic/performanceLogic'
-import { generateItemName, priceLabelHandler } from '../../../utils/LabelHelper'
+import { generateItemName, generateRAMName, priceLabelHandler } from '../../../utils/LabelHelper'
 import BarMotion from '../../../animation/BarMotion'
 
 function RAMBenchmarksTable() {
@@ -108,7 +108,7 @@ function RAMBenchmarksTable() {
     let tempOptions: any[] = []
     tempOptions = dataState.ramList.map((item: RAMType, index: number) => {
       return {
-        id: generateItemName(item.brand, item.model),
+        id: generateRAMName(item),
         index,
         speed: item.speed,
         performance: ramPerformanceLogic(item.speed, item.cl),

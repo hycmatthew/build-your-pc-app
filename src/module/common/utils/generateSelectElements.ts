@@ -9,7 +9,7 @@ import {
   SSDType,
   AirCoolerType,
 } from '../../../constant/objectTypes'
-import { generateItemName } from '../../../utils/LabelHelper'
+import { generateItemName, generateRAMName, generateSSDName } from '../../../utils/LabelHelper'
 import { getCurrentPrice } from '../../../utils/NumberHelper'
 import { SelectedItemType } from '../../store/rawDataReducer'
 import {
@@ -86,7 +86,7 @@ export const generateRAMSelectElement = (
 ) => {
   const tempMap = list.map((item: RAMType) => {
     const price = getCurrentPrice(item)
-    const itemLabel = generateItemName(item.brand, item.model)
+    const itemLabel = generateRAMName(item)
 
     return {
       model: item.model,
@@ -162,7 +162,7 @@ export const generateSSDSelectElement = (
 ) => {
   const tempMap = list.map((item: SSDType) => {
     const price = getCurrentPrice(item)
-    const itemLabel = `${item.brand} ${item.series} ${item.capacity}  ${item.sizeType}`
+    const itemLabel = generateSSDName(item)
 
     return {
       model: item.model,

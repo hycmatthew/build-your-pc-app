@@ -175,7 +175,7 @@ const CaseSuggestion = ({ caseList, isLoading }: CaseSuggestionProps) => {
       <Grid container spacing={3}>
         <Grid item xs={9}>
           <SelectElement
-            label={t('case')}
+            label={t('computer-case')}
             options={generateCaseSelectElement(caseList)}
             selectChange={updateSelectedItem}
             isLoading={isLoading}

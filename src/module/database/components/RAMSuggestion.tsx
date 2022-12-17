@@ -15,7 +15,7 @@ import SelectFilter from '../../common/components/SelectFilter'
 import { getRAMBrand, getRAMGeneration } from '../../../utils/GroupCategoryHelper'
 
 import { RAM_FILTER_INIT_DATA } from '../data/FilterInitData'
-import { generateItemName } from '../../../utils/LabelHelper'
+import { generateItemName, generateRAMName } from '../../../utils/LabelHelper'
 import ItemCard from './ItemCard'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
 import ComparisonModal from './ComparisonModal'
@@ -86,7 +86,7 @@ const RAMSuggestion = ({
     comparsionObjects = selectedItems.map((item) => {
       const imgStr = item.img
       const itemModel = item.model
-      const itemName = generateItemName(item.brand, item.model)
+      const itemName = generateRAMName(item)
 
       const ramChipset: ComparisonSubItem = {
         label: 'chipset',
@@ -213,7 +213,7 @@ const RAMSuggestion = ({
       <Grid sx={{ paddingTop: 10 }} container spacing={2} columns={{ xs: 6, md: 12 }}>
         {updatedList.map((item) => (
           <ItemCard
-            itemLabel={generateItemName(item.brand, item.model)}
+            itemLabel={generateRAMName(item)}
             priceLabel={getCurrentPrice(item)}
             imgSrc={item.img}
             disable={selectedItems.includes(item)}
