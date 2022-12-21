@@ -79,3 +79,17 @@ export const ramProfileIsNotMatchCPU = (
   }
   return false
 }
+
+export const gpuMatchcpuSuggestion = (gpu: GPUType, cpu: CPUType) => {
+  if (cpu && gpu) {
+    return gpu.firestrikeScore > (cpu.multiCoreScore * 2)
+  }
+  return false
+}
+
+export const ramSizeSuggestion = (ram: RAMType) => {
+  return ram.capacityNum > 32
+}
+
+export const aioSuggestion = (aio: AIOType, cpu: CPUType, airCooler: AirCoolerType) => {
+}

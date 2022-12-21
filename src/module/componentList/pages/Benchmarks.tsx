@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
 import styled from '@emotion/styled'
@@ -16,14 +16,16 @@ const CustomToggleButton = styled(ToggleButton)({
 })
 
 function Benchmarks() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [itemType, setItemType] = React.useState(ProductEnum.CPU)
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
     newType: ProductEnum
   ) => {
-    setItemType(newType)
+    if (newType !== null) {
+      setItemType(newType)
+    }
   }
 
   return (

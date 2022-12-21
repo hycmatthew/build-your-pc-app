@@ -19,6 +19,7 @@ import {
   caseIncompatibleWithMotherboard,
   caseIncompatibleWithAIO,
 } from '../../../logic/incompatibleLogic'
+import { gpuMatchcpuSuggestion, ramProfileIsNotMatchCPU, ramSizeSuggestion } from '../../../logic/suggestionLogic'
 
 type CompatibleSectionProps = {
   selectedItems: SelectedItemType
@@ -61,7 +62,7 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
 
   const createSuggestion = () => {
     const suggestion: SuggestionType[] = []
-    if (motherboard && motherboardIncompatibleWithCPU(motherboard, cpu)) {
+    if (motherboardIncompatibleWithCPU(motherboard, cpu)) {
       suggestion.push({
         name: 'warning-motherboard-cpu-incompatible',
         type: 'warning',
@@ -95,6 +96,27 @@ const CompatibleSection = ({ selectedItems }: CompatibleSectionProps) => {
       suggestion.push({
         name: 'warning-air-cooler-case-incompatible',
         type: 'warning',
+      })
+    }
+
+    // suggestion
+    if (ram && ramProfileIsNotMatchCPU(ram, cpu)) {
+      suggestion.push({
+        name: 'suggestion-ram-profile-not-match',
+        type: 'suggestion',
+      })
+    }
+    if ((gpu && cpu) && gpuMatchcpuSuggestion(gpu, cpu)) {
+      suggestion.push({
+        name: 'suggestion-gpu-cpu-not-match',
+        type: 'suggestion',
+      })
+    }
+
+    if (ram && ramSizeSuggestion(ram)) {
+      suggestion.push({
+        name: 'suggestion-ram-capacity',
+        type: 'suggestion',
       })
     }
     return suggestion

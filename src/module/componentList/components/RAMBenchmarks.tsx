@@ -11,6 +11,7 @@ import { getSelectedCurrency, stringToNumberWithDP } from '../../../utils/Number
 import { ramPerformanceLogic } from '../../../logic/performanceLogic'
 import { generateItemName, generateRAMName, priceLabelHandler } from '../../../utils/LabelHelper'
 import BarMotion from '../../../animation/BarMotion'
+import BenchmarksDataGrid from './BenchmarksDataGrid'
 
 function RAMBenchmarksTable() {
   const { t, i18n } = useTranslation()
@@ -38,7 +39,7 @@ function RAMBenchmarksTable() {
       '#2666CF',
       '#6166B3',
     ]
-    const maxWidth = 450
+    const maxWidth = 400
     const setLength = score / 8000
     const dutation = index * 250 + 800
 
@@ -61,7 +62,7 @@ function RAMBenchmarksTable() {
       field: 'id',
       headerName: t('name'),
       sortable: false,
-      width: 300,
+      width: 350,
       editable: false,
       disableColumnMenu: true,
     },
@@ -82,7 +83,7 @@ function RAMBenchmarksTable() {
     {
       field: 'performance',
       headerName: t('overall-performance'),
-      width: 450,
+      width: 400,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
@@ -126,19 +127,11 @@ function RAMBenchmarksTable() {
   }
 
   return (
-    <Box sx={{ height: 900, width: '100%', background: '#fff' }}>
-      <DataGrid
-        rows={createListOptions()}
-        columns={columns}
-        pageSize={100}
-        rowsPerPageOptions={[5]}
-        experimentalFeatures={{ newEditingApi: true }}
-        onColumnHeaderClick={(param) => {
-          handleColumnHeaderClick(param.field)
-        }}
-        sortingOrder={['desc', 'asc', null]}
-      />
-    </Box>
+    <BenchmarksDataGrid
+      rows={createListOptions()}
+      columns={columns}
+      headerClick={handleColumnHeaderClick}
+    />
   )
 }
 

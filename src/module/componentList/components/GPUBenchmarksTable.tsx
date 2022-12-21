@@ -10,6 +10,7 @@ import GPUType from '../../../constant/objectTypes/GPUType'
 import { getSelectedCurrency, stringToNumber, stringToNumberWithDP } from '../../../utils/NumberHelper'
 import { generateItemName, priceLabelHandler } from '../../../utils/LabelHelper'
 import BarMotion from '../../../animation/BarMotion'
+import BenchmarksDataGrid from './BenchmarksDataGrid'
 
 function GPUBenchmarksTable() {
   const { t, i18n } = useTranslation()
@@ -36,7 +37,7 @@ function GPUBenchmarksTable() {
       '#2666CF',
       '#6166B3',
     ]
-    const maxWidth = 500
+    const maxWidth = 400
     let setLength = 1
     const dutation = index * 250 + 800
 
@@ -67,14 +68,14 @@ function GPUBenchmarksTable() {
       field: 'id',
       headerName: t('name'),
       sortable: false,
-      width: 250,
+      width: 350,
       editable: false,
       disableColumnMenu: true,
     },
     {
       field: 'timespyScore',
       headerName: 'Time Spy Score',
-      width: selectedField === 'timespyScore' ? 550 : 150,
+      width: selectedField === 'timespyScore' ? 450 : 150,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
@@ -91,7 +92,7 @@ function GPUBenchmarksTable() {
     {
       field: 'firestrikeScore',
       headerName: 'Fire Strike Score',
-      width: selectedField === 'firestrikeScore' ? 550 : 150,
+      width: selectedField === 'firestrikeScore' ? 450 : 150,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
@@ -136,19 +137,11 @@ function GPUBenchmarksTable() {
   }
 
   return (
-    <Box sx={{ height: 900, width: '100%', background: '#fff' }}>
-      <DataGrid
-        rows={createListOptions()}
-        columns={columns}
-        pageSize={100}
-        rowsPerPageOptions={[5]}
-        experimentalFeatures={{ newEditingApi: true }}
-        onColumnHeaderClick={(param) => {
-          handleColumnHeaderClick(param.field)
-        }}
-        sortingOrder={['desc', 'asc', null]}
-      />
-    </Box>
+    <BenchmarksDataGrid
+      rows={createListOptions()}
+      columns={columns}
+      headerClick={handleColumnHeaderClick}
+    />
   )
 }
 

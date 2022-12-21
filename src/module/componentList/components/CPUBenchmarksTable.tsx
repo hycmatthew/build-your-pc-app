@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Stack, Typography } from '@mui/material'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 import CPUType from '../../../constant/objectTypes/CPUType'
 import {
   getSelectedCurrency,
@@ -11,6 +11,7 @@ import {
 } from '../../../utils/NumberHelper'
 import { generateItemName, priceLabelHandler } from '../../../utils/LabelHelper'
 import BarMotion from '../../../animation/BarMotion'
+import BenchmarksDataGrid from './BenchmarksDataGrid'
 
 function CPUBenchmarksTable() {
   const { t } = useTranslation()
@@ -30,7 +31,7 @@ function CPUBenchmarksTable() {
       '#2666CF',
       '#6166B3',
     ]
-    const maxWidth = 500
+    const maxWidth = 400
     let setLength = 1
 
     switch (type) {
@@ -38,7 +39,7 @@ function CPUBenchmarksTable() {
         setLength = score / 3500
         break
       default:
-        setLength = score / 55000
+        setLength = score / 45000
         break
     }
     return (
@@ -66,8 +67,8 @@ function CPUBenchmarksTable() {
     },
     {
       field: 'singleScore',
-      headerName: t('single-core'),
-      width: selectedField === 'singleScore' ? 450 : 150,
+      headerName: t('cpu-single-score'),
+      width: selectedField === 'singleScore' ? 400 : 200,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
@@ -83,8 +84,8 @@ function CPUBenchmarksTable() {
     },
     {
       field: 'multiScore',
-      headerName: t('multi-core'),
-      width: selectedField === 'multiScore' ? 450 : 150,
+      headerName: t('cpu-multi-score'),
+      width: selectedField === 'multiScore' ? 400 : 200,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
@@ -139,19 +140,11 @@ function CPUBenchmarksTable() {
   }
 
   return (
-    <Box sx={{ height: 900, width: '100%', background: '#fff' }}>
-      <DataGrid
-        rows={createListOptions()}
-        columns={columns}
-        pageSize={100}
-        rowsPerPageOptions={[5]}
-        experimentalFeatures={{ newEditingApi: true }}
-        onColumnHeaderClick={(param) => {
-          handleColumnHeaderClick(param.field)
-        }}
-        sortingOrder={['desc', 'asc', null]}
-      />
-    </Box>
+    <BenchmarksDataGrid
+      rows={createListOptions()}
+      columns={columns}
+      headerClick={handleColumnHeaderClick}
+    />
   )
 }
 
