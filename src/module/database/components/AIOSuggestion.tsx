@@ -109,7 +109,7 @@ const AIOSuggestion = ({
       const fanSpeed: ComparisonSubItem = {
         label: 'fan-speed',
         value: item.fanSpeed,
-        isHighlight: item.fanSpeed === max(selectedItems.map((element) => element.fanSpeed)),
+        isHighlight: false,
       }
 
       const led: ComparisonSubItem = {

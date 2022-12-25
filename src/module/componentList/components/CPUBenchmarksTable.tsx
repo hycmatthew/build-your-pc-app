@@ -31,7 +31,7 @@ function CPUBenchmarksTable() {
       '#2666CF',
       '#6166B3',
     ]
-    const maxWidth = 400
+    const maxWidth = 360
     let setLength = 1
 
     switch (type) {
