@@ -28,3 +28,7 @@ export const priceLabelHandler = (price: string) => {
 export const lengthLabelHandler = (length: number) => {
   return `${length}mm`
 }
+
+export const diskSpeedLabelHandler = (speed: number) => {
+  return `${speed} MB/s`
+}

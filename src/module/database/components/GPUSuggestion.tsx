@@ -143,7 +143,7 @@ const GPUSuggestion = ({
       const gpuLength: ComparisonSubItem = {
         label: 'gpu-length',
         value: lengthLabelHandler(item.length),
-        isHighlight: item.length === max(selectedItems.map((element) => element.length)),
+        isHighlight: item.length === min(selectedItems.map((element) => element.length)),
       }
 
       const result: ComparisonObject = {

@@ -11,11 +11,11 @@ import { getSelectedCurrency, stringToNumber, stringToNumberWithDP } from '../..
 import { generateItemName, priceLabelHandler } from '../../../utils/LabelHelper'
 import BarMotion from '../../../animation/BarMotion'
 import BenchmarksDataGrid from './BenchmarksDataGrid'
+import { getGradientColor } from '../../../utils/ColorHelper'
 
 function GPUBenchmarksTable() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [selectedField, setSelectedField] = useState('timespyScore')
-  const [showBar, setShowBar] = useState(false)
 
   const dataState = useSelector((state: any) => {
     return state.rawData
@@ -27,26 +27,18 @@ function GPUBenchmarksTable() {
     })
   }, [])
 
-  const benchmarksBarWidth = (type: string, score: number, index: number) => {
-    const colorList = [
-      '#EB5353',
-      '#FF7BA9',
-      '#FFEEAF',
-      '#24A19C',
-      '#607EAA',
-      '#2666CF',
-      '#6166B3',
-    ]
+  const benchmarksBarWidth = (type: string, score: number) => {
     const maxWidth = 400
+    const maxTimeScore = 45000
+    const maxFireScore = 50000
     let setLength = 1
-    const dutation = index * 250 + 800
 
     switch (type) {
       case 'timespyScore':
-        setLength = score / 45000
+        setLength = score / maxTimeScore
         break
       default:
-        setLength = score / 50000
+        setLength = score / maxFireScore
         break
     }
     return (
@@ -54,7 +46,7 @@ function GPUBenchmarksTable() {
         <Box
           sx={{
             width: setLength * maxWidth,
-            backgroundColor: colorList[index % 7],
+            backgroundColor: getGradientColor('#00e673', '#ff0000', setLength),
             borderRadius: 3,
             height: 12,
           }}
@@ -82,7 +74,7 @@ function GPUBenchmarksTable() {
         return (
           <Stack direction="row" alignItems="center" spacing={2}>
             {params.field === selectedField
-              ? benchmarksBarWidth(params.field, params.value, params.row.index)
+              ? benchmarksBarWidth(params.field, params.value)
               : ''}
             <Typography variant="subtitle2">{params.value}</Typography>
           </Stack>
@@ -99,7 +91,7 @@ function GPUBenchmarksTable() {
         return (
           <Stack direction="row" alignItems="center" spacing={2}>
             {params.field === selectedField
-              ? benchmarksBarWidth(params.field, params.value, params.row.index)
+              ? benchmarksBarWidth(params.field, params.value)
               : ''}
             <Typography variant="subtitle2">{params.value}</Typography>
           </Stack>

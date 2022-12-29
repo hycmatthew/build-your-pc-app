@@ -12,6 +12,7 @@ import {
 import { generateItemName, priceLabelHandler } from '../../../utils/LabelHelper'
 import BarMotion from '../../../animation/BarMotion'
 import BenchmarksDataGrid from './BenchmarksDataGrid'
+import { getGradientColor } from '../../../utils/ColorHelper'
 
 function CPUBenchmarksTable() {
   const { t } = useTranslation()
@@ -21,25 +22,18 @@ function CPUBenchmarksTable() {
     return state.rawData
   })
 
-  const benchmarksBarWidth = (type: string, score: number, index: number) => {
-    const colorList = [
-      '#EB5353',
-      '#FF7BA9',
-      '#FFEEAF',
-      '#24A19C',
-      '#607EAA',
-      '#2666CF',
-      '#6166B3',
-    ]
+  const benchmarksBarWidth = (type: string, score: number) => {
     const maxWidth = 360
+    const maxSingleScore = 3000
+    const maxMultiScore = 45000
     let setLength = 1
 
     switch (type) {
       case 'singleScore':
-        setLength = score / 3500
+        setLength = score / maxSingleScore
         break
       default:
-        setLength = score / 45000
+        setLength = score / maxMultiScore
         break
     }
     return (
@@ -47,7 +41,7 @@ function CPUBenchmarksTable() {
         <Box
           sx={{
             width: setLength * maxWidth,
-            backgroundColor: colorList[index % 7],
+            backgroundColor: getGradientColor('#00e673', '#ff0000', setLength),
             borderRadius: 3,
             height: 12,
           }}
@@ -75,7 +69,7 @@ function CPUBenchmarksTable() {
         return (
           <Stack direction="row" alignItems="center" spacing={2}>
             {params.field === selectedField
-              ? benchmarksBarWidth(params.field, params.value, params.row.index)
+              ? benchmarksBarWidth(params.field, params.value)
               : ''}
             <Typography variant="subtitle2">{params.value}</Typography>
           </Stack>
@@ -92,7 +86,7 @@ function CPUBenchmarksTable() {
         return (
           <Stack direction="row" alignItems="center" spacing={2}>
             {params.field === selectedField
-              ? benchmarksBarWidth(params.field, params.value, params.row.index)
+              ? benchmarksBarWidth(params.field, params.value)
               : ''}
             <Typography variant="subtitle2">{params.value}</Typography>
           </Stack>
@@ -105,7 +99,7 @@ function CPUBenchmarksTable() {
       width: 150,
       editable: false,
       disableColumnMenu: true,
-      renderCell: (params) => Number(params.value).toFixed(2),
+      renderCell: (params) => (Number.isFinite(Number(params.value)) ? Number(params.value).toFixed(2) : '-'),
     },
     {
       field: 'price',

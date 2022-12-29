@@ -2,21 +2,21 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Box, Stack, Typography } from '@mui/material'
-import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 import { RAMType } from '../../../constant/objectTypes'
 import { getSelectedCurrency, stringToNumberWithDP } from '../../../utils/NumberHelper'
 import { ramPerformanceLogic } from '../../../logic/performanceLogic'
-import { generateItemName, generateRAMName, priceLabelHandler } from '../../../utils/LabelHelper'
+import { generateRAMName, priceLabelHandler } from '../../../utils/LabelHelper'
 import BarMotion from '../../../animation/BarMotion'
 import BenchmarksDataGrid from './BenchmarksDataGrid'
+import { getGradientColor } from '../../../utils/ColorHelper'
 
 function RAMBenchmarksTable() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [selectedField, setSelectedField] = useState('speed')
-  const [showBar, setShowBar] = useState(false)
 
   const dataState = useSelector((state: any) => {
     return state.rawData
@@ -30,25 +30,15 @@ function RAMBenchmarksTable() {
   }, [])
 
   const benchmarksBarWidth = (type: string, score: number, index: number) => {
-    const colorList = [
-      '#EB5353',
-      '#FF7BA9',
-      '#FFEEAF',
-      '#24A19C',
-      '#607EAA',
-      '#2666CF',
-      '#6166B3',
-    ]
     const maxWidth = 400
-    const setLength = score / 8000
-    const dutation = index * 250 + 800
+    const setLength = score / 7000
 
     return (
       <BarMotion>
         <Box
           sx={{
             width: setLength * maxWidth,
-            backgroundColor: colorList[index % 7],
+            backgroundColor: getGradientColor('#00e673', '#ff0000', setLength),
             borderRadius: 3,
             height: 12,
           }}
@@ -62,14 +52,14 @@ function RAMBenchmarksTable() {
       field: 'id',
       headerName: t('name'),
       sortable: false,
-      width: 350,
+      width: 370,
       editable: false,
       disableColumnMenu: true,
     },
     {
       field: 'speed',
       headerName: t('ram-frequency'),
-      width: 90,
+      width: 120,
       editable: false,
       disableColumnMenu: true,
     },
@@ -83,7 +73,7 @@ function RAMBenchmarksTable() {
     {
       field: 'performance',
       headerName: t('overall-performance'),
-      width: 400,
+      width: 380,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
@@ -98,7 +88,7 @@ function RAMBenchmarksTable() {
     {
       field: 'price',
       headerName: t('price'),
-      width: 140,
+      width: 110,
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => priceLabelHandler(params.value)

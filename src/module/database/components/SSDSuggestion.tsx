@@ -15,7 +15,7 @@ import SelectFilter from '../../common/components/SelectFilter'
 import { getSSDBrand, getSSDCapacity } from '../../../utils/GroupCategoryHelper'
 
 import { SSD_FILTER_INIT_DATA } from '../data/FilterInitData'
-import { generateItemName, generateSSDName } from '../../../utils/LabelHelper'
+import { diskSpeedLabelHandler, generateItemName, generateSSDName } from '../../../utils/LabelHelper'
 import { ComparisonObject, ComparisonSubItem } from '../data/ComparisonObject'
 import ComparisonModal from './ComparisonModal'
 import ItemCard from './ItemCard'
@@ -111,13 +111,13 @@ const SSDSuggestion = ({ ssdList, isLoading }: SSDSuggestionProps) => {
 
       const readSpeed: ComparisonSubItem = {
         label: 'read-speed',
-        value: item.readSpeed.toString(),
+        value: diskSpeedLabelHandler(item.readSpeed),
         isHighlight: item.readSpeed === max(selectedItems.map((element) => element.readSpeed)),
       }
 
       const writeSpeed: ComparisonSubItem = {
         label: 'write-speed',
-        value: item.writeSpeed.toString(),
+        value: diskSpeedLabelHandler(item.writeSpeed),
         isHighlight: item.writeSpeed === max(selectedItems.map((element) => element.writeSpeed)),
       }
 
