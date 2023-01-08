@@ -133,7 +133,7 @@ function AppLayout({ children, bgColor }: Props) {
               <img
                 className="app-icon"
                 alt="App Icon"
-                src="/assets/appIcon.png"
+                src="assets/appIcon.png"
                 height={58}
               />
             </CustomTypography>

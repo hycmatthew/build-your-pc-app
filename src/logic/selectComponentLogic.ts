@@ -44,7 +44,7 @@ export const selectRAMLogic = (
     if (
       !ramValid && buildLogic.budget > toNumber(item[getSelectedCurrency()])
     ) {
-      const performance = ramPerformanceLogic(item.speed, item.cl)
+      const performance = ramPerformanceLogic(item)
       selectedRAM = item
       currentScore = performance
     }

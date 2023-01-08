@@ -19,7 +19,7 @@ const ramCapacityScore = (capacity: number) => {
 const getItemRamScore = (item: RAMType, budget: number) => {
   const ratioList = buildConfig.ramFactor.RAMBudgetFactor
   const priceFactor = getPricingFactor(budget, ratioList)
-  const performanceScore = ramPerformanceLogic(item.speed, item.cl) * ramCapacityScore(item.capacityNum)
+  const performanceScore = ramPerformanceLogic(item) * ramCapacityScore(item.capacityNum)
   return performanceScore / convertCurrency(toNumber(item[getSelectedCurrency()]))
 }
 

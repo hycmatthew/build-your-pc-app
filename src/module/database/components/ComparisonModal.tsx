@@ -34,7 +34,8 @@ const style = {
   textAlign: 'center',
   borderRadius: 2,
   p: 3,
-  width: 800,
+  width: '80%',
+  maxWidth: '800px',
 }
 
 const boxStyle = {
