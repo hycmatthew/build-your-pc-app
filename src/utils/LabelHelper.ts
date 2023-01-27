@@ -14,7 +14,8 @@ export const generateItemName = (brand: string, name: string) => {
 }
 
 export const generateSSDName = (item: SSDType) => {
-  return `${t(brandTranslationKey(item.brand))} ${item.series} ${item.capacity} ${item.sizeType}`
+  const getSeries = item.series || item.model
+  return `${t(brandTranslationKey(item.brand))} ${getSeries} ${item.capacity} ${item.sizeType}`
 }
 
 export const generateRAMName = (item: RAMType) => {

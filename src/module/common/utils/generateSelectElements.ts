@@ -21,6 +21,20 @@ import {
   ramIncompatible,
 } from './compatibleLogic'
 
+enum SortBy {
+  model = 'model',
+  speed = 'speed',
+  gpu = 'gpu',
+  chipset = 'chipset',
+  label = 'label'
+}
+
+const listSortingLogic = (arr: any[], sortBy: SortBy) => {
+  return arr
+    .filter((item: any) => item.value !== '0.00')
+    .sort((a, b) => b.brand.concat(b[sortBy]).localeCompare(a.brand.concat(a[sortBy])))
+}
+
 export const generateCPUSelectElement = (
   list: CPUType[],
   selectedItems?: SelectedItemType
@@ -37,7 +51,7 @@ export const generateCPUSelectElement = (
       disabled: selectedItems ? cpuIncompatible(item, selectedItems) : false,
     }
   })
-  return tempMap.filter((item: any) => item.price !== '0.00')
+  return listSortingLogic(tempMap, SortBy.model)
 }
 
 export const generateGPUSelectElement = (
@@ -50,13 +64,14 @@ export const generateGPUSelectElement = (
 
     return {
       model: item.model,
+      gpu: item.gpu,
       brand: item.brand,
       label: itemLabel,
       value: price,
       disabled: false,
     }
   })
-  return tempMap.filter((item: any) => item.value !== '0.00')
+  return listSortingLogic(tempMap, SortBy.gpu)
 }
 
 export const generateMotherboardSelectElement = (
@@ -69,6 +84,7 @@ export const generateMotherboardSelectElement = (
 
     return {
       model: item.model,
+      chipset: item.chipset,
       brand: item.brand,
       label: itemLabel,
       value: price,
@@ -77,7 +93,7 @@ export const generateMotherboardSelectElement = (
         : false,
     }
   })
-  return tempMap.filter((item: any) => item.value !== '0.00')
+  return listSortingLogic(tempMap, SortBy.chipset)
 }
 
 export const generateRAMSelectElement = (
@@ -90,15 +106,14 @@ export const generateRAMSelectElement = (
 
     return {
       model: item.model,
+      speed: item.speed,
       brand: item.brand,
       label: itemLabel,
       value: price,
       disabled: selectedItems ? ramIncompatible(item, selectedItems) : false,
     }
   })
-  return tempMap
-    .filter((item: any) => item.value !== '0.00')
-    .sort((a, b) => a.brand.localeCompare(b.brand))
+  return listSortingLogic(tempMap, SortBy.speed)
 }
 
 export const generatePSUSelectElement = (
@@ -117,7 +132,7 @@ export const generatePSUSelectElement = (
       disabled: selectedItems ? psuIncompatible(item, selectedItems) : false,
     }
   })
-  return tempMap.filter((item: any) => item.value !== '0.00')
+  return listSortingLogic(tempMap, SortBy.label)
 }
 
 export const generateCaseSelectElement = (
@@ -135,7 +150,7 @@ export const generateCaseSelectElement = (
       disabled: selectedItems ? caseIncompatible(item, selectedItems) : false,
     }
   })
-  return tempMap.filter((item: any) => item.value !== '0.00')
+  return listSortingLogic(tempMap, SortBy.label)
 }
 
 export const generateAIOSelectElement = (
@@ -153,7 +168,7 @@ export const generateAIOSelectElement = (
       disabled: false,
     }
   })
-  return tempMap.filter((item: any) => item.value !== '0.00')
+  return listSortingLogic(tempMap, SortBy.label)
 }
 
 export const generateSSDSelectElement = (
@@ -172,7 +187,7 @@ export const generateSSDSelectElement = (
       disabled: false,
     }
   })
-  return tempMap.filter((item: any) => item.value !== '0.00')
+  return listSortingLogic(tempMap, SortBy.label)
 }
 
 export const generateAirCoolerSelectElement = (
@@ -193,5 +208,5 @@ export const generateAirCoolerSelectElement = (
         : false,
     }
   })
-  return tempMap.filter((item: any) => item.value !== '0.00')
+  return listSortingLogic(tempMap, SortBy.label)
 }
